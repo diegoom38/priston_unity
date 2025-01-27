@@ -4,6 +4,7 @@
     {
         Idle = 0,
         Punching = 1,
-        PunchingReverse = 2
+        PunchingReverse = 2,
+        Kick = 3
     }
 }

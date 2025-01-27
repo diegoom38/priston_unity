@@ -62,7 +62,9 @@ public class Combat : MonoBehaviour
     void BasicAttack()
     {
         System.Random randNum = new();
-        int randomBasicAttack = randNum.Next(1, 3);
+        int randomBasicAttack = randNum.Next(1, 4);
+
+        Debug.Log(randomBasicAttack);
 
         Vector3 origin = transform.position + Vector3.up * 1.5f;
         Vector3 direction = transform.forward;
