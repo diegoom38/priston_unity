@@ -61,6 +61,8 @@ public class Combat : MonoBehaviour
 
     void BasicAttack()
     {
+        if (animator.GetBool("isAttacking")) return;
+
         System.Random randNum = new();
         int randomBasicAttack = randNum.Next(1, 4);
 
