@@ -1,15 +1,33 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    public class EnemyController : MonoBehaviour
+    public class Enemy : MonoBehaviour
     {
         private GameObject player;
         private GameObject enemyUI;
 
+        public float life;
+        public float exp;
+
         private void Start()
         {
             Invoke(nameof(Initialize), 1f);
+        }
+
+        private void Update()
+        {
+            var slider = GetSlider();
+
+            if (slider)            
+                slider.value = life;
+
+            if (life <= 0)
+            {
+                Destroy(gameObject);
+                return;
+            }
         }
 
         private void Initialize()
@@ -29,7 +47,17 @@ namespace Assets.Scripts
             enemyUI = Instantiate(enemyUIPrefab, transform);
             enemyUI.transform.localPosition = new Vector3(0, 0.75f, 0);
             enemyUI.SetActive(false);
+
+            var slider = GetSlider();
+
+            if (slider)
+            {
+                slider.maxValue = life;
+                slider.value = life;
+            }
         }
+
+        private Slider GetSlider() => enemyUI?.transform.Find("Slider").GetComponent<Slider>();
 
         private void OnMouseOver()
         {

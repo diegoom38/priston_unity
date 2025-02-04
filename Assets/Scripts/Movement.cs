@@ -121,7 +121,6 @@ public class Movement : MonoBehaviour
         // Verifica se alguma tecla de movimento foi pressionada (não inclui andar)
         return 
             Input.GetKey(KeyCode.W) || 
-            Input.GetKey(KeyCode.A) || 
             Input.GetKey(KeyCode.S) ||
             Input.GetKey(KeyCode.LeftShift) || 
             Input.GetKey(KeyCode.Space);

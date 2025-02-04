@@ -1,4 +1,5 @@
 using Assets.Enums;
+using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Security.Cryptography.X509Certificates;
@@ -63,16 +64,8 @@ public class Combat : MonoBehaviour
     {
         if (animator.GetBool("isAttacking")) return;
 
-        System.Random randNum = new();
-        int randomBasicAttack = randNum.Next(1, 4);
-
-        Debug.Log(randomBasicAttack);
-
         Vector3 origin = transform.position + Vector3.up * 1.5f;
         Vector3 direction = transform.forward;
-
-        animator.SetInteger("transitionCombat", randomBasicAttack);
-        animator.SetBool("isAttacking", true);
 
         // Inicia a coroutine para lidar com a animação e a lógica de ataque
         StartCoroutine(HandleAttack(origin, direction));
@@ -80,17 +73,6 @@ public class Combat : MonoBehaviour
 
     private IEnumerator HandleAttack(Vector3 origin, Vector3 direction)
     {
-        float maxSecondsAttack = 0.65f;
-
-        // Obtém o estado atual da animação
-        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
-
-        // Aguarda a animação terminar ou o tempo máximo
-        float waitTime = Mathf.Min(currentState.length, maxSecondsAttack);
-        yield return new WaitForSeconds(waitTime);
-
-        // Diminui o valor do slider de resistência
-        sliderRes.value = Mathf.Clamp(sliderRes.value - 0.05f, 0, sliderRes.maxValue);
 
         // Realiza o ataque se houver um inimigo na linha de ataque
         if (Physics.Raycast(origin, direction, out RaycastHit hit, 2f))
@@ -99,8 +81,27 @@ public class Combat : MonoBehaviour
 
             if (target.CompareTag("Enemy"))
             {
+                System.Random randNum = new();
+                int randomBasicAttack = randNum.Next(1, 4);
+
+                animator.SetInteger("transitionCombat", randomBasicAttack);
+                animator.SetBool("isAttacking", true);
+
+                float maxSecondsAttack = 0.65f;
+
+                // Obtém o estado atual da animação
+                AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+
+                // Aguarda a animação terminar ou o tempo máximo
+                float waitTime = Mathf.Min(currentState.length, maxSecondsAttack);
+                yield return new WaitForSeconds(waitTime);
+
+                // Diminui o valor do slider de resistência
+                sliderRes.value = Mathf.Clamp(sliderRes.value - 0.05f, 0, sliderRes.maxValue);
+
                 // Destroi o alvo se for um inimigo
-                target.SetActive(false);
+
+                target.GetComponent<Enemy>().life -= 40;
             }
         }
 
