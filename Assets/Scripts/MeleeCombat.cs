@@ -62,7 +62,7 @@ public class MeleeCombat : MonoBehaviour
 
     void BasicAttack()
     {
-        if (animator.GetInteger("typeCombat") == (int)TypeCombat.Melee) return;
+        if (animator.GetBool("inCombat")) return;
 
         Vector3 origin = transform.position + Vector3.up * 1.5f;
         Vector3 direction = transform.forward;
@@ -85,26 +85,28 @@ public class MeleeCombat : MonoBehaviour
 
                 animator.SetInteger("transitionCombat", randomBasicAttack);
                 animator.SetInteger("typeCombat", (int)TypeCombat.Melee);
+                animator.SetBool("inCombat", true);
 
-                float maxSecondsAttack = 0.45f;
+                // Atualiza o estado da animação após a transição
+                yield return new WaitForEndOfFrame(); // Espera 1 frame para garantir que a nova animação carregue
 
-                // Obtém o estado atual da animação
-                AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+                // Obtém o estado atual da Layer 1 (Ataque Melee)
+                AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(1);
+                float timeRemaining = (1 - currentState.normalizedTime) * currentState.length;
 
-                // Aguarda a animação terminar ou o tempo máximo
-                float waitTime = Mathf.Min(currentState.length, maxSecondsAttack);
-                yield return new WaitForSeconds(waitTime);
+                yield return new WaitForSeconds(timeRemaining);
 
-                // Diminui o valor do slider de resistência
-                sliderRes.value = Mathf.Clamp(sliderRes.value - 0.05f, 0, sliderRes.maxValue);
-
-                // Destroi o alvo se for um inimigo
-
-                target.GetComponent<Enemy>().life -= 40;
+                // Reduz resistência apenas se a animação final não for "FightIdle"
+                if (!currentState.IsName("FightIdle"))
+                {
+                    sliderRes.value = Mathf.Clamp(sliderRes.value - 0.05f, 0, sliderRes.maxValue);
+                    target.GetComponent<Enemy>().life -= 40;
+                }
             }
         }
 
         animator.SetInteger("typeCombat", (int)CombatMeleeList.Idle);
+        animator.SetBool("inCombat", false);
     }
 
     void RegenerateRes()
