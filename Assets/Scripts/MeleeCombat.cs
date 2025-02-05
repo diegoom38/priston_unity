@@ -83,28 +83,41 @@ public class MeleeCombat : MonoBehaviour
                 System.Random randNum = new();
                 int randomBasicAttack = randNum.Next(1, 4);
 
+                // Configura a animação de ataque
                 animator.SetInteger("transitionCombat", randomBasicAttack);
                 animator.SetInteger("typeCombat", (int)TypeCombat.Melee);
                 animator.SetBool("inCombat", true);
 
-                // Atualiza o estado da animação após a transição
-                yield return new WaitForEndOfFrame(); // Espera 1 frame para garantir que a nova animação carregue
+                // Espera um frame para garantir que a animação foi atualizada
+                yield return null;
 
                 // Obtém o estado atual da Layer 1 (Ataque Melee)
                 AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(1);
-                float timeRemaining = (1 - currentState.normalizedTime) * currentState.length;
 
-                yield return new WaitForSeconds(timeRemaining);
+                // Define o momento em que o dano será aplicado (50% da animação)
+                float damageTime = 0.5f;
 
-                // Reduz resistência apenas se a animação final não for "FightIdle"
+                // Espera até que a animação atinja o momento do dano
+                while (currentState.normalizedTime < damageTime)
+                {
+                    yield return null;
+                    currentState = animator.GetCurrentAnimatorStateInfo(1);
+                }
+
+                // Aplica o dano se a animação não for "FightIdle"
                 if (!currentState.IsName("FightIdle"))
                 {
                     sliderRes.value = Mathf.Clamp(sliderRes.value - 0.05f, 0, sliderRes.maxValue);
                     target.GetComponent<Enemy>().life -= 40;
                 }
+
+                // Espera o restante da animação, se necessário
+                float timeRemaining = (1 - currentState.normalizedTime) * currentState.length;
+                yield return new WaitForSeconds(timeRemaining);
             }
         }
 
+        // Volta ao estado de idle após o ataque
         animator.SetInteger("typeCombat", (int)CombatMeleeList.Idle);
         animator.SetBool("inCombat", false);
     }
