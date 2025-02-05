@@ -5641,13 +5641,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'PT_Hips'\n\tTransform 'PT_RightLeg'\n\tTransform
-    'PT_LeftUpLeg'\n\tTransform 'PT_Neck'\n\tTransform 'PT_Spine3'\n\tTransform 'PT_RightHandIndex1'\n\tTransform
-    'PT_LeftForeArm'\n\tTransform 'PT_RightArm'\n\tTransform 'PT_Spine2'\n\tTransform
-    'PT_RightHandRing2'\n\tand more ...\n\tFrom animation clip 'mixamo.com'\n\tFrom
-    animation clip 'mixamo.com'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -6885,15 +6879,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8232932084123854276, guid: 14496cba4b685614fb747456095e0629, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 114.44869
       objectReference: {fileID: 0}
     - target: {fileID: 8232932084123854276, guid: 14496cba4b685614fb747456095e0629, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.5
+      value: 4.8676987
       objectReference: {fileID: 0}
     - target: {fileID: 8232932084123854276, guid: 14496cba4b685614fb747456095e0629, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 103.34294
       objectReference: {fileID: 0}
     - target: {fileID: 8232932084123854276, guid: 14496cba4b685614fb747456095e0629, type: 3}
       propertyPath: m_LocalRotation.w

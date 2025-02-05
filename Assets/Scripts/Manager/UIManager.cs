@@ -4,7 +4,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -14,6 +13,20 @@ public class UIManager : MonoBehaviour
     {
         SetButtons();
         SetSkillsWrapper();
+        DeactivatePanels();
+    }
+
+    private void Update()
+    {
+        HandleInputPanels();
+    }
+
+    private void HandleInputPanels()
+    {
+        GameObject panelItems = transform.Find("Canvas/panel_items").gameObject;
+
+        if (Input.GetKeyDown(KeyCode.C))
+            panelItems.SetActive(!panelItems.activeSelf);
     }
 
     private void SetSkillsWrapper()
@@ -57,5 +70,11 @@ public class UIManager : MonoBehaviour
             .LoadSceneWithLoadingScreen(
                 "CharacterSelection"
             );
+    }
+
+    private void DeactivatePanels()
+    {
+        GameObject panelItems = transform.Find("Canvas/panel_items").gameObject;
+        panelItems.SetActive(false);
     }
 }

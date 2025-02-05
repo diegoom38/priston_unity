@@ -104,7 +104,7 @@ public class CharacterSelection : MonoBehaviour
         if (currentCharacterInstance.TryGetComponent<Movement>(out var movementScript))
             movementScript.enabled = false;
 
-        if (currentCharacterInstance.TryGetComponent<Combat>(out var combatScript))
+        if (currentCharacterInstance.TryGetComponent<MeleeCombat>(out var combatScript))
             combatScript.enabled = false;
 
         // Configurações de aparência

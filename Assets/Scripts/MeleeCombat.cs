@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Combat : MonoBehaviour
+public class MeleeCombat : MonoBehaviour
 {
     private Animator animator;
     private Slider sliderRes;
@@ -50,7 +50,7 @@ public class Combat : MonoBehaviour
 
     void HandleInput()
     {
-        animator.SetInteger("transitionCombat", (int)CombatList.Idle);
+        animator.SetInteger("transitionCombat", (int)CombatMeleeList.Idle);
 
         if (
             Input.GetKeyUp(KeyCode.Mouse0) &&
@@ -62,7 +62,7 @@ public class Combat : MonoBehaviour
 
     void BasicAttack()
     {
-        if (animator.GetBool("isAttacking")) return;
+        if (animator.GetInteger("typeCombat") == (int)TypeCombat.Melee) return;
 
         Vector3 origin = transform.position + Vector3.up * 1.5f;
         Vector3 direction = transform.forward;
@@ -73,7 +73,6 @@ public class Combat : MonoBehaviour
 
     private IEnumerator HandleAttack(Vector3 origin, Vector3 direction)
     {
-
         // Realiza o ataque se houver um inimigo na linha de ataque
         if (Physics.Raycast(origin, direction, out RaycastHit hit, 2f))
         {
@@ -85,9 +84,9 @@ public class Combat : MonoBehaviour
                 int randomBasicAttack = randNum.Next(1, 4);
 
                 animator.SetInteger("transitionCombat", randomBasicAttack);
-                animator.SetBool("isAttacking", true);
+                animator.SetInteger("typeCombat", (int)TypeCombat.Melee);
 
-                float maxSecondsAttack = 0.65f;
+                float maxSecondsAttack = 0.45f;
 
                 // Obtém o estado atual da animação
                 AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
@@ -105,7 +104,7 @@ public class Combat : MonoBehaviour
             }
         }
 
-        animator.SetBool("isAttacking", false);
+        animator.SetInteger("typeCombat", (int)CombatMeleeList.Idle);
     }
 
     void RegenerateRes()

@@ -1,6 +1,6 @@
 ﻿namespace Assets.Enums
 {
-    public enum CombatList
+    public enum CombatMeleeList
     {
         Idle = 0,
         Punching = 1,
