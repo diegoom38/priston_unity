@@ -31,12 +31,12 @@ Transform:
   m_GameObject: {fileID: 171064467556104663}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13917309, y: 0, z: 0, w: 0.9902681}
-  m_LocalPosition: {x: 0, y: 3, z: -3}
+  m_LocalPosition: {x: 114.59, y: 4.848549, z: 105.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 16, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 16.6, y: 0, z: 0}
 --- !u!20 &3589276904222620284
 Camera:
   m_ObjectHideFlags: 0

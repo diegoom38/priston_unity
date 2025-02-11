@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Models;
+using Assets.Scripts.Manager;
+using System;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 namespace Assets.Scripts
@@ -16,9 +21,9 @@ namespace Assets.Scripts
             Invoke(nameof(Initialize), 1f);
         }
 
-        private void Update()
+        private async void Update()
         {
-            var slider = GetSlider();
+            Slider slider = GetSlider();
 
             if (slider)            
                 slider.value = life;
@@ -26,8 +31,15 @@ namespace Assets.Scripts
             if (life <= 0)
             {
                 Destroy(gameObject);
+                await IncreaseExp();
                 return;
             }
+        }
+
+        private async Task IncreaseExp()
+        {
+            PersonagemUtils.IncreaseExp(exp);
+            await AccountCharacters.EditCharacter(PersonagemUtils.LoggedChar);
         }
 
         private void Initialize()

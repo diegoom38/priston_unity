@@ -19,8 +19,6 @@ public class Auth : MonoBehaviour
 
         //username.text = "diegoom38@hotmail.com";
         //password.text = "55241461a@";
-
-        //AuthAsync();
     }
 
     private void InstantiateButtonSubmit()

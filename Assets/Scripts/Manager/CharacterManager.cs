@@ -31,6 +31,20 @@ namespace Assets.Scripts.Manager
             return null;
         }
 
+        public async static Task<Personagem> EditCharacter(Personagem personagem)
+        {
+            var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<Personagem>>(
+                method: HttpMethod.Put,
+                url: $"https://localhost:7162/api/v1/personagens/{personagem.id}",
+                personagem
+            );
+
+            if(!retornoAcesso.isFailed)
+                PersonagemUtils.LoggedChar = retornoAcesso.result;
+
+            return retornoAcesso.result;
+        }
+
         public async static Task<bool> CreateCharacter(Personagem personagem)
         {
             personagem.contaId = Acesso.LoggedUser.user.id;

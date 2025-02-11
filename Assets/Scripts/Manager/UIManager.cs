@@ -1,6 +1,7 @@
+using Assets.Models;
 using Assets.Scripts.Manager;
-using Cinemachine;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,6 +9,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    private Dictionary<int, float> ExpPerLevel = PersonagemUtils.ExpPerLevel();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +22,21 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         HandleInputPanels();
+        SetExpSlider();
+    }
+
+    private void SetExpSlider()
+    {
+        if (transform.Find("Canvas/slider_exp").TryGetComponent<Slider>(out Slider sliderExp))
+        {
+            if (PersonagemUtils.LoggedChar is not null)
+            {
+                PersonagemConfiguracao configuracao = PersonagemUtils.LoggedChar.configuracao;
+
+                sliderExp.maxValue = ExpPerLevel[configuracao.level];
+                sliderExp.value = Mathf.Clamp(configuracao.percentage, 0, sliderExp.maxValue);
+            }
+        }
     }
 
     private void HandleInputPanels()

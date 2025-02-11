@@ -244,8 +244,6 @@ public class CharacterCreation : MonoBehaviour
             ).Value;
 
         InstantiateCharacter();
-
-        Debug.Log(selectedOption);
     }
 
     public void Back() => LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterSelection");

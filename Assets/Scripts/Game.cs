@@ -7,6 +7,7 @@ public class Game : MonoBehaviour
 {
     private GameObject playerPrefab;
     private GameObject currentCharacterInstance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +33,9 @@ public class Game : MonoBehaviour
         // Carrega o prefab do personagem
         playerPrefab = Resources.Load<GameObject>(character?.configuracao?.prefab);
 
-        // Instancia o novo personagem na posição e rotação do "Respawn"
         if (playerPrefab != null)
         {
+            // Instancia o novo personagem na posição e rotação do "Respawn"
             currentCharacterInstance = Instantiate(playerPrefab, respawnPoint.transform.position, respawnPoint.transform.rotation);
 
             // Configurações de aparência
