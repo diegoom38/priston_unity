@@ -23,6 +23,23 @@ public class UIManager : MonoBehaviour
     {
         HandleInputPanels();
         SetExpSlider();
+        SetCharacterInfo();
+    }
+
+    private void SetCharacterInfo()
+    {
+        if (PersonagemUtils.LoggedChar is not null)
+        {
+            if (transform.Find("Canvas/panel_character/panel_image_char/panel_level/level").TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI levelText))
+            {
+                levelText.text = PersonagemUtils.LoggedChar.configuracao.level.ToString();
+            }
+
+            if (transform.Find("Canvas/panel_character/panel_status/name").TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI nameText))
+            {
+                nameText.text = PersonagemUtils.LoggedChar.nome.ToString();
+            }
+        }
     }
 
     private void SetExpSlider()
