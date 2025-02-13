@@ -51,16 +51,24 @@ public class MeleeCombat : MonoBehaviour
     void HandleInput()
     {
         animator.SetInteger("transitionCombat", (int)CombatMeleeList.Idle);
+        animator.SetInteger("transitionWeaponCombat", (int)CombatMeleeWeaponList.Idle);
 
-        if (
-            Input.GetKeyUp(KeyCode.Mouse0) &&
-            (sliderRes?.value ?? 1) > 0
-        )
-            BasicAttack();
+        if ((sliderRes?.value ?? 1) > 0)
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+                BasicAttack(TypeCombat.Melee, "transitionCombat");
 
+            if (Input.GetKeyUp(KeyCode.Alpha1))
+                BasicAttack(TypeCombat.WeaponMelee, "transitionWeaponCombat", 1, 2);
+        }
     }
 
-    void BasicAttack()
+    void BasicAttack(
+        TypeCombat type, 
+        string integerCombat, 
+        int attack = 0,
+        int layerIndex = 1
+    )
     {
         if (animator.GetBool("inCombat")) return;
 
@@ -68,10 +76,16 @@ public class MeleeCombat : MonoBehaviour
         Vector3 direction = transform.forward;
 
         // Inicia a coroutine para lidar com a animação e a lógica de ataque
-        StartCoroutine(HandleAttack(origin, direction));
+        StartCoroutine(HandleAttack(origin, direction, type, integerCombat, attack, layerIndex));
     }
 
-    private IEnumerator HandleAttack(Vector3 origin, Vector3 direction)
+    private IEnumerator HandleAttack(
+        Vector3 origin, 
+        Vector3 direction, 
+        TypeCombat type, 
+        string integerCombat, 
+        int attack = 0,
+        int layerIndex = 1)
     {
         // Realiza o ataque se houver um inimigo na linha de ataque
         if (Physics.Raycast(origin, direction, out RaycastHit hit, 2f))
@@ -81,18 +95,18 @@ public class MeleeCombat : MonoBehaviour
             if (target.CompareTag("Enemy"))
             {
                 System.Random randNum = new();
-                int randomBasicAttack = randNum.Next(1, 4);
+                int randomBasicAttack = attack > 0 ? attack : randNum.Next(1, 4);
 
                 // Configura a animação de ataque
-                animator.SetInteger("transitionCombat", randomBasicAttack);
-                animator.SetInteger("typeCombat", (int)TypeCombat.Melee);
+                animator.SetInteger(integerCombat, randomBasicAttack);
+                animator.SetInteger("typeCombat", (int)type);
                 animator.SetBool("inCombat", true);
 
                 // Espera um frame para garantir que a animação foi atualizada
                 yield return null;
 
                 // Obtém o estado atual da Layer 1 (Ataque Melee)
-                AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(1);
+                AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(layerIndex);
 
                 // Define o momento em que o dano será aplicado (50% da animação)
                 float damageTime = 0.5f;
@@ -101,14 +115,18 @@ public class MeleeCombat : MonoBehaviour
                 while (currentState.normalizedTime < damageTime)
                 {
                     yield return null;
-                    currentState = animator.GetCurrentAnimatorStateInfo(1);
+                    currentState = animator.GetCurrentAnimatorStateInfo(layerIndex);
                 }
 
-                // Aplica o dano se a animação não for "FightIdle"
-                if (!currentState.IsName("FightIdle"))
+                // Aplica o dano se a animação não for "FightIdle" ou "SwordIdle"
+                if (!currentState.IsName("FightIdle") || !currentState.IsName("SwordIdle"))
                 {
                     sliderRes.value = Mathf.Clamp(sliderRes.value - 0.05f, 0, sliderRes.maxValue);
                     target.GetComponent<Enemy>().life -= 40;
+                }
+                else
+                {
+                    Debug.Log("É padrão");
                 }
 
                 // Espera o restante da animação, se necessário
@@ -118,7 +136,7 @@ public class MeleeCombat : MonoBehaviour
         }
 
         // Volta ao estado de idle após o ataque
-        animator.SetInteger("typeCombat", (int)CombatMeleeList.Idle);
+        animator.SetInteger("typeCombat", 0);
         animator.SetBool("inCombat", false);
     }
 
