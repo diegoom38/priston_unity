@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
 
     private void HandleInputPanels()
     {
-        GameObject panelItems = transform.Find("Canvas/panel_items").gameObject;
+        GameObject panelItems = transform.Find("Canvas/panel_right/panel_items").gameObject;
 
         if (Input.GetKeyDown(KeyCode.C))
             panelItems.SetActive(!panelItems.activeSelf);
@@ -115,22 +115,20 @@ public class UIManager : MonoBehaviour
 
     private void DeactivatePanels()
     {
-        GameObject panelItems = transform.Find("Canvas/panel_items").gameObject;
+        GameObject panelItems = transform.Find("Canvas/panel_right/panel_items").gameObject;
+        GameObject panelMission = transform.Find("Canvas/panel_right/panel_mission").gameObject;
         GameObject panelBag = transform.Find("Canvas/panel_inventory").gameObject;
         panelItems.SetActive(false);
+        panelMission.SetActive(false);
         panelBag.SetActive(false);
     }
 
     private void SetInventoryItems()
     {
         GameObject exampleInventoryPanel = transform.Find("Canvas/panel_inventory/grid_items/item").gameObject;
-        GameObject g;
 
-        for (int i = 0; i < 88; i++)
-        {
-            g = Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);
-            //g.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = button;
-        }
+        for (int i = 0; i < 88; i++)        
+            Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);        
 
         Destroy(exampleInventoryPanel);
     }
