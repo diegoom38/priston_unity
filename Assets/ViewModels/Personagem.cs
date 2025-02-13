@@ -58,25 +58,28 @@ namespace Assets.Models
 
         public static void IncreaseExp(float increasePercentage)
         {
-            int currentLevel = LoggedChar.configuracao.level;
-            float currentExpPercentage = LoggedChar.configuracao.percentage;
-            Dictionary<int, float> expTable = ExpPerLevel();
-            if (!expTable.ContainsKey(currentLevel)) return;
-
-            float currentExp = expTable[currentLevel] * (currentExpPercentage / 100);
-            float expGained = expTable[currentLevel] * (increasePercentage / 100);
-            float newExp = currentExp + expGained;
-
-            while (currentLevel < 60 && newExp >= expTable[currentLevel])
+            if (LoggedChar != null)
             {
-                newExp -= expTable[currentLevel];
-                currentLevel++;
+                int currentLevel = LoggedChar.configuracao.level;
+                float currentExpPercentage = LoggedChar.configuracao.percentage;
+                Dictionary<int, float> expTable = ExpPerLevel();
+                if (!expTable.ContainsKey(currentLevel)) return;
+
+                float currentExp = expTable[currentLevel] * (currentExpPercentage / 100);
+                float expGained = expTable[currentLevel] * (increasePercentage / 100);
+                float newExp = currentExp + expGained;
+
+                while (currentLevel < 60 && newExp >= expTable[currentLevel])
+                {
+                    newExp -= expTable[currentLevel];
+                    currentLevel++;
+                }
+
+                float newExpPercentage = (newExp / expTable[currentLevel]) * 100;
+
+                LoggedChar.configuracao.level = currentLevel;
+                LoggedChar.configuracao.percentage = newExpPercentage;
             }
-
-            float newExpPercentage = (newExp / expTable[currentLevel]) * 100;
-
-            LoggedChar.configuracao.level = currentLevel;
-            LoggedChar.configuracao.percentage = newExpPercentage;
         }
     }
 }

@@ -15,8 +15,9 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         SetButtons();
-        SetSkillsWrapper();
+        SetSkills();
         DeactivatePanels();
+        SetInventoryItems();
     }
 
     private void Update()
@@ -62,9 +63,14 @@ public class UIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
             panelItems.SetActive(!panelItems.activeSelf);
+
+        GameObject panelBag = transform.Find("Canvas/panel_inventory").gameObject;
+
+        if (Input.GetKeyDown(KeyCode.B))
+            panelBag.SetActive(!panelBag.activeSelf);
     }
 
-    private void SetSkillsWrapper()
+    private void SetSkills()
     {
         GameObject exampleCharButton = transform.Find("Canvas/panel_bottom/wrapper_skills/skill").gameObject;
         GameObject g;
@@ -110,6 +116,22 @@ public class UIManager : MonoBehaviour
     private void DeactivatePanels()
     {
         GameObject panelItems = transform.Find("Canvas/panel_items").gameObject;
+        GameObject panelBag = transform.Find("Canvas/panel_inventory").gameObject;
         panelItems.SetActive(false);
+        panelBag.SetActive(false);
+    }
+
+    private void SetInventoryItems()
+    {
+        GameObject exampleInventoryPanel = transform.Find("Canvas/panel_inventory/grid_items/item").gameObject;
+        GameObject g;
+
+        for (int i = 0; i < 88; i++)
+        {
+            g = Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);
+            //g.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = button;
+        }
+
+        Destroy(exampleInventoryPanel);
     }
 }
