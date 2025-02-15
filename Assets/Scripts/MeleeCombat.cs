@@ -50,8 +50,8 @@ public class MeleeCombat : MonoBehaviour
 
     void HandleInput()
     {
-        animator.SetInteger("transitionCombat", (int)CombatMeleeList.Idle);
-        animator.SetInteger("transitionWeaponCombat", (int)CombatMeleeWeaponList.Idle);
+        //animator.SetInteger("transitionCombat", (int)CombatMeleeList.Idle);
+        //animator.SetInteger("transitionWeaponCombat", (int)CombatMeleeWeaponList.Idle);
 
         if ((sliderRes?.value ?? 1) > 0)
         {
@@ -70,7 +70,7 @@ public class MeleeCombat : MonoBehaviour
         int layerIndex = 1
     )
     {
-        if (animator.GetBool("inCombat")) return;
+        if (animator.GetBool("inCombat") || animator.GetInteger("transitionMovement") > 0) return;
 
         Vector3 origin = transform.position + Vector3.up * 1.5f;
         Vector3 direction = transform.forward;
@@ -108,6 +108,7 @@ public class MeleeCombat : MonoBehaviour
                 // Obtém o estado atual da Layer 1 (Ataque Melee)
                 AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(layerIndex);
 
+
                 // Define o momento em que o dano será aplicado (50% da animação)
                 float damageTime = 0.5f;
 
@@ -119,19 +120,17 @@ public class MeleeCombat : MonoBehaviour
                 }
 
                 // Aplica o dano se a animação não for "FightIdle" ou "SwordIdle"
-                if (!currentState.IsName("FightIdle") || !currentState.IsName("SwordIdle"))
+                if (!currentState.IsTag("Idle") && !currentState.IsTag("Default"))
                 {
                     sliderRes.value = Mathf.Clamp(sliderRes.value - 0.05f, 0, sliderRes.maxValue);
                     target.GetComponent<Enemy>().life -= 40;
                 }
-                else
-                {
-                    Debug.Log("É padrão");
-                }
 
                 // Espera o restante da animação, se necessário
                 float timeRemaining = (1 - currentState.normalizedTime) * currentState.length;
+                animator.SetInteger(integerCombat, 0);
                 yield return new WaitForSeconds(timeRemaining);
+
             }
         }
 
