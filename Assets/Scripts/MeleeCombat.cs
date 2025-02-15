@@ -60,6 +60,12 @@ public class MeleeCombat : MonoBehaviour
 
             if (Input.GetKeyUp(KeyCode.Alpha1))
                 BasicAttack(TypeCombat.WeaponMelee, "transitionWeaponCombat", 1, 2);
+
+            if (Input.GetKeyUp(KeyCode.Alpha2))
+                BasicAttack(TypeCombat.WeaponMelee, "transitionWeaponCombat", 2, 2);
+
+            if (Input.GetKeyUp(KeyCode.Alpha3))
+                BasicAttack(TypeCombat.WeaponMelee, "transitionWeaponCombat", 3, 2);
         }
     }
 
