@@ -20,6 +20,9 @@ public class Movement : MonoBehaviour
 
     private readonly float swimThresholdY = -1.3f;
 
+    [SerializeField] private AudioSource stepAudioSource;
+    [SerializeField] private AudioClip[] stepAudioClips;
+
     void Start()
     {
         InitializeComponents();
@@ -152,5 +155,10 @@ public class Movement : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         swimming = !(other.tag == "Water") && (transform.position.y > swimThresholdY);
+    }
+
+    private void SoundSteps()
+    {
+        stepAudioSource.PlayOneShot(stepAudioClips[UnityEngine.Random.Range(0, stepAudioClips.Length)]);
     }
 }
