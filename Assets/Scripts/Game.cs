@@ -2,76 +2,107 @@ using Assets.Models;
 using Assets.Scripts.Manager;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Game : MonoBehaviour
+public class Game : MonoBehaviourPunCallbacks
 {
     private GameObject playerPrefab;
-    private GameObject currentCharacterInstance;
 
-    // Start is called before the first frame update
+    // Start é chamado antes do primeiro frame
     void Start()
     {
+        // Carrega o prefab do personagem selecionado
         SetCharacterSelected(PersonagemUtils.LoggedChar);
+        _Connect();
     }
 
     public void SetCharacterSelected(Personagem character)
     {
-        // Encontra o GameObject "Respawn" na cena
-        GameObject respawnPoint = GameObject.Find("Respawn");
-        if (respawnPoint == null)
-        {
-            Debug.LogError("Respawn point not found in the scene.");
-            return;
-        }
-
-        // Destroi a instância do personagem atual, se existir
-        if (currentCharacterInstance != null)
-        {
-            Destroy(currentCharacterInstance);
-        }
-
         // Carrega o prefab do personagem
         playerPrefab = Resources.Load<GameObject>(character?.configuracao?.prefab);
 
-        if (playerPrefab != null)
+        if (playerPrefab == null)
         {
-            // Instancia o novo personagem na posição e rotação do "Respawn"
-            currentCharacterInstance = Instantiate(playerPrefab, respawnPoint.transform.position, respawnPoint.transform.rotation);
+            Debug.LogError("Player prefab not found.");
+            return;
+        }
 
-            // Configurações de aparência
-            Transform meshes = currentCharacterInstance.transform;
-            ChangeSkinColor(
-                new Color(
-                    r: character.configuracao.configuracaoCorPele.r / 255f,
-                    g: character.configuracao.configuracaoCorPele.g / 255f,
-                    b: character.configuracao.configuracaoCorPele.b / 255f
-                ),
-                meshes,
-                character.configuracao.gender,
-                character.configuracao.age
-            );
-            ChangeHairColor(
-                new Color(
-                    r: character.configuracao.configuracaoCorCabelo.r / 255f,
-                    g: character.configuracao.configuracaoCorCabelo.g / 255f,
-                    b: character.configuracao.configuracaoCorCabelo.b / 255f
-                ),
-                meshes,
-                character.configuracao.gender,
-                character.configuracao.age
-            );
-            ChangeEyeColor(
-                new Color(
-                    r: character.configuracao.configuracaoCorOlhos.r / 255f,
-                    g: character.configuracao.configuracaoCorOlhos.g / 255f,
-                    b: character.configuracao.configuracaoCorOlhos.b / 255f
-                ),
-                meshes,
-                character.configuracao.gender,
-                character.configuracao.age
-            );
+        // Apenas configura o prefab, sem instanciar ainda
+        PersonagemUtils.LoggedChar = character;
+    }
 
-            PersonagemUtils.LoggedChar = character;
+    public void _Connect()
+    {
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinRoom("teste");
+        base.OnConnectedToMaster();
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        PhotonNetwork.CreateRoom("teste");
+        base.OnJoinRoomFailed(returnCode, message);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        // Verifica se o jogador é o local
+        if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.LocalPlayer.IsLocal)
+        {
+            // Encontra o ponto de respawn
+            GameObject respawnPoint = GameObject.Find("Respawn");
+            if (respawnPoint == null)
+            {
+                Debug.LogError("Respawn point not found in the scene.");
+                return;
+            }
+
+            // Instancia o personagem na rede
+            GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, respawnPoint.transform.position, respawnPoint.transform.rotation);
+            playerInstance.GetComponent<Movement>().enabled = true;
+            playerInstance.GetComponent<Combat>().enabled = true;
+
+            // Configurações de aparência (aplicadas apenas ao jogador local)
+            if (playerInstance.GetComponent<PhotonView>().IsMine)
+            {
+                Transform meshes = playerInstance.transform;
+                ChangeSkinColor(
+                    new Color(
+                        r: PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.r / 255f,
+                        g: PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.g / 255f,
+                        b: PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.b / 255f
+                    ),
+                    meshes,
+                    PersonagemUtils.LoggedChar.configuracao.gender,
+                    PersonagemUtils.LoggedChar.configuracao.age
+                );
+                ChangeHairColor(
+                    new Color(
+                        r: PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.r / 255f,
+                        g: PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.g / 255f,
+                        b: PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.b / 255f
+                    ),
+                    meshes,
+                    PersonagemUtils.LoggedChar.configuracao.gender,
+                    PersonagemUtils.LoggedChar.configuracao.age
+                );
+                ChangeEyeColor(
+                    new Color(
+                        r: PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.r / 255f,
+                        g: PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.g / 255f,
+                        b: PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.b / 255f
+                    ),
+                    meshes,
+                    PersonagemUtils.LoggedChar.configuracao.gender,
+                    PersonagemUtils.LoggedChar.configuracao.age
+                );
+            }
         }
     }
 

@@ -1,13 +1,11 @@
 using Assets.Enums;
 using Assets.Scripts;
-using System;
+using Photon.Pun;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Analytics;
 using UnityEngine.UI;
 
-public class Combat : MonoBehaviour
+public class Combat : MonoBehaviourPun
 {
     private Animator animator;
     private Slider sliderRes;
@@ -19,6 +17,12 @@ public class Combat : MonoBehaviour
 
     private void Start()
     {
+        if (!photonView.IsMine)
+        {
+            enabled = false;
+            return;
+        }
+
         InitializeComponents();
     }
 
@@ -30,6 +34,11 @@ public class Combat : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         HandleInput();
         RegenerateRes();
     }

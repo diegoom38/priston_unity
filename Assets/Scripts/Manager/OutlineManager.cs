@@ -1,14 +1,50 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class OutlineManager : MonoBehaviour
 {
     private Transform highlight;
-    private readonly Transform selection;
+    private Transform selection;
     private RaycastHit raycastHit;
+
+    private Camera playerCamera; // Referência para a câmera do jogador local
+
+    private void Start()
+    {
+        // Configura a câmera do jogador local
+        SetPlayerCamera();
+    }
+
+    private void SetPlayerCamera()
+    {
+        // Busca a câmera do jogador local
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players)
+        {
+            PhotonView photonView = player.GetComponent<PhotonView>();
+            if (photonView != null && photonView.IsMine)
+            {
+                // Encontra a câmera do jogador local
+                playerCamera = player.GetComponentInChildren<Camera>();
+                if (playerCamera != null)
+                {
+                    break;
+                }
+            }
+        }
+    }
 
     void Update()
     {
+        // Se a câmera não estiver configurada, tenta configurá-la novamente
+        if (playerCamera == null)
+        {
+            SetPlayerCamera();
+            return;
+        }
+
         // Limpar highlight anterior
         if (highlight != null)
         {
@@ -17,7 +53,7 @@ public class OutlineManager : MonoBehaviour
         }
 
         // Raycast para detectar objeto sob o mouse
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out raycastHit))
         {
             Transform hitTransform = raycastHit.transform;

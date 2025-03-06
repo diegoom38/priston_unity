@@ -1,9 +1,10 @@
 using Assets.Enums;
 using Assets.Scripts.Manager;
+using Photon.Pun;
 using System;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Movement : MonoBehaviourPun
 {
     private CharacterController controller;
     private Animator animator;
@@ -25,11 +26,20 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
+        if (!photonView.IsMine)
+        {
+            enabled = false;
+            return;
+        }
+
         InitializeComponents();
     }
 
     void Update()
     {
+        if (!photonView.IsMine)
+            return;
+
         HandleMovementProperties();
         HandleMovement();
     }
@@ -83,7 +93,7 @@ public class Movement : MonoBehaviour
                 animator.SetInteger("transitionMovement", (int)MovementList.Swimming);
             }
 
-            if (Input.GetKey(KeyCode.Space))            
+            if (Input.GetKey(KeyCode.Space))
                 moveDirection.y = (speed / 4); // Move para cima na velocidade de nado            
             else if (Input.GetKey(KeyCode.LeftControl)) // Permite descer com Ctrl
                 moveDirection.y = -(speed / 4); // Move para baixo na velocidade de nado
@@ -122,10 +132,10 @@ public class Movement : MonoBehaviour
     private bool IsAnyMovementKeyPressed()
     {
         // Verifica se alguma tecla de movimento foi pressionada (não inclui andar)
-        return 
-            Input.GetKey(KeyCode.W) || 
+        return
+            Input.GetKey(KeyCode.W) ||
             Input.GetKey(KeyCode.S) ||
-            Input.GetKey(KeyCode.LeftShift) || 
+            Input.GetKey(KeyCode.LeftShift) ||
             Input.GetKey(KeyCode.Space);
     }
 
