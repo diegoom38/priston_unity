@@ -1,5 +1,6 @@
 using Assets.Models;
 using Assets.Scripts.Manager;
+using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -7,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviourPunCallbacks
 {
     private Dictionary<int, float> ExpPerLevel = PersonagemUtils.ExpPerLevel();
 
@@ -88,7 +89,7 @@ public class UIManager : MonoBehaviour
 
     private void SetButtons()
     {
-        SetButton("Canvas/panel_bottom/panel_menu/close_button", Close);
+        SetButton("Canvas/panel_bottom/panel_menu/close_button", DisconnectAndQuit);
         SetButton("Canvas/panel_bottom/panel_menu/character_selection", GoToSelectionCharacterScene);
 
     }
@@ -99,13 +100,16 @@ public class UIManager : MonoBehaviour
             button.onClick.AddListener(action);
     }
 
-    private void Close()
+    private void DisconnectAndQuit()
     {
+        PhotonNetwork.Disconnect();
         Application.Quit();
+
     }
 
     private void GoToSelectionCharacterScene()
     {
+        PhotonNetwork.Disconnect();
         LoadingManager
             .GetSceneLoader()
             .LoadSceneWithLoadingScreen(
@@ -127,8 +131,8 @@ public class UIManager : MonoBehaviour
     {
         GameObject exampleInventoryPanel = transform.Find("Canvas/panel_inventory/grid_items/item").gameObject;
 
-        for (int i = 0; i < 88; i++)        
-            Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);        
+        for (int i = 0; i < 88; i++)
+            Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);
 
         Destroy(exampleInventoryPanel);
     }

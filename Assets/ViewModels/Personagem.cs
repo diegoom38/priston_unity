@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Models
 {
@@ -31,6 +32,11 @@ namespace Assets.Models
             public int r;
             public int g;
             public int b;
+        }
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
         }
     }
 

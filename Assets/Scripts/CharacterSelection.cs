@@ -107,6 +107,9 @@ public class CharacterSelection : MonoBehaviour
         if (currentCharacterInstance.TryGetComponent<Combat>(out var combatScript))
             combatScript.enabled = false;
 
+        if (currentCharacterInstance.TryGetComponent<OutlineManager>(out var outlineManager))
+            outlineManager.enabled = false;
+
         // Configurações de aparência
         Transform meshes = currentCharacterInstance.transform;
         ChangeSkinColor(

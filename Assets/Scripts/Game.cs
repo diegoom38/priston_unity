@@ -1,8 +1,8 @@
 using Assets.Models;
-using Assets.Scripts.Manager;
-using System.Collections.Generic;
-using UnityEngine;
+using Cinemachine;
 using Photon.Pun;
+using Photon.Realtime; // Para acessar a lista de jogadores do Photon
+using UnityEngine;
 
 public class Game : MonoBehaviourPunCallbacks
 {
@@ -13,7 +13,6 @@ public class Game : MonoBehaviourPunCallbacks
     {
         // Carrega o prefab do personagem selecionado
         SetCharacterSelected(PersonagemUtils.LoggedChar);
-        _Connect();
     }
 
     public void SetCharacterSelected(Personagem character)
@@ -22,29 +21,59 @@ public class Game : MonoBehaviourPunCallbacks
         playerPrefab = Resources.Load<GameObject>(character?.configuracao?.prefab);
 
         if (playerPrefab == null)
-        {
-            Debug.LogError("Player prefab not found.");
             return;
-        }
 
         // Apenas configura o prefab, sem instanciar ainda
         PersonagemUtils.LoggedChar = character;
+
+        // Define o nome do personagem no Photon
+        string characterName = character?.nome ?? "Personagem Desconhecido"; // Define um nome padrão se não houver nome
+        SetCharacterName(characterName);
+
+        // Armazenar os dados do personagem no Photon
+        SetCharacterData(character);
+
+        Connect();
     }
 
-    public void _Connect()
+    public void SetCharacterName(string name)
+    {
+        // Define o nome do personagem no Photon
+        PhotonNetwork.NickName = name;
+
+        // Aqui você pode adicionar lógica para exibir o nome no jogo, caso necessário
+        Debug.Log($"Nome do personagem: {name}");
+    }
+
+    public void SetCharacterData(Personagem character)
+    {
+        // Armazena os dados do personagem no PlayerCustomProperties do Photon
+        ExitGames.Client.Photon.Hashtable playerProperties = new()
+        {
+            { "PersonagemId", character.id },
+            { "PersonagemNome", character.nome },
+            { "ContaId", character.contaId },
+            { "CriadoEm", character.criadoEm },
+            { "PersonagemConfig", character.configuracao.ToString() }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
+    }
+
+    public void Connect()
     {
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinRoom("teste");
+        PhotonNetwork.JoinRoom("Game");
         base.OnConnectedToMaster();
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        PhotonNetwork.CreateRoom("teste");
+        PhotonNetwork.CreateRoom("Game");
         base.OnJoinRoomFailed(returnCode, message);
     }
 
@@ -52,75 +81,52 @@ public class Game : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        // Verifica se o jogador é o local
         if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.LocalPlayer.IsLocal)
         {
-            // Encontra o ponto de respawn
             GameObject respawnPoint = GameObject.Find("Respawn");
-            if (respawnPoint == null)
-            {
-                Debug.LogError("Respawn point not found in the scene.");
-                return;
-            }
 
-            // Instancia o personagem na rede
             GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, respawnPoint.transform.position, respawnPoint.transform.rotation);
             playerInstance.GetComponent<Movement>().enabled = true;
             playerInstance.GetComponent<Combat>().enabled = true;
 
-            // Configurações de aparência (aplicadas apenas ao jogador local)
-            if (playerInstance.GetComponent<PhotonView>().IsMine)
+            string[] cameraNames = new string[] { "CameraPlayer", "CameraFreeLook", "CameraDisplay" };
+
+            foreach (var cameraName in cameraNames)
             {
-                Transform meshes = playerInstance.transform;
-                ChangeSkinColor(
-                    new Color(
-                        r: PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.r / 255f,
-                        g: PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.g / 255f,
-                        b: PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.b / 255f
-                    ),
-                    meshes,
-                    PersonagemUtils.LoggedChar.configuracao.gender,
-                    PersonagemUtils.LoggedChar.configuracao.age
+                GameObject cameraObject = playerInstance.transform.Find(cameraName)?.gameObject;
+                cameraObject?.SetActive(true);
+            }
+
+            PhotonView photonView = playerInstance.GetComponent<PhotonView>();
+            CharacterAppearance characterAppearance = playerInstance.GetComponent<CharacterAppearance>();
+
+            if (photonView.IsMine && characterAppearance != null)
+            {
+                Color skinColor = new Color(
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.r / 255f,
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.g / 255f,
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.b / 255f
                 );
-                ChangeHairColor(
-                    new Color(
-                        r: PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.r / 255f,
-                        g: PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.g / 255f,
-                        b: PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.b / 255f
-                    ),
-                    meshes,
-                    PersonagemUtils.LoggedChar.configuracao.gender,
-                    PersonagemUtils.LoggedChar.configuracao.age
+
+                Color hairColor = new Color(
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.r / 255f,
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.g / 255f,
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.b / 255f
                 );
-                ChangeEyeColor(
-                    new Color(
-                        r: PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.r / 255f,
-                        g: PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.g / 255f,
-                        b: PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.b / 255f
-                    ),
-                    meshes,
-                    PersonagemUtils.LoggedChar.configuracao.gender,
-                    PersonagemUtils.LoggedChar.configuracao.age
+
+                Color eyeColor = new Color(
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.r / 255f,
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.g / 255f,
+                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.b / 255f
                 );
+
+                photonView.RPC("UpdateCharacterAppearance", RpcTarget.AllBuffered,
+                    skinColor.r, skinColor.g, skinColor.b,
+                    hairColor.r, hairColor.g, hairColor.b,
+                    eyeColor.r, eyeColor.g, eyeColor.b,
+                    PersonagemUtils.LoggedChar.configuracao.gender,
+                    PersonagemUtils.LoggedChar.configuracao.age);
             }
         }
-    }
-
-    private void ChangeSkinColor(Color color, Transform characterMeshes, string gender, string age)
-    {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshSkinsList(gender, age))
-            MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
-    }
-
-    private void ChangeHairColor(Color color, Transform characterMeshes, string gender, string age)
-    {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshHairList(gender, age))
-            MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
-    }
-
-    private void ChangeEyeColor(Color color, Transform characterMeshes, string gender, string age)
-    {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshEyeList(gender, age))
-            MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
     }
 }

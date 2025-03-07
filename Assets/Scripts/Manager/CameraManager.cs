@@ -8,50 +8,23 @@ public class CameraManager : MonoBehaviourPun
 
     private void Start()
     {
-        // Configura a câmera para o jogador local e desativa as câmeras dos outros jogadores
         SetCamera();
     }
 
     private void SetCamera()
     {
-        // Busca todos os objetos com a tag "Player"
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach (GameObject player in players)
+        // Verifica se o jogador local é este objeto (o CameraManager está no prefab do jogador)
+        if (photonView.IsMine)
         {
-            // Verifica se o jogador é o local
-            PhotonView photonView = player.GetComponent<PhotonView>();
-            if (photonView != null)
-            {
-                // Encontra a câmera do jogador
-                CinemachineFreeLook _freeCam = player.GetComponentInChildren<CinemachineFreeLook>();
-                Camera _camera = player.GetComponentInChildren<Camera>();
-
-                if (_freeCam != null)
-                {
-                    if (photonView.IsMine)
-                    {
-                        // Configura a câmera para o jogador local
-                        freeLookCamera = _freeCam;
-                    }
-                    else
-                    {
-                        // Desativa a câmera dos outros jogadores
-                        _freeCam.gameObject.SetActive(false);
-                        _camera.gameObject.SetActive(false);
-                    }
-                }
-            }
+            // Busca a câmera do jogador local, que é um filho do prefab
+            freeLookCamera = GetComponentInChildren<CinemachineFreeLook>();
         }
     }
 
     private void Update()
     {
-        SetCamera();
-
         if (freeLookCamera != null)
         {
-
             // Habilita ou desabilita o controle da câmera com base no botão do mouse
             if (Input.GetMouseButton(1)) // Botão direito do mouse
             {

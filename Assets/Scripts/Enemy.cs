@@ -7,12 +7,13 @@ using Photon.Pun;
 
 namespace Assets.Scripts
 {
-    public class Enemy : MonoBehaviourPun
+    public class Enemy : MonoBehaviourPun, IPunObservable
     {
         private GameObject player;
         private GameObject enemyUI;
 
-        public float life;
+        public float currentLife;
+        public float maxLife;
         public float exp;
 
         private void Start()
@@ -26,10 +27,10 @@ namespace Assets.Scripts
             Slider slider = GetSlider();
 
             if (slider)
-                slider.value = life;
+                slider.value = currentLife;
 
             // Verifica se a vida do inimigo chegou a zero
-            if (life <= 0)
+            if (currentLife <= 0)
             {
                 DestroyEnemy();
                 await IncreaseExp();
@@ -90,8 +91,8 @@ namespace Assets.Scripts
 
             if (slider)
             {
-                slider.maxValue = life;
-                slider.value = life;
+                slider.maxValue = maxLife;
+                slider.value = currentLife;
             }
         }
 
@@ -99,8 +100,8 @@ namespace Assets.Scripts
 
         private void OnMouseOver()
         {
-            // Ativa a UI do inimigo quando o mouse está sobre ele
-            if (enemyUI == null || player == null) return;
+            if (player == null) player = FindLocalPlayer();
+            if (enemyUI == null) SetupLifeBar();
 
             enemyUI.SetActive(true);
 
@@ -124,9 +125,51 @@ namespace Assets.Scripts
             {
                 PhotonNetwork.Destroy(gameObject);
             }
+
+            Destroy(gameObject);
+        }
+
+        public void TakeDamage(float damage)
+        {
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                photonView.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+            }
             else
             {
-                Destroy(gameObject);
+                currentLife -= damage;
+            }
+        }
+
+        [PunRPC]
+        private void RPC_TakeDamage(float damage)
+        {
+            currentLife -= damage;
+
+            if (currentLife <= 0)
+            {
+                DestroyEnemy();
+            }
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                // Envia a vida do inimigo para a rede
+                stream.SendNext(currentLife);
+            }
+            else
+            {
+                // Recebe a vida do inimigo da rede
+                currentLife = (float)stream.ReceiveNext();
+
+                // Atualiza a barra de vida para o novo jogador
+                Slider slider = GetSlider();
+                if (slider)
+                {
+                    slider.value = currentLife;
+                }
             }
         }
     }

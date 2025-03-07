@@ -39,6 +39,7 @@ public class Combat : MonoBehaviourPun
             return;
         }
 
+
         HandleInput();
         RegenerateRes();
     }
@@ -166,7 +167,8 @@ public class Combat : MonoBehaviourPun
                 if (!currentState.IsTag("Idle") && !currentState.IsTag("Default"))
                 {
                     sliderRes.value = Mathf.Clamp(sliderRes.value - 0.05f, 0, sliderRes.maxValue);
-                    target.GetComponent<Enemy>().life -= 40;
+
+                    target.GetComponent<Enemy>().TakeDamage(40f);
                 }
 
                 // Espera o restante da animação, se necessário

@@ -2,7 +2,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OutlineManager : MonoBehaviour
+public class OutlineManager : MonoBehaviourPun
 {
     private Transform highlight;
     private Transform selection;
@@ -18,32 +18,19 @@ public class OutlineManager : MonoBehaviour
 
     private void SetPlayerCamera()
     {
-        // Busca a câmera do jogador local
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach (GameObject player in players)
+        if (photonView != null && photonView.IsMine)
         {
-            PhotonView photonView = player.GetComponent<PhotonView>();
-            if (photonView != null && photonView.IsMine)
+            // Encontra a câmera do jogador local
+            if(transform.Find("CameraPlayer").TryGetComponent<Camera>(out Camera camera))
             {
-                // Encontra a câmera do jogador local
-                playerCamera = player.GetComponentInChildren<Camera>();
-                if (playerCamera != null)
-                {
-                    break;
-                }
+                playerCamera = camera;
             }
         }
     }
 
     void Update()
     {
-        // Se a câmera não estiver configurada, tenta configurá-la novamente
-        if (playerCamera == null)
-        {
-            SetPlayerCamera();
-            return;
-        }
+        if (playerCamera == null) SetPlayerCamera();
 
         // Limpar highlight anterior
         if (highlight != null)
