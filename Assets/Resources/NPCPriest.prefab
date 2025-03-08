@@ -2231,6 +2231,7 @@ GameObject:
   - component: {fileID: 7538719542956184906}
   - component: {fileID: 1809849064895447525}
   - component: {fileID: 6067238159931505697}
+  - component: {fileID: 1220038521649517694}
   m_Layer: 0
   m_Name: PT_Medieval_Priest_StPatrick (1)
   m_TagString: Selectable
@@ -2299,6 +2300,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3988906572879129237, guid: cb65eb249b552d742b211f18f4f01f7e, type: 3}
+--- !u!114 &1220038521649517694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7141238649008489365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec07caf6ba569a4e9b8bc1763f6efd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missionToDelivery: 1
 --- !u!1 &7182845802938205981
 GameObject:
   m_ObjectHideFlags: 0

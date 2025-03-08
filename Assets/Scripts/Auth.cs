@@ -17,8 +17,9 @@ public class Auth : MonoBehaviour
 
         password.inputType = TMP_InputField.InputType.Password;
 
-        //username.text = "diegoom38@hotmail.com";
-        //password.text = "55241461a@";
+        username.text = "diegoom38@hotmail.com";
+        password.text = "55241461a@";
+        AuthAsync();
     }
 
     private void InstantiateButtonSubmit()
