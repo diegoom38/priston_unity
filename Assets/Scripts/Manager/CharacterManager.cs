@@ -20,7 +20,7 @@ namespace Assets.Scripts.Manager
         {
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<List<Personagem>>>(
                 method: HttpMethod.Get,
-                url: $"https://localhost:7162/api/v1/personagens/account/{Acesso.LoggedUser.user.id}"
+                url: $"https://pristontalewebapi.onrender.com/api/v1/personagens/account/{Acesso.LoggedUser.user.id}"
             );
 
             if(!retornoAcesso.isFailed)
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Manager
         {
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<Personagem>>(
                 method: HttpMethod.Put,
-                url: $"https://localhost:7162/api/v1/personagens/{personagem.id}",
+                url: $"https://pristontalewebapi.onrender.com/api/v1/personagens/{personagem.id}",
                 personagem
             );
 
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Manager
             personagem.contaId = Acesso.LoggedUser.user.id;
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<Personagem>>(
                 method: HttpMethod.Post,
-                url: $"https://localhost:7162/api/v1/personagens",
+                url: $"https://pristontalewebapi.onrender.com/api/v1/personagens",
                 personagem
             );
 

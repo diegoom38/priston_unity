@@ -21,21 +21,13 @@ namespace Assets.Scripts
             Invoke(nameof(Initialize), 1f);
         }
 
-        private async void Update()
+        private void Update()
         {
             // Atualiza a barra de vida do inimigo
             Slider slider = GetSlider();
 
             if (slider)
                 slider.value = currentLife;
-
-            // Verifica se a vida do inimigo chegou a zero
-            if (currentLife <= 0)
-            {
-                DestroyEnemy();
-                await IncreaseExp();
-                return;
-            }
         }
 
         private async Task IncreaseExp()
@@ -142,13 +134,14 @@ namespace Assets.Scripts
         }
 
         [PunRPC]
-        private void RPC_TakeDamage(float damage)
+        private async Task RPC_TakeDamage(float damage)
         {
             currentLife -= damage;
 
             if (currentLife <= 0)
             {
                 DestroyEnemy();
+                await IncreaseExp();
             }
         }
 

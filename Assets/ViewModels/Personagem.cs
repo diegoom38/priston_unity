@@ -51,7 +51,7 @@ namespace Assets.Models
             {
                 // Exemplo de fórmula para calcular XP necessário para cada nível
                 // Você pode ajustar essa fórmula conforme necessário
-                return (float)(100 * Math.Pow(1.5, nivel - 1)); // Aumenta a dificuldade a cada nível
+                return (float)(100 * Math.Pow(1.1, nivel - 1)); // Aumenta a dificuldade a cada nível
             }
 
             for (int i = 1; i <= 60; i++)
@@ -62,7 +62,7 @@ namespace Assets.Models
             return expPerLevel;
         }
 
-        public static void IncreaseExp(float increasePercentage)
+        public static void IncreaseExp(float increaseAmount)
         {
             if (LoggedChar != null)
             {
@@ -72,8 +72,7 @@ namespace Assets.Models
                 if (!expTable.ContainsKey(currentLevel)) return;
 
                 float currentExp = expTable[currentLevel] * (currentExpPercentage / 100);
-                float expGained = expTable[currentLevel] * (increasePercentage / 100);
-                float newExp = currentExp + expGained;
+                float newExp = currentExp + increaseAmount;
 
                 while (currentLevel < 60 && newExp >= expTable[currentLevel])
                 {
@@ -87,5 +86,6 @@ namespace Assets.Models
                 LoggedChar.configuracao.percentage = newExpPercentage;
             }
         }
+
     }
 }

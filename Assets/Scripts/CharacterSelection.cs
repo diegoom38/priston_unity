@@ -47,6 +47,7 @@ public class CharacterSelection : MonoBehaviour
         {
             int index = i;
             g = Instantiate(exampleCharButton, exampleCharButton.transform.parent);
+            g.SetActive(true);
             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = characters[i].nome;
             g.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Nível {characters[i]?.configuracao?.level}";
 

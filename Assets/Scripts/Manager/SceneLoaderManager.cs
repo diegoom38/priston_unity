@@ -17,10 +17,20 @@ public class SceneLoaderManager : MonoBehaviour
             loadingManagerObj = Instantiate(transform.gameObject);
             loadingSlider = loadingManagerObj.GetComponentInChildren<Slider>();
             loadingText = loadingManagerObj.GetComponentInChildren<TextMeshProUGUI>();
+
+            // Garante que o Canvas do loading esteja no topo
+            Canvas canvas = loadingManagerObj.GetComponentInChildren<Canvas>();
+            if (canvas != null)
+            {
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                canvas.sortingOrder = 999; // Um valor alto para garantir que fique no topo
+            }
+
+            // Move para o topo da hierarquia
+            loadingManagerObj.transform.SetAsLastSibling();
         }
 
         loadingManagerObj.SetActive(true);
-
         StartCoroutine(LoadSceneAsync(sceneName));
     }
 

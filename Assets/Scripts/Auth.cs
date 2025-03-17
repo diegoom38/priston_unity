@@ -68,7 +68,7 @@ public class Auth : MonoBehaviour
 
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<AcessoResposta>>(
                 method: HttpMethod.Post,
-                url: "https://localhost:7162/api/v1/conta/autenticar",
+                url: "https://pristontalewebapi.onrender.com/api/v1/conta/autenticar",
                 content: acesso
             );
 

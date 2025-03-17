@@ -88,6 +88,7 @@ public class Game : MonoBehaviourPunCallbacks
             GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, respawnPoint.transform.position, respawnPoint.transform.rotation);
             playerInstance.GetComponent<Movement>().enabled = true;
             playerInstance.GetComponent<Combat>().enabled = true;
+            playerInstance.GetComponent<OutlineManager>().enabled = true;
 
             string[] cameraNames = new string[] { "CameraPlayer", "CameraFreeLook", "CameraDisplay" };
 
