@@ -5,7 +5,7 @@ using TMPro;
 public class DayNightManager : MonoBehaviour
 {
     // Reference to the directional light in the scene, representing the sun
-    [SerializeField] private Transform directionalLight;
+    [SerializeField, HideInInspector] private Transform directionalLight;
 
     // Duration of a full day in seconds (set in the Unity Inspector)
     [SerializeField, Tooltip("Duration of the day in seconds")] private int durationDay = 3600;
@@ -25,6 +25,8 @@ public class DayNightManager : MonoBehaviour
 
     void Start()
     {
+        directionalLight = GameObject.FindGameObjectWithTag("DirectionalLight").transform;
+
         // Get the current time from the system
         DateTime currentTime = DateTime.Now;
 

@@ -1971,6 +1971,7 @@ GameObject:
   - component: {fileID: 3897137762367116594}
   - component: {fileID: 10890882514772596}
   - component: {fileID: 5526361315095798314}
+  - component: {fileID: 3808923083458779711}
   m_Layer: 6
   m_Name: PlayerFemaleElderlyCharacterSelector
   m_TagString: Player
@@ -2043,7 +2044,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.9
-  m_Radius: 0
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -2103,6 +2104,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 8943933969132666047}
   - {fileID: 904447850234842173}
+  - {fileID: 3808923083458779711}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2136,6 +2138,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: inCombat
+  - Type: 9
+    SynchronizeType: 1
+    Name: dying
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -2195,6 +2200,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72915cc0525dda142afc4a284dbf75e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3808923083458779711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4881097614684025699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dcafc0dc2c8f9c4c8619e45ef5cf48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exp: 0
+  currentLife: 300
+  maxLife: 300
+  sliderRes: {fileID: 0}
+  sliderMana: {fileID: 0}
+  sliderHp: {fileID: 0}
 --- !u!1 &4982319163263764057
 GameObject:
   m_ObjectHideFlags: 0

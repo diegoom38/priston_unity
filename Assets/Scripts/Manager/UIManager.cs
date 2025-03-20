@@ -1,7 +1,6 @@
 using Assets.Models;
 using Assets.Scripts.Manager;
 using Photon.Pun;
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,12 +11,17 @@ public class UIManager : MonoBehaviourPunCallbacks
 {
     private Dictionary<int, float> ExpPerLevel = PersonagemUtils.ExpPerLevel();
 
+    private GameObject panelItems;
+    private GameObject panelMission;
+    private GameObject panelBag;
+    private GameObject panelDeath;
+
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         SetButtons();
         SetSkills();
-        DeactivatePanels();
+        SetPanels();
         SetInventoryItems();
     }
 
@@ -30,17 +34,20 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     private void SetCharacterInfo()
     {
-        if (PersonagemUtils.LoggedChar is not null)
+        if (PersonagemUtils.LoggedChar is not null && PhotonNetwork.IsConnectedAndReady)
         {
             if (transform.Find("Canvas/panel_character/panel_image_char/panel_level/level").TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI levelText))
             {
                 levelText.text = PersonagemUtils.LoggedChar.configuracao.level.ToString();
             }
 
-            if (transform.Find("Canvas/panel_character/panel_status/name").TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI nameText))
-            {
-                nameText.text = PersonagemUtils.LoggedChar.nome.ToString();
-            }
+            var sliderStatus = transform.Find($"Canvas/panel_character/SlidersStatus_{PhotonNetwork.LocalPlayer.ActorNumber}/name");
+
+            if (sliderStatus != null)
+                if (sliderStatus.TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI nameText))
+                {
+                    nameText.text = PersonagemUtils.LoggedChar.nome.ToString();
+                }
         }
     }
 
@@ -48,7 +55,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (transform.Find("Canvas/slider_exp").TryGetComponent<Slider>(out Slider sliderExp))
         {
-            if (PersonagemUtils.LoggedChar is not null)
+            if (PersonagemUtils.LoggedChar is not null && PhotonNetwork.IsConnectedAndReady)
             {
                 PersonagemConfiguracao configuracao = PersonagemUtils.LoggedChar.configuracao;
 
@@ -60,12 +67,8 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     private void HandleInputPanels()
     {
-        GameObject panelItems = transform.Find("Canvas/panel_right/panel_items").gameObject;
-
         if (Input.GetKeyDown(KeyCode.C))
             panelItems.SetActive(!panelItems.activeSelf);
-
-        GameObject panelBag = transform.Find("Canvas/panel_inventory").gameObject;
 
         if (Input.GetKeyDown(KeyCode.B))
             panelBag.SetActive(!panelBag.activeSelf);
@@ -117,14 +120,12 @@ public class UIManager : MonoBehaviourPunCallbacks
             );
     }
 
-    private void DeactivatePanels()
+    private void SetPanels()
     {
-        GameObject panelItems = transform.Find("Canvas/panel_right/panel_items").gameObject;
-        GameObject panelMission = transform.Find("Canvas/panel_right/panel_mission").gameObject;
-        GameObject panelBag = transform.Find("Canvas/panel_inventory").gameObject;
-        panelItems.SetActive(false);
-        panelMission.SetActive(false);
-        panelBag.SetActive(false);
+        panelItems = transform.Find("Canvas/panel_right/panel_items").gameObject;
+        panelMission = transform.Find("Canvas/panel_right/panel_mission").gameObject;
+        panelBag = transform.Find("Canvas/panel_inventory").gameObject;
+        panelDeath = transform.Find("Canvas/panel_death").gameObject;
     }
 
     private void SetInventoryItems()
@@ -135,5 +136,13 @@ public class UIManager : MonoBehaviourPunCallbacks
             Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);
 
         Destroy(exampleInventoryPanel);
+    }
+
+    public void ShowDeathPanel()
+    {
+        panelItems.SetActive(false);
+        panelMission.SetActive(false);
+        panelBag.SetActive(false);
+        panelDeath.SetActive(true);
     }
 }

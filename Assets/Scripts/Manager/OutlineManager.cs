@@ -53,16 +53,6 @@ public class OutlineManager : MonoBehaviourPun
                     {
                         outline = highlight.gameObject.AddComponent<Outline>();
                         outline.OutlineWidth = 7.0f;
-
-                        // Definir a cor com base na tag
-                        if (hitTransform.CompareTag("Enemy"))
-                        {
-                            outline.OutlineColor = Color.red; // Cor vermelha para "Enemy"
-                        }
-                        else if (hitTransform.CompareTag("Selectable"))
-                        {
-                            outline.OutlineColor = Color.gray; // Cor cinza para "Selectable"
-                        }
                     }
                     catch { }
                 }

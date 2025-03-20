@@ -10,6 +10,7 @@ TagManager:
   - SliderMana
   - SliderHp
   - Enemy
+  - DirectionalLight
   layers:
   - Default
   - TransparentFX

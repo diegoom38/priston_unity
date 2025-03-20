@@ -883,6 +883,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e8196b76e6108b74aa9c9192f64f5003, type: 3}
       insertIndex: -1
       addedObject: {fileID: 699582541006388596}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e8196b76e6108b74aa9c9192f64f5003, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 820160646568176074}
   m_SourcePrefab: {fileID: 100100000, guid: e8196b76e6108b74aa9c9192f64f5003, type: 3}
 --- !u!4 &4829281877994710587 stripped
 Transform:
@@ -974,6 +977,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5892273207073380741}
   - {fileID: 5315718269951597043}
+  - {fileID: 820160646568176074}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1007,6 +1011,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: inCombat
+  - Type: 9
+    SynchronizeType: 1
+    Name: dying
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -1066,6 +1073,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72915cc0525dda142afc4a284dbf75e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &820160646568176074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210346892175309953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dcafc0dc2c8f9c4c8619e45ef5cf48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exp: 0
+  currentLife: 300
+  maxLife: 300
+  sliderRes: {fileID: 0}
+  sliderMana: {fileID: 0}
+  sliderHp: {fileID: 0}
 --- !u!1001 &5888071569893461298
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -26,13 +26,13 @@ public class Movement : MonoBehaviourPun
 
     void Start()
     {
+        InitializeComponents();
+
         if (!photonView.IsMine)
         {
             enabled = false;
             return;
         }
-
-        InitializeComponents();
     }
 
     void Update()

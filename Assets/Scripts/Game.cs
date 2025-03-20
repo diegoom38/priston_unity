@@ -1,4 +1,5 @@
 using Assets.Models;
+using Assets.Scripts.Manager;
 using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime; // Para acessar a lista de jogadores do Photon
@@ -86,16 +87,17 @@ public class Game : MonoBehaviourPunCallbacks
             GameObject respawnPoint = GameObject.Find("Respawn");
 
             GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, respawnPoint.transform.position, respawnPoint.transform.rotation);
+            PhotonNetwork.LocalPlayer.TagObject = playerInstance;
             playerInstance.GetComponent<Movement>().enabled = true;
             playerInstance.GetComponent<Combat>().enabled = true;
             playerInstance.GetComponent<OutlineManager>().enabled = true;
 
-            string[] cameraNames = new string[] { "CameraPlayer", "CameraFreeLook", "CameraDisplay" };
+            string[] objectsToActive = new string[] { "CameraPlayer", "CameraFreeLook", "CameraDisplay", "HandleScene" };
 
-            foreach (var cameraName in cameraNames)
+            foreach (var objects in objectsToActive)
             {
-                GameObject cameraObject = playerInstance.transform.Find(cameraName)?.gameObject;
-                cameraObject?.SetActive(true);
+                GameObject _object = playerInstance.transform.Find(objects)?.gameObject;
+                _object?.SetActive(true);
             }
 
             PhotonView photonView = playerInstance.GetComponent<PhotonView>();
