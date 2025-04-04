@@ -85,13 +85,13 @@ public class Auth : MonoBehaviour
             {
                 foreach (var item in retornoAcesso.errors)
                 {
-                    AvisoUI.ExibirAviso($"{item.message}", "Erro ao autenticar!");
+                    WarningUIManager.ExibirAviso($"{item.message}", "Erro ao autenticar!");
                 }
             }
         }
         else
         {
-            AvisoUI.ExibirAviso("Por favor, preencha o formulário corretamente!", "Erro ao autenticar");
+            WarningUIManager.ExibirAviso("Por favor, preencha o formulário corretamente!", "Erro ao autenticar");
         }
     }
 }

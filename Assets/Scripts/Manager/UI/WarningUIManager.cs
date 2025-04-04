@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.Manager
 {
-    public class AvisoUI : MonoBehaviour
+    public class WarningUIManager : MonoBehaviour
     {
         public static void ExibirAviso(string mensagem, string titulo)
         {
@@ -32,7 +31,7 @@ namespace Assets.Scripts.Manager
             messagePanel.SetActive(true);
 
             // Inicia a corrotina para destruir o painel após 3 segundos
-            messagePanel.AddComponent<AvisoUI>().StartCoroutine(DestroyAfterDelay(messagePanel, 3f));
+            messagePanel.AddComponent<WarningUIManager>().StartCoroutine(DestroyAfterDelay(messagePanel, 3f));
         }
 
         private static IEnumerator DestroyAfterDelay(GameObject panel, float delay)

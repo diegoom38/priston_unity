@@ -798,6 +798,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 10689638a7e999741b2d83a765e0f8b5, type: 2}
     - target: {fileID: 5866666021909216657, guid: e8196b76e6108b74aa9c9192f64f5003, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: e8196b76e6108b74aa9c9192f64f5003, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: e8196b76e6108b74aa9c9192f64f5003, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
@@ -922,7 +930,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &-8660869408919862110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1014,12 +1022,15 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: dying
+  - Type: 9
+    SynchronizeType: 1
+    Name: resurrecting
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 1
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 2
 --- !u!114 &5315718269951597043
 MonoBehaviour:

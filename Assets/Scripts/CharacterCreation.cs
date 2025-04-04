@@ -99,7 +99,7 @@ public class CharacterCreation : MonoBehaviour
         {
             if (string.IsNullOrEmpty(characterName.text))
             {
-                AvisoUI.ExibirAviso("Nome precisa ser preenchido!", "Erro ao criar o seu personagem");
+                WarningUIManager.ExibirAviso("Nome precisa ser preenchido!", "Erro ao criar o seu personagem");
                 return;
             }
 

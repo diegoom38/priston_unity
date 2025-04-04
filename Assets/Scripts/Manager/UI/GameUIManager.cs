@@ -1,13 +1,15 @@
 using Assets.Models;
 using Assets.Scripts.Manager;
 using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviourPunCallbacks
+public class GameUIManager : MonoBehaviourPunCallbacks
 {
     private Dictionary<int, float> ExpPerLevel = PersonagemUtils.ExpPerLevel();
 
@@ -15,6 +17,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     private GameObject panelMission;
     private GameObject panelBag;
     private GameObject panelDeath;
+    private GameObject panelSettings;
 
     // Start is called before the first frame update
     public void Start()
@@ -94,6 +97,8 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         SetButton("Canvas/panel_bottom/panel_menu/close_button", DisconnectAndQuit);
         SetButton("Canvas/panel_bottom/panel_menu/character_selection", GoToSelectionCharacterScene);
+        SetButton("Canvas/panel_bottom/panel_menu/settings_handle", OpenSettingsPanel);
+        SetButton("Canvas/panel_death/respawn", RespawnCharacter);
 
     }
 
@@ -126,16 +131,85 @@ public class UIManager : MonoBehaviourPunCallbacks
         panelMission = transform.Find("Canvas/panel_right/panel_mission").gameObject;
         panelBag = transform.Find("Canvas/panel_inventory").gameObject;
         panelDeath = transform.Find("Canvas/panel_death").gameObject;
+        panelSettings = transform.Find("Canvas/panel_settings").gameObject;
     }
 
     private void SetInventoryItems()
     {
+        // Encontra o painel de exemplo original
         GameObject exampleInventoryPanel = transform.Find("Canvas/panel_inventory/grid_items/item").gameObject;
+        var inventoryItems = InventoryItem.GetInventory();
 
         for (int i = 0; i < 88; i++)
-            Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);
+        {
+            // Cria uma nova instância do painel
+            GameObject newPanel = Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);
+
+            // Verifica se existe um item de inventário com este índice
+            var inventoryItem = inventoryItems.FirstOrDefault(_ => _.Index == i);
+
+            if (inventoryItem != null)
+            {
+                // Carrega e instancia o InventoryItem dentro do novo painel
+                GameObject inventoryItemPrefab = Resources.Load<GameObject>("InventoryItem");
+                if (inventoryItemPrefab != null)
+                {
+                    // Instancia primeiro o objeto
+                    GameObject inventoryItemInstance = Instantiate(inventoryItemPrefab, newPanel.transform);
+                    inventoryItemInstance.GetComponent<DraggableItem>().item = inventoryItem;
+
+                    // Depois pega o RawImage da instância e configura a textura
+                    RawImage rawImage = inventoryItemInstance.GetComponent<RawImage>();
+                    if (rawImage != null)
+                    {
+                        Texture2D itemTexture = Resources.Load<Texture2D>($"ItemsIcons/{inventoryItem.ResourceNameItem}");
+                        if (itemTexture != null)
+                        {
+                            rawImage.texture = itemTexture;
+                        }
+                    }
+                }
+            }
+        }
 
         Destroy(exampleInventoryPanel);
+    }
+
+    private void RespawnCharacter()
+    {
+        var player = PhotonNetwork.LocalPlayer.TagObject as GameObject;
+        panelDeath.SetActive(false);
+
+        if (player.TryGetComponent<Animator>(out Animator animator))
+        {
+            animator.ResetTrigger("dying");
+            animator.SetTrigger("resurrecting");
+            animator.applyRootMotion = true;
+        }
+
+        if (player.TryGetComponent<CharacterController>(out CharacterController controller))
+            controller.height = 1.9f;
+
+        if (player.TryGetComponent<Movement>(out Movement movement))
+            movement.enabled = true; // Desabilita o movement
+
+        if (player.TryGetComponent<Combat>(out Combat combat))
+            combat.enabled = true; // Desabilita o Combat
+
+        if (player.TryGetComponent<CharacterInfoManager>(out CharacterInfoManager infoManager))
+            infoManager.currentLife = infoManager.maxLife;
+
+        StartCoroutine(DisableApplyRootMotion(animator));
+    }
+
+    private IEnumerator DisableApplyRootMotion(Animator animator)
+    {
+        yield return new WaitForSeconds(1f);
+
+        if (animator != null)
+        {
+            animator.applyRootMotion = false;
+        }
     }
 
     public void ShowDeathPanel()
@@ -143,6 +217,12 @@ public class UIManager : MonoBehaviourPunCallbacks
         panelItems.SetActive(false);
         panelMission.SetActive(false);
         panelBag.SetActive(false);
+        panelSettings.SetActive(false);
         panelDeath.SetActive(true);
+    }
+
+    private void OpenSettingsPanel()
+    {
+        panelSettings.SetActive(!panelSettings.activeSelf);
     }
 }

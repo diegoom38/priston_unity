@@ -1,9 +1,10 @@
 ﻿using Assets.Models;
 using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using System.Linq;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Manager
@@ -258,24 +259,31 @@ namespace Assets.Scripts.Manager
                 }
             }
         }
-
-        // Método para matar o jogador
         private void Die()
         {
             if (photonView.IsMine)
             {
-                photonView.RPC("RPC_Die", RpcTarget.All); // Envia a mensagem de morte para todos os jogadores
+                animator.SetTrigger("dying");
+                animator.ResetTrigger("resurrecting");
+
+                if (TryGetComponent<CharacterController>(out CharacterController controller))
+                    controller.height = 0.5f;
+
+                StartCoroutine(DisableMovementAfterDelay(.4f)); // Espera 2 segundos antes de desativar o movimento
+
+                if (TryGetComponent<Combat>(out Combat combat))
+                    combat.enabled = false;
+
+                this.enabled = false;
             }
         }
 
-        // Método RPC para executar a animação de morte
-        [PunRPC]
-        private void RPC_Die()
+        private IEnumerator DisableMovementAfterDelay(float delay)
         {
-            if (animator != null)
-            {
-                animator.SetTrigger("dying"); // Ativa a animação de morte
-            }
+            yield return new WaitForSeconds(delay);
+
+            if (TryGetComponent<Movement>(out Movement movement))
+                movement.enabled = false;
         }
 
         // Método para mostrar o painel de morte
@@ -283,7 +291,7 @@ namespace Assets.Scripts.Manager
         {
             if (!photonView.IsMine) return;
 
-            var uiManager = FindObjectOfType<UIManager>(); // Encontra o UIManager na cena
+            var uiManager = FindObjectOfType<GameUIManager>(); // Encontra o UIManager na cena
             uiManager.ShowDeathPanel(); // Exibe o painel de morte
         }
     }
