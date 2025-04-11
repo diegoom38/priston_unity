@@ -1973,7 +1973,7 @@ GameObject:
   - component: {fileID: 5526361315095798314}
   - component: {fileID: 3808923083458779711}
   m_Layer: 6
-  m_Name: PlayerFemaleElderlyCharacterSelector
+  m_Name: '[DEPRECATED] PlayerFemaleElderlyCharacterSelector'
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

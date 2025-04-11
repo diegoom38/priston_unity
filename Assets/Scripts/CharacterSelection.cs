@@ -120,8 +120,7 @@ public class CharacterSelection : MonoBehaviour
                 b: character.configuracao.configuracaoCorPele.b / 255f
             ),
             meshes,
-            character.configuracao.gender,
-            character.configuracao.age
+            character.configuracao.gender
         );
         ChangeHairColor(
             new Color(
@@ -130,8 +129,7 @@ public class CharacterSelection : MonoBehaviour
                 b: character.configuracao.configuracaoCorCabelo.b / 255f
             ),
             meshes,
-            character.configuracao.gender,
-            character.configuracao.age
+            character.configuracao.gender
         );
         ChangeEyeColor(
             new Color(
@@ -140,29 +138,28 @@ public class CharacterSelection : MonoBehaviour
                 b: character.configuracao.configuracaoCorOlhos.b / 255f
             ),
             meshes,
-            character.configuracao.gender,
-            character.configuracao.age
+            character.configuracao.gender
         );
 
         PersonagemUtils.LoggedChar = character;
         StatusComponentsHandle(true);
     }
 
-    private void ChangeSkinColor(Color color, Transform characterMeshes, string gender, string age)
+    private void ChangeSkinColor(Color color, Transform characterMeshes, string gender)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshSkinsList(gender, age))
+        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshSkinsList(gender))
             MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
     }
 
-    private void ChangeHairColor(Color color, Transform characterMeshes, string gender, string age)
+    private void ChangeHairColor(Color color, Transform characterMeshes, string gender)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshHairList(gender, age))
+        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshHairList(gender))
             MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
     }
 
-    private void ChangeEyeColor(Color color, Transform characterMeshes, string gender, string age)
+    private void ChangeEyeColor(Color color, Transform characterMeshes, string gender)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshEyeList(gender, age))
+        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshEyeList(gender))
             MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
     }
 }

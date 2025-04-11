@@ -36,7 +36,7 @@ public class InventoryItem
             },
             new InventoryItem()
             {
-                Index = 32,
+                Index = 2,
                 IsEquipable = true,
                 ResourceNameItem = "Sword",
                 EquipmentItemType = InventorySlotType.PrimaryWeapon,
@@ -44,11 +44,44 @@ public class InventoryItem
             },
             new InventoryItem()
             {
-                Index = 38,
+                Index = 3,
                 IsEquipable = true,
-                ResourceNameItem = "shield",
+                ResourceNameItem = "Shield",
                 EquipmentItemType = InventorySlotType.SecondaryWeapon,
                 ResourceNamePrefab = "Shield_02"
+            },
+            new InventoryItem()
+            {
+                Index = 8,
+                IsEquipable = true,
+                ResourceNameItem = "Helmet",
+                EquipmentItemType = InventorySlotType.Head,
+                ResourceNamePrefab = "PT_Armor_01_A_helmet"
+            },
+            
+            new InventoryItem()
+            {
+                Index = 9,
+                IsEquipable = true,
+                ResourceNameItem = "Helmet",
+                EquipmentItemType = InventorySlotType.Head,
+                ResourceNamePrefab = "PT_Armor_05_C_helmet"
+            },
+            new InventoryItem()
+            {
+                Index = 16,
+                IsEquipable = true,
+                ResourceNameItem = "Cape",
+                EquipmentItemType = InventorySlotType.Cape,
+                ResourceNamePrefab = "PT_Armor_01_A_cape"
+            },
+            new InventoryItem()
+            {
+                Index = 17,
+                IsEquipable = true,
+                ResourceNameItem = "Cape",
+                EquipmentItemType = InventorySlotType.Cape,
+                ResourceNamePrefab = "PT_Armor_05_C_cape"
             }
         };
     }
@@ -58,5 +91,7 @@ public enum InventorySlotType
 {
     Bag,
     PrimaryWeapon,
-    SecondaryWeapon
+    SecondaryWeapon,
+    Head,
+    Cape
 }

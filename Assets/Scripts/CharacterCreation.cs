@@ -13,7 +13,6 @@ public class CharacterCreation : MonoBehaviour
 {
     private Transform customizationPanel;
     private string gender = "Male";
-    private string age = "Elderly";
 
     private GameObject playerPrefab;
     private GameObject currentCharacterInstance;
@@ -34,7 +33,6 @@ public class CharacterCreation : MonoBehaviour
         InitializeColorGrid("hair_color_grid/hair_color_option", GetHairColors(), ChangeHairColor);
         InitializeColorGrid("eye_color_grid/eye_color_option", GetEyeColors(), ChangeEyeColor);
         InitializeOptions("dropdown_hair", Scripts.Manager.HairManager.GetHairOptions(), OnDropdownHairValueChanged);
-        InitializeOptions("dropdown_age", Scripts.Manager.AgeManager.GetAgeOptions(), OnDropdownAgeValueChanged);
     }
 
     private void StartInputFields()
@@ -49,7 +47,7 @@ public class CharacterCreation : MonoBehaviour
         Destroy(currentCharacterInstance);
 
         // Carrega o prefab do personagem com base no gênero e idade
-        playerPrefab = Resources.Load<GameObject>($"Player{gender}{age}CharacterSelector");
+        playerPrefab = Resources.Load<GameObject>($"Player{gender}CharacterSelector");
 
         GameObject tempPositionHolder = new GameObject("TempPositionHolder");
         tempPositionHolder.transform.parent = transform;
@@ -110,9 +108,9 @@ public class CharacterCreation : MonoBehaviour
                 {
                     level = 1,
                     percentage = 0.0f,
-                    prefab = $"Player{gender}{age}CharacterSelector",
+                    prefab = $"Player{gender}CharacterSelector",
                     gender = gender,
-                    age = age,
+                    age = "Adult",
                     configuracaoCorPele = new PersonagemConfiguracao.PersonagemConfiguracaoCor
                     {
                         r = (int)(colorSkin.r * 255f),
@@ -173,14 +171,14 @@ public class CharacterCreation : MonoBehaviour
 
     private void ChangeSkinColor(Color color)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshSkinsList(gender, age))
+        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshSkinsList(gender))
             MaterialManager.ChangeMaterialColor(currentCharacterInstance.transform.Find(mesh.Key), color, mesh.Value);
 
         colorSkin = color;
     }
     private void ChangeHairColor(Color color)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshHairList(gender, age))
+        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshHairList(gender))
             MaterialManager.ChangeMaterialColor(currentCharacterInstance.transform.Find(mesh.Key), color, mesh.Value);
 
         colorHair = color;
@@ -188,7 +186,7 @@ public class CharacterCreation : MonoBehaviour
 
     private void ChangeEyeColor(Color color)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshEyeList(gender, age))
+        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshEyeList(gender))
             MaterialManager.ChangeMaterialColor(currentCharacterInstance.transform.Find(mesh.Key), color, mesh.Value);
 
         colorEye = color;
@@ -225,25 +223,6 @@ public class CharacterCreation : MonoBehaviour
         // Verifica qual opção foi selecionada
         string selectedOption = dropdown.options[dropdown.value].text;
         Debug.Log(selectedOption);
-    }
-
-    private void OnDropdownAgeValueChanged(TMP_Dropdown dropdown)
-    {
-        Dictionary<string, string> agePerKey = new()
-        {
-            { "Ancião", "Elderly" },
-            { "Adulto", "Adult" }
-        };
-
-        // Verifica qual opção foi selecionada
-        string selectedOption = dropdown.options[dropdown.value].text;
-
-        age = agePerKey.FirstOrDefault(
-            (KeyValuePair<string, string> ageDictionary) => 
-                ageDictionary.Key == selectedOption
-            ).Value;
-
-        InstantiateCharacter();
     }
 
     public void Back() => LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterSelection");

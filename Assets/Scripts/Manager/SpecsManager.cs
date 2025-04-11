@@ -11,17 +11,4 @@ namespace Scripts.Manager
             };        
         }
     }
-
-    public class AgeManager
-    {
-        public static List<string> GetAgeOptions()
-        {
-            return new List<string>
-            {
-                "Adulto",
-                "Ancião",
-
-            };
-        }
-    }
 }

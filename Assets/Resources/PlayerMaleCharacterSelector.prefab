@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8764101109581105262, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8762622007862159733, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -118,27 +118,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6275872842976981625, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6181806214860993791, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_cloth_00_body
       objectReference: {fileID: 0}
     - target: {fileID: -6181806214860993791, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -6181806214860993791, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Body
+      objectReference: {fileID: 0}
+    - target: {fileID: -6117645111413506523, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_05_C_body
+      objectReference: {fileID: 0}
     - target: {fileID: -6117645111413506523, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -6117645111413506523, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6117645111413506523, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Body
       objectReference: {fileID: 0}
     - target: {fileID: -6072676341471001977, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -5847976715436074327, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_cloth_00_legs
+      objectReference: {fileID: 0}
+    - target: {fileID: -5847976715436074327, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -5847976715436074327, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Legs
+      objectReference: {fileID: 0}
     - target: {fileID: -5811863545357956813, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5767675720422770239, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -146,7 +174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5756974303926048370, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5571218242718624033, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -154,7 +182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5569093123499596486, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5282305834285496754, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -198,19 +226,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216026461418558001, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4181038958800656822, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4032226596948246283, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -3909303253738244755, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_01_A_legs
+      objectReference: {fileID: 0}
+    - target: {fileID: -3909303253738244755, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -3909303253738244755, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3909303253738244755, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Legs
       objectReference: {fileID: 0}
     - target: {fileID: -3816991407315230449, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -234,7 +274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3080164689260149911, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2997545488294431960, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -265,12 +305,36 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -2530888993756581940, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_hair_20
+      objectReference: {fileID: 0}
+    - target: {fileID: -2530888993756581940, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2530888993756581940, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2530888993756581940, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Hair
+      objectReference: {fileID: 0}
+    - target: {fileID: -2523405506443098487, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_05_C_boots
       objectReference: {fileID: 0}
     - target: {fileID: -2523405506443098487, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2523405506443098487, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2523405506443098487, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Boots
       objectReference: {fileID: 0}
     - target: {fileID: -2406263917690272876, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -280,29 +344,77 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -2044939580816056764, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2044939580816056764, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Legs
+      objectReference: {fileID: 0}
+    - target: {fileID: -1888285817928003642, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_01_A_gauntlets
+      objectReference: {fileID: 0}
     - target: {fileID: -1888285817928003642, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1888285817928003642, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1888285817928003642, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Gauntlets
       objectReference: {fileID: 0}
     - target: {fileID: -1850558183766281187, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -1831612986475944412, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_cloth_00_boots
+      objectReference: {fileID: 0}
+    - target: {fileID: -1831612986475944412, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1831612986475944412, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Boots
       objectReference: {fileID: 0}
     - target: {fileID: -1686962268893120941, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -1578927616890132809, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_head_01
+      objectReference: {fileID: 0}
+    - target: {fileID: -1578927616890132809, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1578927616890132809, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Head
+      objectReference: {fileID: 0}
+    - target: {fileID: -1483780815723794936, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_05_C_cape
       objectReference: {fileID: 0}
     - target: {fileID: -1483780815723794936, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1483780815723794936, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1483780815723794936, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Cape
       objectReference: {fileID: 0}
     - target: {fileID: -1345140398317800516, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -326,7 +438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -883200726313966593, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -587983734347835232, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -341,8 +453,20 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -503290621380172123, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_head_10
+      objectReference: {fileID: 0}
+    - target: {fileID: -503290621380172123, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -503290621380172123, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -503290621380172123, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Head
       objectReference: {fileID: 0}
     - target: {fileID: -407710476185595489, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -350,7 +474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -242110432138116277, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -135870636016264502, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -366,7 +490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7936480654141050, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 196045824106961335, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -394,7 +518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Name
-      value: PlayerMaleAdultCharacterSelector
+      value: PlayerMaleCharacterSelector
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -405,8 +529,20 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1024466067168218450, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_naked_00_boots
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024466067168218450, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024466067168218450, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024466067168218450, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Boots
       objectReference: {fileID: 0}
     - target: {fileID: 1202065516853375269, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -417,28 +553,76 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1569302801196367956, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_01_A_helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569302801196367956, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569302801196367956, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569302801196367956, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1585002599001869945, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_beard_01
       objectReference: {fileID: 0}
     - target: {fileID: 1585002599001869945, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1585002599001869945, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1585002599001869945, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Beard
+      objectReference: {fileID: 0}
     - target: {fileID: 1589264854463261768, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1859332797970205989, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2160373690184577045, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_05_C_gauntlets
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160373690184577045, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160373690184577045, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160373690184577045, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Gauntlets
+      objectReference: {fileID: 0}
+    - target: {fileID: 2344987153564171777, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_01_A_cape
       objectReference: {fileID: 0}
     - target: {fileID: 2344987153564171777, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2344987153564171777, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2344987153564171777, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Cape
       objectReference: {fileID: 0}
     - target: {fileID: 2499499405400887214, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -466,7 +650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3321362354168505282, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3633025568779526655, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -474,11 +658,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3634093671863165333, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3759129718462343616, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_naked_00_body
       objectReference: {fileID: 0}
     - target: {fileID: 3759129718462343616, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3759129718462343616, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3759129718462343616, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Body
       objectReference: {fileID: 0}
     - target: {fileID: 3790532620088638935, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -502,7 +698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4352061766238186200, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4445053073843715386, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -510,19 +706,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4638703085538387698, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705411063828911794, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_01_A_body
       objectReference: {fileID: 0}
     - target: {fileID: 4705411063828911794, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705411063828911794, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705411063828911794, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Body
       objectReference: {fileID: 0}
     - target: {fileID: 4792275449050455704, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4915410295586219654, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_cloth_00_gauntlets
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915410295586219654, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915410295586219654, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Gauntlets
       objectReference: {fileID: 0}
     - target: {fileID: 5279875877618130650, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -537,8 +753,16 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5624574791935297948, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_hair_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5624574791935297948, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5624574791935297948, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Hair
       objectReference: {fileID: 0}
     - target: {fileID: 5627304130611182997, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -565,28 +789,60 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6138137195678983360, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_beard_20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138137195678983360, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138137195678983360, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Beard
       objectReference: {fileID: 0}
     - target: {fileID: 6212445527374732896, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6873405902708786654, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_01_A_boots
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873405902708786654, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873405902708786654, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873405902708786654, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Boots
       objectReference: {fileID: 0}
     - target: {fileID: 6939874172895149146, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7440069587811222230, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_naked_00_gauntlets
+      objectReference: {fileID: 0}
+    - target: {fileID: 7440069587811222230, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7440069587811222230, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7440069587811222230, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Gauntlets
+      objectReference: {fileID: 0}
     - target: {fileID: 7615259593980660809, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7639189514042299981, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -605,16 +861,40 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8342756950239844610, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_05_C_legs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342756950239844610, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342756950239844610, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342756950239844610, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Legs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8345306766336278610, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_Name
+      value: PT_Armor_05_C_helmet
       objectReference: {fileID: 0}
     - target: {fileID: 8345306766336278610, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8345306766336278610, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8345306766336278610, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
+      propertyPath: m_TagString
+      value: Helmet
+      objectReference: {fileID: 0}
     - target: {fileID: 8451469656429240796, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8512578808808246586, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Layer
@@ -634,7 +914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9075230805020769173, guid: 45f944a4396b0a54398eb1abe6743296, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

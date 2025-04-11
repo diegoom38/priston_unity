@@ -11,6 +11,16 @@ TagManager:
   - SliderHp
   - Enemy
   - DirectionalLight
+  - Body
+  - Boots
+  - Cape
+  - Gauntlets
+  - Helmet
+  - Legs
+  - Hair
+  - Head
+  - CharacterList
+  - Beard
   layers:
   - Default
   - TransparentFX

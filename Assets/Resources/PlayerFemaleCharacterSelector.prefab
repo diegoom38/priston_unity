@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 1249774797055218604}
   - component: {fileID: 4304455790793048101}
   m_Layer: 6
-  m_Name: PT_Female_Armor_cloth_00_body
-  m_TagString: Untagged
+  m_Name: PT_Armor_cloth_00_body
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,12 +206,12 @@ GameObject:
   - component: {fileID: 3880544246164115662}
   - component: {fileID: 6490748518515388305}
   m_Layer: 6
-  m_Name: PT_Female_Armor_01_A_cape
-  m_TagString: Untagged
+  m_Name: PT_Armor_01_A_cape
+  m_TagString: Cape
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3880544246164115662
 Transform:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512221362370055769}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -590,12 +590,12 @@ GameObject:
   - component: {fileID: 7250685236514802669}
   - component: {fileID: 898908390689555452}
   m_Layer: 6
-  m_Name: PT_Female_Armor_naked_legs
-  m_TagString: Untagged
+  m_Name: PT_Armor_naked_legs
+  m_TagString: Legs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7250685236514802669
 Transform:
   m_ObjectHideFlags: 0
@@ -618,7 +618,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993434475535870867}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -817,12 +817,12 @@ GameObject:
   - component: {fileID: 2241497406190591958}
   - component: {fileID: 3833288734555195185}
   m_Layer: 6
-  m_Name: PT_Female_Armor_05_C_cape
-  m_TagString: Untagged
+  m_Name: PT_Armor_05_C_cape
+  m_TagString: Cape
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2241497406190591958
 Transform:
   m_ObjectHideFlags: 0
@@ -845,7 +845,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227726645286193400}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -980,12 +980,12 @@ GameObject:
   - component: {fileID: 2537214419832638097}
   - component: {fileID: 6143656961412927709}
   m_Layer: 6
-  m_Name: PT_Female_Armor_01_A_helmet
-  m_TagString: Untagged
+  m_Name: PT_Armor_01_A_helmet
+  m_TagString: Helmet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2537214419832638097
 Transform:
   m_ObjectHideFlags: 0
@@ -1008,7 +1008,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244002121038217010}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1331,12 +1331,12 @@ GameObject:
   - component: {fileID: 8244591194153507940}
   - component: {fileID: 1659134038328812275}
   m_Layer: 6
-  m_Name: PT_Female_Armor_05_C_legs
-  m_TagString: Untagged
+  m_Name: PT_Armor_05_C_legs
+  m_TagString: Legs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8244591194153507940
 Transform:
   m_ObjectHideFlags: 0
@@ -1359,7 +1359,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1924848750825785900}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1525,12 +1525,12 @@ GameObject:
   - component: {fileID: 552536517908342874}
   - component: {fileID: 5269004793183641826}
   m_Layer: 6
-  m_Name: PT_Female_Armor_naked_body
-  m_TagString: Untagged
+  m_Name: PT_Armor_naked_body
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &552536517908342874
 Transform:
   m_ObjectHideFlags: 0
@@ -1553,7 +1553,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2068531185513583287}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1752,12 +1752,12 @@ GameObject:
   - component: {fileID: 4815114551754912}
   - component: {fileID: 4141802582505664834}
   m_Layer: 6
-  m_Name: PT_Female_Armor_hair_30
-  m_TagString: Untagged
+  m_Name: PT_Armor_hair_30
+  m_TagString: Hair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4815114551754912
 Transform:
   m_ObjectHideFlags: 0
@@ -1780,7 +1780,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2243531674877211741}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2017,8 +2017,8 @@ GameObject:
   - component: {fileID: 5989779573445004596}
   - component: {fileID: 6907777002030118277}
   m_Layer: 6
-  m_Name: PT_Female_Armor_cloth_00_legs
-  m_TagString: Untagged
+  m_Name: PT_Armor_cloth_00_legs
+  m_TagString: Legs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2244,8 +2244,8 @@ GameObject:
   - component: {fileID: 349336008075108394}
   - component: {fileID: 5658998584074850670}
   m_Layer: 6
-  m_Name: PT_Female_Armor_cloth_00_gauntlets
-  m_TagString: Untagged
+  m_Name: PT_Armor_cloth_00_gauntlets
+  m_TagString: Gauntlets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2660,12 +2660,12 @@ GameObject:
   - component: {fileID: 3395297869814854918}
   - component: {fileID: 4447003433259576094}
   m_Layer: 6
-  m_Name: PT_Female_Armor_05_C_boots
-  m_TagString: Untagged
+  m_Name: PT_Armor_05_C_boots
+  m_TagString: Boots
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3395297869814854918
 Transform:
   m_ObjectHideFlags: 0
@@ -2688,7 +2688,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3435544118733136313}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2885,12 +2885,12 @@ GameObject:
   - component: {fileID: 2379761393242066869}
   - component: {fileID: 7452186896192662509}
   m_Layer: 6
-  m_Name: PT_Female_Armor_01_A_legs
-  m_TagString: Untagged
+  m_Name: PT_Armor_01_A_legs
+  m_TagString: Legs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2379761393242066869
 Transform:
   m_ObjectHideFlags: 0
@@ -2913,7 +2913,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3746608281533941364}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3111,12 +3111,12 @@ GameObject:
   - component: {fileID: 109765491657456193}
   - component: {fileID: 1687100239294513033}
   m_Layer: 6
-  m_Name: PT_Female_Armor_01_A_boots
-  m_TagString: Untagged
+  m_Name: PT_Armor_01_A_boots
+  m_TagString: Boots
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &109765491657456193
 Transform:
   m_ObjectHideFlags: 0
@@ -3139,7 +3139,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4159561095214752777}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3465,12 +3465,12 @@ GameObject:
   - component: {fileID: 8109909081516820194}
   - component: {fileID: 8162130732977548735}
   m_Layer: 6
-  m_Name: PT_Female_Armor_01_A_body
-  m_TagString: Untagged
+  m_Name: PT_Armor_01_A_body
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8109909081516820194
 Transform:
   m_ObjectHideFlags: 0
@@ -3493,7 +3493,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4654745552271489573}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3628,12 +3628,12 @@ GameObject:
   - component: {fileID: 248307996127451501}
   - component: {fileID: 3399420742609918465}
   m_Layer: 6
-  m_Name: PT_Female_Armor_01_A_gauntlets
-  m_TagString: Untagged
+  m_Name: PT_Armor_01_A_gauntlets
+  m_TagString: Gauntlets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &248307996127451501
 Transform:
   m_ObjectHideFlags: 0
@@ -3656,7 +3656,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4747178271194084622}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3988,12 +3988,12 @@ GameObject:
   - component: {fileID: 6469292932515561819}
   - component: {fileID: 8078629815000859630}
   m_Layer: 6
-  m_Name: PT_Female_Armor_head_10
-  m_TagString: Untagged
+  m_Name: PT_Armor_head_10
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6469292932515561819
 Transform:
   m_ObjectHideFlags: 0
@@ -4016,7 +4016,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284520637325222215}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4569,12 +4569,12 @@ GameObject:
   - component: {fileID: 1479146773501389445}
   - component: {fileID: 4706598757676372605}
   m_Layer: 6
-  m_Name: PT_Female_Armor_05_C_gauntlets
-  m_TagString: Untagged
+  m_Name: PT_Armor_05_C_gauntlets
+  m_TagString: Gauntlets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1479146773501389445
 Transform:
   m_ObjectHideFlags: 0
@@ -4597,7 +4597,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6523126739745475010}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4861,12 +4861,12 @@ GameObject:
   - component: {fileID: 6365272270756462505}
   - component: {fileID: 8839178277397538398}
   m_Layer: 6
-  m_Name: PT_Female_Armor_naked_boots
-  m_TagString: Untagged
+  m_Name: PT_Armor_naked_boots
+  m_TagString: Boots
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6365272270756462505
 Transform:
   m_ObjectHideFlags: 0
@@ -4889,7 +4889,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6759731715049028942}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5379,12 +5379,12 @@ GameObject:
   - component: {fileID: 6094235881648688222}
   - component: {fileID: 5019809082485319011}
   m_Layer: 6
-  m_Name: PT_Female_Armor_naked_gauntlets
-  m_TagString: Untagged
+  m_Name: PT_Armor_naked_gauntlets
+  m_TagString: Gauntlets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6094235881648688222
 Transform:
   m_ObjectHideFlags: 0
@@ -5407,7 +5407,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7678809772567282346}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5583,7 +5583,7 @@ GameObject:
   - component: {fileID: 344589189744477348}
   - component: {fileID: 3914531471598806321}
   m_Layer: 6
-  m_Name: PlayerFemaleAdultCharacterSelector
+  m_Name: PlayerFemaleCharacterSelector
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5925,12 +5925,12 @@ GameObject:
   - component: {fileID: 3462919106067987061}
   - component: {fileID: 3247224588821757349}
   m_Layer: 6
-  m_Name: PT_Female_Armor_05_C_body
-  m_TagString: Untagged
+  m_Name: PT_Armor_05_C_body
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3462919106067987061
 Transform:
   m_ObjectHideFlags: 0
@@ -5953,7 +5953,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8142978570961583918}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6184,8 +6184,8 @@ GameObject:
   - component: {fileID: 7209635915418101226}
   - component: {fileID: 7839059441546779271}
   m_Layer: 6
-  m_Name: PT_Female_Armor_head_01
-  m_TagString: Untagged
+  m_Name: PT_Armor_head_01
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6381,8 +6381,8 @@ GameObject:
   - component: {fileID: 8428385791641290256}
   - component: {fileID: 4687986282504554826}
   m_Layer: 6
-  m_Name: PT_Female_Armor_hair_01
-  m_TagString: Untagged
+  m_Name: PT_Armor_hair_01
+  m_TagString: Hair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6639,12 +6639,12 @@ GameObject:
   - component: {fileID: 1598982790887910817}
   - component: {fileID: 1366644650644589684}
   m_Layer: 6
-  m_Name: PT_Female_Armor_05_C_helmet
-  m_TagString: Untagged
+  m_Name: PT_Armor_05_C_helmet
+  m_TagString: Helmet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1598982790887910817
 Transform:
   m_ObjectHideFlags: 0
@@ -6667,7 +6667,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8814686837305555393}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6802,8 +6802,8 @@ GameObject:
   - component: {fileID: 9182674898232398868}
   - component: {fileID: 1387501712096516048}
   m_Layer: 6
-  m_Name: PT_Female_Armor_cloth_00_boots
-  m_TagString: Untagged
+  m_Name: PT_Armor_cloth_00_boots
+  m_TagString: Boots
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

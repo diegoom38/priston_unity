@@ -127,8 +127,7 @@ public class Game : MonoBehaviourPunCallbacks
                     skinColor.r, skinColor.g, skinColor.b,
                     hairColor.r, hairColor.g, hairColor.b,
                     eyeColor.r, eyeColor.g, eyeColor.b,
-                    PersonagemUtils.LoggedChar.configuracao.gender,
-                    PersonagemUtils.LoggedChar.configuracao.age);
+                    PersonagemUtils.LoggedChar.configuracao.gender);
             }
         }
     }
