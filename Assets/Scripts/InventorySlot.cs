@@ -91,6 +91,27 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 // Ativa a nova capa
                 ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, true);
                 break;
+
+            case InventorySlotType.Body when item.EquipmentItemType == InventorySlotType.Body:
+                // Armazena o estado dos objetos que serão desabilitados (cabelo)
+                StoreDisabledObjectsState(playerObject, "Body");
+
+                // Desativa os objetos com tag Hair
+                ToggleObjectsWithTag(playerObject, "Body", false);
+
+                // Ativa o capacete
+                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, true);
+                break;
+            case InventorySlotType.Boot when item.EquipmentItemType == InventorySlotType.Boot:
+                // Armazena o estado dos objetos que serão desabilitados (cabelo)
+                StoreDisabledObjectsState(playerObject, "Boots");
+
+                // Desativa os objetos com tag Hair
+                ToggleObjectsWithTag(playerObject, "Boots", false);
+
+                // Ativa o capacete
+                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, true);
+                break;
         }
 
         if (targetSlot != null)
@@ -132,6 +153,20 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 RestoreDisabledObjectsState(playerObject);
 
                 // Desativa a capa equipada
+                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, false);
+                break;
+            case InventorySlotType.Body:
+                // Restaura os objetos desabilitados (corpo padrão)
+                RestoreDisabledObjectsState(playerObject);
+
+                // Desativa o corpo equipado
+                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, false);
+                break;
+            case InventorySlotType.Boot:
+                // Restaura os objetos desabilitados (bota padrão)
+                RestoreDisabledObjectsState(playerObject);
+
+                // Desativa o bota equipada
                 ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, false);
                 break;
         }

@@ -4663,7 +4663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81278fc810099049a8a06c23dceb9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlot: 3
+  inventorySlot: 6
 --- !u!1 &2957663820871898859
 GameObject:
   m_ObjectHideFlags: 0
@@ -6971,7 +6971,7 @@ GameObject:
   - component: {fileID: 4010774270048769175}
   - component: {fileID: 3637089015193590377}
   m_Layer: 5
-  m_Name: head
+  m_Name: cape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9203,7 +9203,7 @@ GameObject:
   - component: {fileID: 6847267059991384279}
   - component: {fileID: 6428444409538664017}
   m_Layer: 5
-  m_Name: head
+  m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9302,7 +9302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81278fc810099049a8a06c23dceb9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlot: 3
+  inventorySlot: 5
 --- !u!1 &7034841177385694115
 GameObject:
   m_ObjectHideFlags: 0
