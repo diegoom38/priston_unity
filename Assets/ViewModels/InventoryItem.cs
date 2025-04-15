@@ -22,7 +22,7 @@ public class InventoryItem
             {
                 Index = 0,
                 IsEquipable = true,
-                ResourceNameItem = "Axe",
+                ResourceNameItem = "Axe_01",
                 EquipmentItemType = InventorySlotType.PrimaryWeapon,
                 ResourceNamePrefab = "Axe_01"
             },
@@ -30,40 +30,65 @@ public class InventoryItem
             {
                 Index = 1,
                 IsEquipable = true,
-                ResourceNameItem = "Sword",
+                ResourceNameItem = "Mace_01",
                 EquipmentItemType = InventorySlotType.PrimaryWeapon,
-                ResourceNamePrefab = "Long_Sword_01"
+                ResourceNamePrefab = "Mace_01"
             },
             new InventoryItem()
             {
                 Index = 2,
                 IsEquipable = true,
-                ResourceNameItem = "Sword",
+                ResourceNameItem = "Pike_01",
                 EquipmentItemType = InventorySlotType.PrimaryWeapon,
-                ResourceNamePrefab = "Long_Sword_02"
+                ResourceNamePrefab = "Pike_01"
             },
             new InventoryItem()
             {
                 Index = 3,
                 IsEquipable = true,
-                ResourceNameItem = "Shield",
+                ResourceNameItem = "Shield_01",
+                EquipmentItemType = InventorySlotType.SecondaryWeapon,
+                ResourceNamePrefab = "Shield_01"
+            },
+            new InventoryItem()
+            {
+                Index = 4,
+                IsEquipable = true,
+                ResourceNameItem = "Shield_02",
                 EquipmentItemType = InventorySlotType.SecondaryWeapon,
                 ResourceNamePrefab = "Shield_02"
             },
             new InventoryItem()
             {
+                Index = 5,
+                IsEquipable = true,
+                ResourceNameItem = "Shield_03",
+                EquipmentItemType = InventorySlotType.SecondaryWeapon,
+                ResourceNamePrefab = "Shield_03"
+            },
+            new InventoryItem()
+            {
+                Index = 6,
+                IsEquipable = true,
+                ResourceNameItem = "Staff_01",
+                EquipmentItemType = InventorySlotType.PrimaryWeapon,
+                ResourceNamePrefab = "Staff_01"
+            },
+
+            new InventoryItem()
+            {
                 Index = 8,
                 IsEquipable = true,
-                ResourceNameItem = "Helmet",
+                ResourceNameItem = "Helmet_01",
                 EquipmentItemType = InventorySlotType.Head,
                 ResourceNamePrefab = "PT_Armor_01_A_helmet"
             },
-            
+
             new InventoryItem()
             {
                 Index = 9,
                 IsEquipable = true,
-                ResourceNameItem = "Helmet",
+                ResourceNameItem = "Helmet_02",
                 EquipmentItemType = InventorySlotType.Head,
                 ResourceNamePrefab = "PT_Armor_05_C_helmet"
             },

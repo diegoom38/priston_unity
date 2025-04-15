@@ -38,7 +38,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     private void HandleItemTransfer(DraggableItem draggableItem)
     {
         InventorySlot previousSlot = draggableItem.parentAfterDrag?.GetComponent<InventorySlot>();
-        if (inventorySlot == InventorySlotType.Bag && previousSlot != null)
+        if (inventorySlot == InventorySlotType.Bag && (previousSlot != null && previousSlot.inventorySlot != InventorySlotType.Bag))
         {
             previousSlot.UnequipItem(draggableItem.item);
         }
