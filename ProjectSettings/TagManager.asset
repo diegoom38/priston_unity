@@ -21,6 +21,7 @@ TagManager:
   - Head
   - CharacterList
   - Beard
+  - MobRespawn
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Combat : MonoBehaviourPun
 {
     private Animator animator;
-    private CharacterInfoManager characterInfoManager;
+    private Mob_NPC_CharacterInfoManager characterInfoManager;
     private GameObject currentTarget; // Armazena o alvo do ataque
 
     private void Start()
@@ -23,7 +23,7 @@ public class Combat : MonoBehaviourPun
     private void InitializeComponents()
     {
         animator = GetComponent<Animator>();
-        characterInfoManager = GetComponent<CharacterInfoManager>();
+        characterInfoManager = GetComponent<Mob_NPC_CharacterInfoManager>();
     }
 
     void Update()
@@ -85,9 +85,9 @@ public class Combat : MonoBehaviourPun
     {
         if (currentTarget != null && photonView.IsMine)
         {
-            characterInfoManager.sliderRes.value = Mathf.Clamp(characterInfoManager.sliderRes.value - 0.05f,0,characterInfoManager.sliderRes.maxValue);
+            characterInfoManager.sliderRes.value = Mathf.Clamp(characterInfoManager.sliderRes.value - 0.05f, 0, characterInfoManager.sliderRes.maxValue);
 
-            if (currentTarget.TryGetComponent<CharacterInfoManager>(out CharacterInfoManager infoManager))
+            if (currentTarget.TryGetComponent<Mob_NPC_CharacterInfoManager>(out Mob_NPC_CharacterInfoManager infoManager))
             {
                 infoManager.TakeDamage(50f, currentTarget.tag);
             }

@@ -138,7 +138,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
     {
         // Encontra o painel de exemplo original
         GameObject exampleInventoryPanel = transform.Find("Canvas/panel_inventory/grid_items/item").gameObject;
-        var inventoryItems = InventoryItem.GetInventory();
+        var inventoryItems = PersonagemUtils.LoggedChar.itensInventario;
 
         for (int i = 0; i < 88; i++)
         {
@@ -146,7 +146,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
             GameObject newPanel = Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);
 
             // Verifica se existe um item de inventário com este índice
-            var inventoryItem = inventoryItems.FirstOrDefault(_ => _.Index == i);
+            var inventoryItem = inventoryItems?.FirstOrDefault(_ => _.Index == i);
 
             if (inventoryItem != null)
             {
@@ -196,7 +196,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
         if (player.TryGetComponent<Combat>(out Combat combat))
             combat.enabled = true; // Desabilita o Combat
 
-        if (player.TryGetComponent<CharacterInfoManager>(out CharacterInfoManager infoManager))
+        if (player.TryGetComponent<Mob_NPC_CharacterInfoManager>(out Mob_NPC_CharacterInfoManager infoManager))
             infoManager.currentLife = infoManager.maxLife;
 
         StartCoroutine(DisableApplyRootMotion(animator));

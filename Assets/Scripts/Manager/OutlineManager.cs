@@ -12,7 +12,6 @@ public class OutlineManager : MonoBehaviourPun
 
     private void Start()
     {
-        // Configura a câmera do jogador local
         SetPlayerCamera();
     }
 
@@ -20,8 +19,7 @@ public class OutlineManager : MonoBehaviourPun
     {
         if (photonView != null && photonView.IsMine)
         {
-            // Encontra a câmera do jogador local
-            if(transform.Find("CameraPlayer").TryGetComponent<Camera>(out Camera camera))
+            if (transform.Find("CameraPlayer").TryGetComponent(out Camera camera))
             {
                 playerCamera = camera;
             }
@@ -32,32 +30,59 @@ public class OutlineManager : MonoBehaviourPun
     {
         if (playerCamera == null) SetPlayerCamera();
 
-        // Limpar highlight anterior
-        if (highlight != null)
-        {
-            if (highlight.TryGetComponent<Outline>(out var outline)) outline.enabled = false;
-            highlight = null;
-        }
+        if (playerCamera == null) return;
 
-        // Raycast para detectar objeto sob o mouse
+        // Raycast da posição do mouse
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out raycastHit))
+
+        if (Physics.Raycast(ray, out raycastHit))
         {
-            Transform hitTransform = raycastHit.transform;
-            if ((hitTransform.CompareTag("Selectable") || hitTransform.CompareTag("Enemy")) && hitTransform != selection)
+            Transform target = raycastHit.transform;
+
+            // Verifica se o objeto tem as tags desejadas
+            if (target.CompareTag("Enemy") || target.CompareTag("Selectable"))
             {
-                highlight = hitTransform;
-                if (!highlight.TryGetComponent<Outline>(out var outline))
+                if (highlight != target)
                 {
-                    try
+                    ClearHighlight();
+
+                    highlight = target;
+
+                    var outline = highlight.GetComponent<Outline>();
+                    if (outline == null)
                     {
                         outline = highlight.gameObject.AddComponent<Outline>();
-                        outline.OutlineWidth = 7.0f;
+                        outline.OutlineMode = Outline.Mode.OutlineVisible;
+                        outline.OutlineColor = Color.cyan;
+                        outline.OutlineWidth = 2f;
                     }
-                    catch { }
+                    else
+                    {
+                        outline.enabled = true;
+                    }
                 }
-                outline.enabled = true;
             }
+            else
+            {
+                ClearHighlight();
+            }
+        }
+        else
+        {
+            ClearHighlight();
+        }
+    }
+
+    private void ClearHighlight()
+    {
+        if (highlight != null)
+        {
+            Outline outline = highlight.GetComponent<Outline>();
+            if (outline != null)
+            {
+                outline.enabled = false;
+            }
+            highlight = null;
         }
     }
 }

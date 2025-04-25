@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 1708295627880532086}
   - component: {fileID: 3154746456371863209}
   - component: {fileID: 4599020676480483524}
+  - component: {fileID: 426764453161139851}
   m_Layer: 6
   m_Name: PlayerMaleCharacterSelector
   m_TagString: Player
@@ -493,9 +494,40 @@ MonoBehaviour:
   exp: 0
   currentLife: 300
   maxLife: 300
+  isMobOrNpc: 0
   sliderRes: {fileID: 0}
   sliderMana: {fileID: 0}
   sliderHp: {fileID: 0}
+--- !u!114 &426764453161139851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162485464292803755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4599020676480483524}
+          m_TargetAssemblyTypeName: Assets.Scripts.Manager.Mob_NPC_CharacterInfoManager,
+            Assembly-CSharp
+          m_MethodName: ToggleMobNpcSliders
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &164399058831075989
 GameObject:
   m_ObjectHideFlags: 0
@@ -6561,6 +6593,7 @@ GameObject:
   - component: {fileID: 6566984868256892706}
   - component: {fileID: 7768686932883844110}
   - component: {fileID: 2468088399217541743}
+  - component: {fileID: 6226958682289768603}
   m_Layer: 6
   m_Name: CameraPlayer
   m_TagString: MainCamera
@@ -6771,6 +6804,22 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!114 &6226958682289768603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6688178138585723249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &6744725404361885416
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,6 +87,7 @@ public class Game : MonoBehaviourPunCallbacks
             GameObject respawnPoint = GameObject.Find("Respawn");
 
             GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, respawnPoint.transform.position, respawnPoint.transform.rotation);
+            playerInstance.name = PersonagemUtils.LoggedChar.nome;
             PhotonNetwork.LocalPlayer.TagObject = playerInstance;
             playerInstance.GetComponent<Movement>().enabled = true;
             playerInstance.GetComponent<Combat>().enabled = true;

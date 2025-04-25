@@ -11,7 +11,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     private const string RIGHT_HAND_WEAPON_PATH = "PT_Hips/PT_Spine/PT_Spine2/PT_Spine3/PT_RightShoulder/PT_RightArm/PT_RightForeArm/PT_RightHand/PT_Right_Hand_Weapon_slot";
 
     // Armazena os objetos desabilitados e seus estados originais
-    private Dictionary<string, bool> disabledObjectsState = new Dictionary<string, bool>();
+    private Dictionary<string, bool> disabledObjectsState = new();
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -93,20 +93,20 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 break;
 
             case InventorySlotType.Body when item.EquipmentItemType == InventorySlotType.Body:
-                // Armazena o estado dos objetos que serão desabilitados (cabelo)
+                // Armazena o estado dos objetos que serão desabilitados (corpo)
                 StoreDisabledObjectsState(playerObject, "Body");
 
-                // Desativa os objetos com tag Hair
+                // Desativa os objetos com tag Body
                 ToggleObjectsWithTag(playerObject, "Body", false);
 
-                // Ativa o capacete
+                // Ativa o corpo
                 ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, true);
                 break;
             case InventorySlotType.Boot when item.EquipmentItemType == InventorySlotType.Boot:
-                // Armazena o estado dos objetos que serão desabilitados (cabelo)
+                // Armazena o estado dos objetos que serão desabilitados (bota)
                 StoreDisabledObjectsState(playerObject, "Boots");
 
-                // Desativa os objetos com tag Hair
+                // Desativa os objetos com tag bota
                 ToggleObjectsWithTag(playerObject, "Boots", false);
 
                 // Ativa o capacete

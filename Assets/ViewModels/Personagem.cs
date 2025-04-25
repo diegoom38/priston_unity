@@ -12,6 +12,8 @@ namespace Assets.Models
         public string contaId;
         public string criadoEm;
         public PersonagemConfiguracao configuracao;
+        public List<InventoryItem> itensEquipados;
+        public List<InventoryItem> itensInventario;
     }
 
     [Serializable]
