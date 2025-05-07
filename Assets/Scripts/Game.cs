@@ -1,8 +1,7 @@
 using Assets.Models;
-using Assets.Scripts.Manager;
-using Cinemachine;
 using Photon.Pun;
-using Photon.Realtime; // Para acessar a lista de jogadores do Photon
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Assets.Models.PersonagemConfiguracao;
 
@@ -107,26 +106,22 @@ public class Game : MonoBehaviourPunCallbacks
 
             if (photonView.IsMine && characterAppearance != null)
             {
-                static Color GetColor(PersonagemConfiguracaoCor configuracao)
-                {
-                    return new Color(
-                        configuracao.r / 255f,
-                        configuracao.g / 255f,
-                        configuracao.b / 255f
-                    );
-                }
+                Color skinColor = CharacterAppearance.GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele);
+                Color hairColor = CharacterAppearance.GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo);
+                Color eyeColor = CharacterAppearance.GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos);
+                Color lipColor = CharacterAppearance.GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorLabios);
 
-                Color skinColor = GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele);
-                Color hairColor = GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo);
-                Color eyeColor = GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos);
-                Color lipColor = GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorLabios);
+                CharacterAppearance.DropdownValueChangedDefault(PersonagemUtils.LoggedChar.configuracao.head, "Head", Scripts.Manager.SpecsManager.GetHeadOptions(), playerInstance.transform);
+                CharacterAppearance.DropdownValueChangedDefault(PersonagemUtils.LoggedChar.configuracao.hair, "Hair", Scripts.Manager.SpecsManager.GetHairOptions(), playerInstance.transform);
 
                 photonView.RPC("UpdateCharacterAppearance", RpcTarget.AllBuffered,
                     skinColor.r, skinColor.g, skinColor.b,
                     hairColor.r, hairColor.g, hairColor.b,
                     eyeColor.r, eyeColor.g, eyeColor.b,
                     lipColor.r, lipColor.g, lipColor.b,
-                    PersonagemUtils.LoggedChar.configuracao.gender);
+                    PersonagemUtils.LoggedChar.configuracao.gender, 
+                    PersonagemUtils.LoggedChar.configuracao.head, 
+                    PersonagemUtils.LoggedChar.configuracao.hair);
             }
         }
     }

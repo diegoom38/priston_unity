@@ -147,8 +147,8 @@ public class CharacterCreation : MonoBehaviour
                         b = (int)(colorLips.b * 255f)
                     },
 
-                    hair = head,
-                    head = hair
+                    hair = hair,
+                    head = head
                 },
                 contaId = Acesso.LoggedUser.user.id,
                 id = Guid.NewGuid().ToString(),
@@ -189,32 +189,24 @@ public class CharacterCreation : MonoBehaviour
 
     private void ChangeSkinColor(Color color)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshSkinsList(gender))
-            MaterialManager.ChangeMaterialColor(currentCharacterInstance.transform.Find(mesh.Key), color, mesh.Value);
-
+        CharacterAppearance.ChangeSkinColor(color, currentCharacterInstance.transform, gender);
         colorSkin = color;
     }
     private void ChangeHairColor(Color color)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshHairList(gender))
-            MaterialManager.ChangeMaterialColor(currentCharacterInstance.transform.Find(mesh.Key), color, mesh.Value);
-
+        CharacterAppearance.ChangeHairColor(color, currentCharacterInstance.transform, gender);
         colorHair = color;
     }
 
     private void ChangeEyeColor(Color color)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshEyeList(gender))
-            MaterialManager.ChangeMaterialColor(currentCharacterInstance.transform.Find(mesh.Key), color, mesh.Value);
-
+        CharacterAppearance.ChangeEyeColor(color, currentCharacterInstance.transform, gender);
         colorEye = color;
     }
 
     private void ChangeLipColor(Color color)
     {
-        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshLipList(gender))
-            MaterialManager.ChangeMaterialColor(currentCharacterInstance.transform.Find(mesh.Key), color, mesh.Value);
-
+        CharacterAppearance.ChangeLipColor(color, currentCharacterInstance.transform, gender);
         colorLips = color;
     }
 
@@ -240,37 +232,32 @@ public class CharacterCreation : MonoBehaviour
         }
     }
 
-    private void OnDropdownHeadValueChanged(TMP_Dropdown dropdown) => DropdownValueChangedDefault(dropdown, "Head", headOptions);
-
-    private void OnDropdownHairValueChanged(TMP_Dropdown dropdown) => DropdownValueChangedDefault(dropdown, "Hair", hairOptions);
-
-    private void DropdownValueChangedDefault(TMP_Dropdown dropdown, string folderName, Dictionary<string, string> options)
+    private void OnDropdownHeadValueChanged(TMP_Dropdown dropdown)
     {
-        string selectedOption = dropdown.options[dropdown.value].text;
+        CharacterAppearance.DropdownValueChangedDefault(
+            dropdown,
+            "Head",
+            headOptions,
+            currentCharacterInstance.transform,
+            new Dictionary<string, Action<string>>
+            {
+                { "Hair", key => hair = key }
+            }
+        );
+    }
 
-        if (!options.Any(pair => pair.Value == selectedOption)) return;
-
-        string selectedKey = options.First(pair => pair.Value == selectedOption).Key;
-
-        var actions = new Dictionary<string, Action>
-        {
-            { "Head", () => head = selectedKey },
-            { "Hair", () => hair = selectedKey }
-        };
-
-        if (actions.ContainsKey(folderName))        
-            actions[folderName]();
-
-        Transform folderTransform = currentCharacterInstance.transform.Find(folderName);
-
-        if (folderTransform == null) return;
-
-        foreach (var key in options.Keys)
-        {
-            Transform head = folderTransform.Find(key);
-            if (head != null)
-                head.gameObject.SetActive(key == selectedKey);
-        }
+    private void OnDropdownHairValueChanged(TMP_Dropdown dropdown)
+    {
+        CharacterAppearance.DropdownValueChangedDefault(
+            dropdown,
+            "Hair",
+            hairOptions,
+            currentCharacterInstance.transform,
+            new Dictionary<string, Action<string>>
+            {
+                { "Hair", key => hair = key }
+            }
+        );
     }
 
     public void Back() => LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterSelection");
@@ -283,16 +270,21 @@ public class CharacterCreation : MonoBehaviour
         ChangeEyeColor(randomSkinColor.EyeColor.ToColorEngine());
         ChangeLipColor(randomSkinColor.LipColor.ToColorEngine());
 
-        void RandomizeSpecs(Dictionary<string, string> options, string folder)
+        void RandomizeSpecs(Dictionary<string, string> options, string folder, string type)
         {
             int randomIndex = UnityEngine.Random.Range(0, options.Count);
 
-            var headDropdown = customizationPanel.Find(folder).GetComponent<TMP_Dropdown>();
-            headDropdown.value = randomIndex;
-            OnDropdownHeadValueChanged(headDropdown);
+            var randomSpec = options.ElementAt(randomIndex).Value;
+
+            if (type == "Head") head = randomSpec;
+            if (type == "Hair") hair = randomSpec;
+
+            var dropDown = customizationPanel.Find(folder).GetComponent<TMP_Dropdown>();
+            dropDown.value = randomIndex;
+            OnDropdownHeadValueChanged(dropDown);
         }
 
-        RandomizeSpecs(headOptions, "head_wrapper/dropdown_head");
-        RandomizeSpecs(hairOptions, "hair_wrapper/dropdown_hair");
+        RandomizeSpecs(headOptions, "head_wrapper/dropdown_head", "Head");
+        RandomizeSpecs(hairOptions, "hair_wrapper/dropdown_hair", "Hair");
     }
 }
