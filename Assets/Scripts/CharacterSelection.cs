@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -122,6 +123,7 @@ public class CharacterSelection : MonoBehaviour
             meshes,
             character.configuracao.gender
         );
+
         ChangeHairColor(
             new Color(
                 r: character.configuracao.configuracaoCorCabelo.r / 255f,
@@ -131,11 +133,22 @@ public class CharacterSelection : MonoBehaviour
             meshes,
             character.configuracao.gender
         );
+
         ChangeEyeColor(
             new Color(
                 r: character.configuracao.configuracaoCorOlhos.r / 255f,
                 g: character.configuracao.configuracaoCorOlhos.g / 255f,
                 b: character.configuracao.configuracaoCorOlhos.b / 255f
+            ),
+            meshes,
+            character.configuracao.gender
+        );
+
+        ChangeLipColor(
+            new Color(
+                r: character.configuracao.configuracaoCorLabios.r / 255f,
+                g: character.configuracao.configuracaoCorLabios.g / 255f,
+                b: character.configuracao.configuracaoCorLabios.b / 255f
             ),
             meshes,
             character.configuracao.gender
@@ -160,6 +173,12 @@ public class CharacterSelection : MonoBehaviour
     private void ChangeEyeColor(Color color, Transform characterMeshes, string gender)
     {
         foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshEyeList(gender))
+            MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
+    }
+
+    private void ChangeLipColor(Color color, Transform characterMeshes, string gender)
+    {
+        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshLipList(gender))
             MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
     }
 }

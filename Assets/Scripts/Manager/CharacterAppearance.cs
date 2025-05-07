@@ -9,6 +9,7 @@ public class CharacterAppearance : MonoBehaviourPun
     public void UpdateCharacterAppearance(float skinR, float skinG, float skinB,
                                           float hairR, float hairG, float hairB,
                                           float eyeR, float eyeG, float eyeB,
+                                          float lipR, float lipG, float lipB,
                                           string gender)
     {
         Transform characterMeshes = transform;
@@ -16,6 +17,7 @@ public class CharacterAppearance : MonoBehaviourPun
         ChangeSkinColor(new Color(skinR, skinG, skinB), characterMeshes, gender);
         ChangeHairColor(new Color(hairR, hairG, hairB), characterMeshes, gender);
         ChangeEyeColor(new Color(eyeR, eyeG, eyeB), characterMeshes, gender);
+        ChangeLipColor(new Color(lipR, lipG, lipB), characterMeshes, gender);
     }
 
     private void ChangeSkinColor(Color color, Transform characterMeshes, string gender)
@@ -33,6 +35,12 @@ public class CharacterAppearance : MonoBehaviourPun
     private void ChangeEyeColor(Color color, Transform characterMeshes, string gender)
     {
         foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshEyeList(gender))
+            MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
+    }
+
+    private void ChangeLipColor(Color color, Transform characterMeshes, string gender)
+    {
+        foreach (KeyValuePair<string, string> mesh in MaterialManager.MeshLipList(gender))
             MaterialManager.ChangeMaterialColor(characterMeshes.Find(mesh.Key), color, mesh.Value);
     }
 }

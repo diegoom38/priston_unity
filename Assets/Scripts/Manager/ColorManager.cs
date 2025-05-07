@@ -90,6 +90,23 @@ namespace Scripts.Manager
             };
         }
 
+        public static List<ColorManager> GetLipsColors()
+        {
+            return new List<ColorManager>
+            {
+                new(157, 41, 51),
+                new(255, 216, 190),
+                new(210, 180, 140),
+                //new(255, 105, 180),
+                new(114, 47, 55),
+                new(255, 127, 80),
+                //new(139, 0, 139),
+                new(107, 68, 35),
+                new(183, 132, 167),
+                //new(183, 132, 167),
+            };
+        }
+
         private static ColorManager GetRandomColor(List<ColorManager> colors)
         {
             Random random = new();
@@ -102,12 +119,14 @@ namespace Scripts.Manager
             ColorManager randomHairColor = GetRandomColor(GetHairColors());
             ColorManager randomSkinColor = GetRandomColor(GetSkinColors());
             ColorManager randomEyeColor = GetRandomColor(GetEyeColors());
+            ColorManager randomLipColor = GetRandomColor(GetLipsColors());
 
             return new()
             {
                 HairColor = randomHairColor,
                 SkinColor = randomSkinColor,
-                EyeColor = randomEyeColor
+                EyeColor = randomEyeColor,
+                LipColor = randomLipColor
             };
         }
     }

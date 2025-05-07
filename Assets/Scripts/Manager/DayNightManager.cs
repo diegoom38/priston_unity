@@ -17,7 +17,7 @@ public class DayNightManager : MonoBehaviour
     private float seconds;
 
     // Minimum and maximum exposure values for the skybox
-    [SerializeField, Tooltip("Minimum skybox exposure at night")] private float minExposure = 0.02f;
+    [SerializeField, Tooltip("Minimum skybox exposure at night")] private float minExposure = 0.2f;
     [SerializeField, Tooltip("Maximum skybox exposure during the day")] private float maxExposure = 1f;
 
     // Multiplier to speed up or slow down time based on the duration of the day

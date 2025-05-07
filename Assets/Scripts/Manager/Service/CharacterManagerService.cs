@@ -12,6 +12,7 @@ namespace Assets.Scripts.Manager
         public ColorManager HairColor { get; set; }
         public ColorManager SkinColor { get; set; }
         public ColorManager EyeColor { get; set; }
+        public ColorManager LipColor { get; set; }
     }
 
     public static class AccountCharacters

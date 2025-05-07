@@ -27,17 +27,22 @@ namespace Assets.Scripts.Manager
 
             maleMeshes = new List<KeyValuePair<string, string>>
                 {
-                    new("PT_Armor_head_01", attribute),
-                    new("PT_Armor_hair_01", attribute),
-                    new("PT_Armor_cloth_00_body", attribute),
-                    new("PT_Armor_beard_20", attribute),
+                    new("Head/Head_01", attribute),
+                    new("Head/Head_02", attribute),
+                    new("Hair/Hair_01", attribute),
+                    new("Hair/Hair_02", attribute),
+                    new("Body/Body_01", attribute),
+                    new("Hair/Beard_01", attribute),
+                    new("Hair/Beard_02", attribute),
                 };
 
             femaleMeshes = new List<KeyValuePair<string, string>>
                 {
-                    new("PT_Armor_head_01", attribute),
-                    new("PT_Armor_hair_01", attribute),
-                    new("PT_Armor_cloth_00_body", attribute),
+                    new("Head/Head_01", attribute),
+                    new("Head/Head_02", attribute),
+                    new("Hair/Hair_01", attribute),
+                    new("Hair/Hair_02", attribute),
+                    new("Body/Body_01", attribute),
                 };
 
 
@@ -57,6 +62,11 @@ namespace Assets.Scripts.Manager
         public static List<KeyValuePair<string, string>> MeshEyeList(string gender)
         {
             return MeshAttributeList(gender, "_EYESCOLOR");
+        }
+
+        public static List<KeyValuePair<string, string>> MeshLipList(string gender)
+        {
+            return MeshAttributeList(gender, "_LIPSCOLOR");
         }
     }
 }

@@ -4,6 +4,7 @@ using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime; // Para acessar a lista de jogadores do Photon
 using UnityEngine;
+using static Assets.Models.PersonagemConfiguracao;
 
 public class Game : MonoBehaviourPunCallbacks
 {
@@ -106,28 +107,25 @@ public class Game : MonoBehaviourPunCallbacks
 
             if (photonView.IsMine && characterAppearance != null)
             {
-                Color skinColor = new Color(
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.r / 255f,
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.g / 255f,
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele.b / 255f
-                );
+                static Color GetColor(PersonagemConfiguracaoCor configuracao)
+                {
+                    return new Color(
+                        configuracao.r / 255f,
+                        configuracao.g / 255f,
+                        configuracao.b / 255f
+                    );
+                }
 
-                Color hairColor = new Color(
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.r / 255f,
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.g / 255f,
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo.b / 255f
-                );
-
-                Color eyeColor = new Color(
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.r / 255f,
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.g / 255f,
-                    PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos.b / 255f
-                );
+                Color skinColor = GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele);
+                Color hairColor = GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo);
+                Color eyeColor = GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos);
+                Color lipColor = GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorLabios);
 
                 photonView.RPC("UpdateCharacterAppearance", RpcTarget.AllBuffered,
                     skinColor.r, skinColor.g, skinColor.b,
                     hairColor.r, hairColor.g, hairColor.b,
                     eyeColor.r, eyeColor.g, eyeColor.b,
+                    lipColor.r, lipColor.g, lipColor.b,
                     PersonagemUtils.LoggedChar.configuracao.gender);
             }
         }

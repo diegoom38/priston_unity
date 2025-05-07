@@ -2,13 +2,23 @@
 
 namespace Scripts.Manager
 {
-    public class HairManager
+    public class SpecsManager
     {
-        public static List<string> GetHairOptions() {
-            return new List<string>
+        public static Dictionary<string, string> GetHeadOptions() {
+            return new Dictionary<string, string>
             {
-                "Social",
+                { "Head_01", "Nova" },
+                { "Head_02", "Judiada"},
             };        
+        }
+
+        public static Dictionary<string, string> GetHairOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Hair_01", "Arrumado" },
+                { "Hair_02", "Bagunçado"},
+            };
         }
     }
 }

@@ -27,6 +27,9 @@ namespace Assets.Models
         public PersonagemConfiguracaoCor configuracaoCorCabelo;
         public PersonagemConfiguracaoCor configuracaoCorPele;
         public PersonagemConfiguracaoCor configuracaoCorOlhos;
+        public PersonagemConfiguracaoCor configuracaoCorLabios;
+        public string hair;
+        public string head;
 
         [Serializable]
         public class PersonagemConfiguracaoCor
