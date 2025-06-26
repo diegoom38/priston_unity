@@ -30,6 +30,17 @@ namespace Assets.Models
         public PersonagemConfiguracaoCor configuracaoCorLabios;
         public string hair;
         public string head;
+        public PersonagemScale scale;
+
+        [Serializable]
+        public class PersonagemScale
+        {
+            public float x;
+
+            public float y;
+
+            public float z;
+        }
 
         [Serializable]
         public class PersonagemConfiguracaoCor
