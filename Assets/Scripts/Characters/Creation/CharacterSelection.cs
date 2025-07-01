@@ -124,7 +124,7 @@ public class CharacterSelection : MonoBehaviour
 
         CharacterAppearance.DropdownValueChangedDefault(character.configuracao.head, "Head", Scripts.Manager.SpecsManager.GetHeadOptions(), meshes);
         CharacterAppearance.DropdownValueChangedDefault(character.configuracao.hair, "Hair", Scripts.Manager.SpecsManager.GetHairOptions(), meshes);
-
+        CharacterAppearance.UpdateScale(character.configuracao.scale.x, character.configuracao.scale.y, character.configuracao.scale.z, meshes);
         PersonagemUtils.LoggedChar = character;
         StatusComponentsHandle(true);
     }

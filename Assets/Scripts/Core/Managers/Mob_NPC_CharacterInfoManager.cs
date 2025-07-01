@@ -63,7 +63,8 @@ namespace Assets.Scripts.Manager
 
         void HideSliders()
         {
-            GameObject.Find("HandleScene/Canvas/panel_selected_mob_npc").SetActive(false);        }
+            GameObject.Find("HandleScene/Canvas/panel_selected_mob_npc").SetActive(false);        
+        }
 
         private void InitializeSliders()
         {
@@ -90,7 +91,9 @@ namespace Assets.Scripts.Manager
 
         public void ToggleMobNpcSliders()
         {
-            Debug.Log("veio pra ca");
+            // Não mostrar se não for mob/NPC
+            if (!isMobOrNpc) return;
+
             if (!PhotonNetwork.IsConnectedAndReady) return;
 
             var selectedPanel = GameObject.Find("HandleScene/Canvas/panel_selected_mob_npc");

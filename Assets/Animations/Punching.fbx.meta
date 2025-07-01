@@ -60,14 +60,14 @@ ModelImporter:
       - time: 0.5216694
         functionName: ApplyDamage
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: 2384feb8e92905543b7dff407c28212b, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.99923074
         functionName: ResetCombatState
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: 2384feb8e92905543b7dff407c28212b, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

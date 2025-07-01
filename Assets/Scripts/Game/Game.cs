@@ -121,7 +121,10 @@ public class Game : MonoBehaviourPunCallbacks
                     lipColor.r, lipColor.g, lipColor.b,
                     PersonagemUtils.LoggedChar.configuracao.gender, 
                     PersonagemUtils.LoggedChar.configuracao.head, 
-                    PersonagemUtils.LoggedChar.configuracao.hair);
+                    PersonagemUtils.LoggedChar.configuracao.hair,
+                    PersonagemUtils.LoggedChar.configuracao.scale.x,
+                    PersonagemUtils.LoggedChar.configuracao.scale.y,
+                    PersonagemUtils.LoggedChar.configuracao.scale.z);
             }
         }
     }

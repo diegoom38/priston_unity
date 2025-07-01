@@ -60,14 +60,14 @@ ModelImporter:
       - time: 0.46111506
         functionName: SoundSteps
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: fa3584c38c13afe40b9a35a186a1936a, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.9089133
         functionName: SoundSteps
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: fa3584c38c13afe40b9a35a186a1936a, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

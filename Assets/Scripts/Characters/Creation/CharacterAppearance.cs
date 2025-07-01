@@ -15,10 +15,12 @@ public class CharacterAppearance : MonoBehaviourPun
                                           float hairR, float hairG, float hairB,
                                           float eyeR, float eyeG, float eyeB,
                                           float lipR, float lipG, float lipB,
-                                          string gender, string head, string hair)
+                                          string gender, string head, string hair,
+                                          float scaleX, float scaleY, float scaleZ)
     {
         Transform characterInstance = transform;
 
+        UpdateScale(scaleX, scaleY, scaleZ, characterInstance);
         ChangeSkinColor(new Color(skinR, skinG, skinB), characterInstance, gender);
         ChangeHairColor(new Color(hairR, hairG, hairB), characterInstance, gender);
         ChangeEyeColor(new Color(eyeR, eyeG, eyeB), characterInstance, gender);
@@ -109,5 +111,10 @@ public class CharacterAppearance : MonoBehaviourPun
             configuracao.g / 255f,
             configuracao.b / 255f
         );
+    }
+
+    public static void UpdateScale(float scaleX, float scaleY, float scaleZ, Transform characterInstance)
+    {
+        characterInstance.transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
     }
 }
