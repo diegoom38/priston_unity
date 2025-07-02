@@ -5977,6 +5977,7 @@ MonoBehaviour:
   currentLife: 300
   maxLife: 300
   isMobOrNpc: 0
+  publicName: 
   sliderRes: {fileID: 0}
   sliderMana: {fileID: 0}
   sliderHp: {fileID: 0}

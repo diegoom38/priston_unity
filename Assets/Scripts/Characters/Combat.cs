@@ -89,7 +89,7 @@ public class Combat : MonoBehaviourPun
 
             if (currentTarget.TryGetComponent<Mob_NPC_CharacterInfoManager>(out Mob_NPC_CharacterInfoManager infoManager))
             {
-                infoManager.TakeDamage(50f, currentTarget.tag);
+                infoManager.TakeDamage(100f, currentTarget.tag);
             }
         }
     }

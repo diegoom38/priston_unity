@@ -147,6 +147,7 @@ MonoBehaviour:
   currentLife: 360
   maxLife: 360
   isMobOrNpc: 1
+  publicName: Cubo
   sliderRes: {fileID: 0}
   sliderMana: {fileID: 0}
   sliderHp: {fileID: 0}

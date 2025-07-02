@@ -28,6 +28,7 @@ namespace Assets.Scripts.Manager
         public float currentLife;
         public float maxLife;
         public bool isMobOrNpc;
+        public string publicName;
 
         [HideInInspector] public Slider sliderRes;
         [HideInInspector] public Slider sliderMana;
@@ -57,13 +58,19 @@ namespace Assets.Scripts.Manager
             RegenerateRes();
         }
 
+        [PunRPC]
+        private void RPC_SetPublicName(string name)
+        {
+            publicName = name;
+        }
+
         #endregion
 
         #region Slider Setup
 
         void HideSliders()
         {
-            GameObject.Find("HandleScene/Canvas/panel_selected_mob_npc").SetActive(false);        
+            GameObject.Find("HandleScene/Canvas/panel_selected_mob_npc").SetActive(false);
         }
 
         private void InitializeSliders()
@@ -77,7 +84,6 @@ namespace Assets.Scripts.Manager
 
             var sliderInstance = Instantiate(sliderPrefab, characterPanel.transform);
             sliderInstance.name = $"SlidersStatus_{PhotonNetwork.LocalPlayer.ActorNumber}";
-
             sliderHp = sliderInstance.transform.Find("slider_hp")?.GetComponent<Slider>();
             sliderRes = sliderInstance.transform.Find("slider_res")?.GetComponent<Slider>();
             sliderMana = sliderInstance.transform.Find("slider_mana")?.GetComponent<Slider>();
@@ -87,12 +93,20 @@ namespace Assets.Scripts.Manager
                 sliderHp.maxValue = maxLife;
                 sliderHp.value = currentLife;
             }
+
+            // Definir o nome do personagem antes de enviar
+            publicName = PersonagemUtils.LoggedChar.nome;
+
+            if (!string.IsNullOrEmpty(publicName))
+            {
+                photonView.RPC("RPC_SetPublicName", RpcTarget.OthersBuffered, publicName);
+            }
         }
 
         public void ToggleMobNpcSliders()
         {
             // Não mostrar se não for mob/NPC
-            if (!isMobOrNpc) return;
+            if (!isMobOrNpc && publicName == PersonagemUtils.LoggedChar.nome) return;
 
             if (!PhotonNetwork.IsConnectedAndReady) return;
 
@@ -108,11 +122,11 @@ namespace Assets.Scripts.Manager
 
             if (sliderPrefab.transform.Find("name").TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI name))
             {
-                name.text = gameObject.name;
+                name.text = publicName;
             }
 
             currentMobNpcSlider = Instantiate(sliderPrefab, selectedPanel.transform);
-            currentMobNpcSlider.name = $"SlidersStatus_{gameObject.name}";
+            currentMobNpcSlider.name = $"SlidersStatus_{publicName}";
 
             sliderHp = currentMobNpcSlider.transform.Find("slider_hp")?.GetComponent<Slider>();
             sliderRes = currentMobNpcSlider.transform.Find("slider_res")?.GetComponent<Slider>();
@@ -154,14 +168,34 @@ namespace Assets.Scripts.Manager
 
         private void SpawnChest()
         {
-            // Caminho dentro da pasta Resources
             GameObject chestPrefab = Resources.Load<GameObject>("ChestModel");
 
             if (chestPrefab is not null)
             {
-                Instantiate(chestPrefab, transform.position, Quaternion.identity);
+                // Instancia o baú e guarda referência à instância
+                GameObject chestInstance = Instantiate(chestPrefab, transform.position, Quaternion.identity);
+
+                // Agora sim, pega o componente da instância
+                if (chestInstance.TryGetComponent<Chest>(out Chest chest))
+                {
+                    if (publicName == "Esfera")
+                    {
+                        chest.dropItems = new List<ViewModels.DropItem>()
+                {
+                    new ViewModels.DropItem()
+                    {
+                        Index = 9,
+                        IsEquipable = true,
+                        ResourceNameItem = "Helmet_02",
+                        EquipmentItemType = InventorySlotType.Head,
+                        ResourceNamePrefab = "Helmet/Helmet_02"
+                    }
+                };
+                    }
+                }
             }
         }
+
 
         private void ApplyDamageInfo(float damage, int playerId)
         {

@@ -147,6 +147,7 @@ MonoBehaviour:
   currentLife: 450
   maxLife: 450
   isMobOrNpc: 1
+  publicName: Esfera
   sliderRes: {fileID: 0}
   sliderMana: {fileID: 0}
   sliderHp: {fileID: 0}
