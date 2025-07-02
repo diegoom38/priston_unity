@@ -7,12 +7,21 @@ using UnityEngine.UI;
 public class Chest : MonoBehaviour
 {
     private GameObject panelDrops;
-    [HideInInspector] public List<DropItem> dropItems;
+    [HideInInspector] public List<DropItem> dropItems = new List<DropItem>();
 
     // Detecta clique com o botão esquerdo do mouse sobre o collider do GameObject
     private void OnMouseDown()
     {
-        OpenChest();        
+        OpenChest();
+    }
+
+    private void Update()
+    {
+        if (!dropItems.Any())
+        {
+            panelDrops.gameObject.SetActive(false);
+            Destroy(gameObject);            
+        }
     }
 
     private void OpenChest()
