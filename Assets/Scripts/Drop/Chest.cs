@@ -1,5 +1,6 @@
 using Assets.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,24 +26,43 @@ public class Chest : MonoBehaviour
 
         foreach (var drop in dropItems)
         {
-            // Instancia o item novo
             GameObject newItem = Instantiate(itemExample.gameObject, gridItems);
             newItem.SetActive(true);
 
-            // Atualiza os dados (imagem/texto)
-            var image = newItem.transform.Find("image_item").GetComponent<RawImage>();
-            var text = newItem.transform.Find("name_item").GetComponent<TMPro.TextMeshProUGUI>();
-
-            // Atualiza ícone (RawImage usa Texture)
-            Texture2D itemTexture = Resources.Load<Texture2D>($"ItemsIcons/{drop.ResourceNameItem}");
-            if (itemTexture != null)
-            {
-                image.texture = itemTexture;
-            }
+            var rawImage = newItem.transform.Find("image_item").GetComponent<RawImage>();
+            Texture2D texture = Resources.Load<Texture2D>($"ItemsIcons/{drop.ResourceNameItem}");
+            if (texture != null)
+                rawImage.texture = texture;
             else
-                Debug.LogWarning($"Ícone não encontrado: itemsIcons/{drop.ResourceNameItem}");
+                Debug.LogWarning($"Ícone não encontrado: ItemsIcons/{drop.ResourceNameItem}");
 
+            var text = newItem.transform.Find("name_item").GetComponent<TMPro.TextMeshProUGUI>();
             text.text = drop.ResourceNameItem;
+
+            if (newItem.TryGetComponent<Button>(out var button))
+            {
+                GameObject currentItem = newItem;
+                DropItem capturedDrop = drop;
+
+                button.onClick.AddListener(() =>
+                {
+                    // Adiciona ao inventário
+                    InventoryUtils.items.Add(new InventoryItem
+                    {
+                        Index = capturedDrop.Index,
+                        IsEquipable = capturedDrop.IsEquipable,
+                        ResourceNameItem = capturedDrop.ResourceNameItem,
+                        ResourceNamePrefab = capturedDrop.ResourceNamePrefab,
+                        EquipmentItemType = capturedDrop.EquipmentItemType
+                    });
+
+                    // Remove da lista de drops
+                    dropItems.Remove(capturedDrop);
+
+                    // Exclui da interface
+                    Destroy(currentItem);
+                });
+            }
         }
 
         panelDrops.SetActive(true);

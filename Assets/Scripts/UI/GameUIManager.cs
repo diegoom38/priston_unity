@@ -74,7 +74,10 @@ public class GameUIManager : MonoBehaviourPunCallbacks
             panelItems.SetActive(!panelItems.activeSelf);
 
         if (Input.GetKeyDown(KeyCode.B))
+        {
             panelBag.SetActive(!panelBag.activeSelf);
+            SetInventoryItems();
+        }
     }
 
     private void SetSkills()
@@ -136,29 +139,36 @@ public class GameUIManager : MonoBehaviourPunCallbacks
 
     private void SetInventoryItems()
     {
-        // Encontra o painel de exemplo original
-        GameObject exampleInventoryPanel = transform.Find("Canvas/panel_inventory/grid_items/item").gameObject;
-        var inventoryItems = PersonagemUtils.LoggedChar.itensInventario;
+        Transform gridTransform = transform.Find("Canvas/panel_inventory/grid_items");
+        if (gridTransform == null) return;
+
+        foreach (Transform child in gridTransform)
+        {
+            if (child.name != "item_example")
+                Destroy(child.gameObject);
+        }
+
+        GameObject exampleInventoryPanel = gridTransform.Find("item_example")?.gameObject;
+        if (exampleInventoryPanel == null) return;
+
+        var inventoryItems = InventoryUtils.items;
 
         for (int i = 0; i < 88; i++)
         {
-            // Cria uma nova instância do painel
-            GameObject newPanel = Instantiate(exampleInventoryPanel, exampleInventoryPanel.transform.parent);
+            GameObject newPanel = Instantiate(exampleInventoryPanel, gridTransform);
+            newPanel.name = $"slot_{i}";
+            newPanel.SetActive(true); // Garante que o item esteja visível
 
-            // Verifica se existe um item de inventário com este índice
             var inventoryItem = inventoryItems?.FirstOrDefault(_ => _.Index == i);
 
             if (inventoryItem != null)
             {
-                // Carrega e instancia o InventoryItem dentro do novo painel
                 GameObject inventoryItemPrefab = Resources.Load<GameObject>("InventoryItem");
                 if (inventoryItemPrefab != null)
                 {
-                    // Instancia primeiro o objeto
                     GameObject inventoryItemInstance = Instantiate(inventoryItemPrefab, newPanel.transform);
                     inventoryItemInstance.GetComponent<DraggableItem>().item = inventoryItem;
 
-                    // Depois pega o RawImage da instância e configura a textura
                     RawImage rawImage = inventoryItemInstance.GetComponent<RawImage>();
                     if (rawImage != null)
                     {
@@ -172,7 +182,8 @@ public class GameUIManager : MonoBehaviourPunCallbacks
             }
         }
 
-        Destroy(exampleInventoryPanel);
+        // Opcional: esconder o item exemplo para evitar ele ficar visível
+        exampleInventoryPanel.SetActive(false);
     }
 
     private void RespawnCharacter()
