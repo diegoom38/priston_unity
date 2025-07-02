@@ -741,7 +741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3510518291621628179, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3510518291621628179, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -786,6 +786,10 @@ PrefabInstance:
     - target: {fileID: 4165076249063795307, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606262724924542924, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 8611407920165702439, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
       propertyPath: m_text
@@ -1951,6 +1955,9 @@ GameObject:
   - component: {fileID: 686386416}
   - component: {fileID: 686386415}
   - component: {fileID: 686386414}
+  - component: {fileID: 686386419}
+  - component: {fileID: 686386418}
+  - component: {fileID: 686386417}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2032,6 +2039,101 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -0.915, y: 0, z: 0}
+--- !u!114 &686386417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686386413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 0ad4d22cbc431034896a1eeba6df18f7, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 0.75
+  priority: 0
+--- !u!114 &686386418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686386413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 686386416}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
+--- !u!114 &686386419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686386413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c520d478f3d2445429bd7ac9c92b03a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  postProcessLayer: {fileID: 0}
+  lightMeter: 0
+  histogram: 0
+  waveform: 0
+  vectorscope: 0
+  debugOverlay: 0
 --- !u!1001 &723772052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2155,6 +2257,10 @@ PrefabInstance:
     - target: {fileID: 4165076249063795307, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606262724924542924, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 8611407920165702439, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
       propertyPath: m_text
@@ -2612,7 +2718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 922740065345521789, guid: 4c39a1f613910e0449602db4655c2443, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 922740065345521789, guid: 4c39a1f613910e0449602db4655c2443, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2625,6 +2731,18 @@ PrefabInstance:
     - target: {fileID: 922740065345521789, guid: 4c39a1f613910e0449602db4655c2443, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1827919620719826374, guid: 4c39a1f613910e0449602db4655c2443, type: 3}
+      propertyPath: m_text
+      value: Nome do personagem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1827919620719826374, guid: 4c39a1f613910e0449602db4655c2443, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1827919620719826374, guid: 4c39a1f613910e0449602db4655c2443, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2237609654006757056, guid: 4c39a1f613910e0449602db4655c2443, type: 3}
       propertyPath: m_text
@@ -3924,6 +4042,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5606262724924542924, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 7320881595384736110, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
@@ -4447,8 +4569,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 8, y: 16}
-  m_SizeDelta: {x: 234, y: -48}
+  m_AnchoredPosition: {x: 8, y: 18.000013}
+  m_SizeDelta: {x: 234, y: -52}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1172844183
 MonoBehaviour:
@@ -5867,12 +5989,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 8
-    m_Right: 8
-    m_Top: 8
-    m_Bottom: 8
-  m_ChildAlignment: 0
-  m_Spacing: 8
+    m_Left: 0
+    m_Right: 0
+    m_Top: 4
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1

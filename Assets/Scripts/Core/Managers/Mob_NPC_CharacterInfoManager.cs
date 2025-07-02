@@ -275,9 +275,18 @@ namespace Assets.Scripts.Manager
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
+            {
                 stream.SendNext(currentLife);
-            else if (sliderHp != null)
-                sliderHp.value = currentLife;
+            }
+            else
+            {
+                currentLife = (float)stream.ReceiveNext();
+
+                if (sliderHp != null)
+                {
+                    sliderHp.value = currentLife;
+                }
+            }
         }
 
         private void ShowDeathPanel()
