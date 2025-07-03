@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.ViewModels.Inventory;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     [Tooltip("Item armazenado")]
     [HideInInspector]
-    public InventoryItem item;
+    public InventarioItemViewModel item;
 
     /// <summary>
     /// Método chamado quando o arrasto é iniciado

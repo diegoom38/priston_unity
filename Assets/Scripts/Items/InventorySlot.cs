@@ -2,6 +2,8 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using Assets.Enums;
+using Assets.ViewModels.Inventory;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
@@ -29,10 +31,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         HandleItemTransfer(draggableItem);
     }
 
-    private bool CanPlaceItem(InventoryItem item)
+    private bool CanPlaceItem(InventarioItemViewModel item)
     {
         return inventorySlot == InventorySlotType.Bag ||
-               item.EquipmentItemType == inventorySlot;
+               item.itemDetalhes.slotTipo == inventorySlot;
     }
 
     private void HandleItemTransfer(DraggableItem draggableItem)
@@ -51,7 +53,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         }
     }
 
-    public void EquipItem(InventoryItem item)
+    public void EquipItem(InventarioItemViewModel item)
     {
         if (item == null) return;
 
@@ -62,15 +64,15 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         switch (inventorySlot)
         {
-            case InventorySlotType.SecondaryWeapon when item.EquipmentItemType == InventorySlotType.SecondaryWeapon:
+            case InventorySlotType.SecondaryWeapon when item.itemDetalhes.slotTipo == InventorySlotType.SecondaryWeapon:
                 targetSlot = playerObject.transform.Find(LEFT_HAND_SHIELD_PATH);
                 break;
 
-            case InventorySlotType.PrimaryWeapon when item.EquipmentItemType == InventorySlotType.PrimaryWeapon:
+            case InventorySlotType.PrimaryWeapon when item.itemDetalhes.slotTipo == InventorySlotType.PrimaryWeapon:
                 targetSlot = playerObject.transform.Find(RIGHT_HAND_WEAPON_PATH);
                 break;
 
-            case InventorySlotType.Head when item.EquipmentItemType == InventorySlotType.Head:
+            case InventorySlotType.Head when item.itemDetalhes.slotTipo == InventorySlotType.Head:
                 // Armazena o estado dos objetos que serão desabilitados (cabelo)
                 StoreDisabledObjectsState(playerObject, "Hair");
 
@@ -78,10 +80,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 ToggleObjectsWithTag(playerObject, "Hair", false);
 
                 // Ativa o capacete
-                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, true);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, true);
                 break;
 
-            case InventorySlotType.Cape when item.EquipmentItemType == InventorySlotType.Cape:
+            case InventorySlotType.Cape when item.itemDetalhes.slotTipo == InventorySlotType.Cape:
                 // Armazena o estado dos objetos que serão desabilitados (capa padrão)
                 StoreDisabledObjectsState(playerObject, "Cape");
 
@@ -89,10 +91,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 ToggleObjectsWithTag(playerObject, "Cape", false);
 
                 // Ativa a nova capa
-                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, true);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, true);
                 break;
 
-            case InventorySlotType.Body when item.EquipmentItemType == InventorySlotType.Body:
+            case InventorySlotType.Body when item.itemDetalhes.slotTipo == InventorySlotType.Body:
                 // Armazena o estado dos objetos que serão desabilitados (corpo)
                 StoreDisabledObjectsState(playerObject, "Body");
 
@@ -100,9 +102,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 ToggleObjectsWithTag(playerObject, "Body", false);
 
                 // Ativa o corpo
-                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, true);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, true);
                 break;
-            case InventorySlotType.Boot when item.EquipmentItemType == InventorySlotType.Boot:
+            case InventorySlotType.Boot when item.itemDetalhes.slotTipo == InventorySlotType.Boot:
                 // Armazena o estado dos objetos que serão desabilitados (bota)
                 StoreDisabledObjectsState(playerObject, "Boots");
 
@@ -110,7 +112,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 ToggleObjectsWithTag(playerObject, "Boots", false);
 
                 // Ativa o capacete
-                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, true);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, true);
                 break;
         }
 
@@ -121,7 +123,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         }
     }
 
-    public void UnequipItem(InventoryItem item)
+    public void UnequipItem(InventarioItemViewModel item)
     {
         if (item == null) return;
 
@@ -130,7 +132,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         Transform slot = null;
 
-        switch (item.EquipmentItemType)
+        switch (item.itemDetalhes.slotTipo)
         {
             case InventorySlotType.SecondaryWeapon:
                 slot = playerObject.transform.Find(LEFT_HAND_SHIELD_PATH);
@@ -145,7 +147,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 RestoreDisabledObjectsState(playerObject);
 
                 // Desativa o capacete
-                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, false);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, false);
                 break;
 
             case InventorySlotType.Cape:
@@ -153,21 +155,21 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 RestoreDisabledObjectsState(playerObject);
 
                 // Desativa a capa equipada
-                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, false);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, false);
                 break;
             case InventorySlotType.Body:
                 // Restaura os objetos desabilitados (corpo padrão)
                 RestoreDisabledObjectsState(playerObject);
 
                 // Desativa o corpo equipado
-                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, false);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, false);
                 break;
             case InventorySlotType.Boot:
                 // Restaura os objetos desabilitados (bota padrão)
                 RestoreDisabledObjectsState(playerObject);
 
                 // Desativa o bota equipada
-                ToggleEquipmentObject(playerObject, item.ResourceNamePrefab, false);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, false);
                 break;
         }
 
@@ -225,11 +227,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         }
     }
 
-    private void InstantiateEquipment(InventoryItem item, Transform parent)
+    private void InstantiateEquipment(InventarioItemViewModel item, Transform parent)
     {
-        if (string.IsNullOrEmpty(item.ResourceNamePrefab)) return;
+        if (string.IsNullOrEmpty(item.itemDetalhes.recursoNomePrefab)) return;
 
-        var prefabPath = $"ItemsPrefabs/{item.ResourceNamePrefab}";
+        var prefabPath = $"ItemsPrefabs/{item.itemDetalhes.recursoNomePrefab}";
         var prefab = Resources.Load(prefabPath);
 
         if (prefab != null)

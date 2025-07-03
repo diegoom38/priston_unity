@@ -48,7 +48,7 @@ namespace Assets.Scripts.Manager
             return retornoAcesso.result;
         }
 
-        public async static Task<bool> CreateCharacter(Personagem personagem)
+        public async static Task<RetornoAcao<Personagem>> CreateCharacter(Personagem personagem)
         {
             personagem.contaId = Acesso.LoggedUser.user.id;
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<Personagem>>(
@@ -57,7 +57,8 @@ namespace Assets.Scripts.Manager
                 personagem
             );
 
-            return !retornoAcesso.isFailed;
+
+            return retornoAcesso;
         }
     }
 }

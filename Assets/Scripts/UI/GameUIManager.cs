@@ -1,5 +1,6 @@
 using Assets.Models;
 using Assets.Scripts.Manager;
+using Assets.Utils.Inventory;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -151,7 +152,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
         GameObject exampleInventoryPanel = gridTransform.Find("item_example")?.gameObject;
         if (exampleInventoryPanel == null) return;
 
-        var inventoryItems = InventoryUtils.items;
+        var inventoryItems = InventoryUtils.Inventario.itensInventario;
 
         for (int i = 0; i < 88; i++)
         {
@@ -159,7 +160,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
             newPanel.name = $"slot_{i}";
             newPanel.SetActive(true); // Garante que o item esteja visível
 
-            var inventoryItem = inventoryItems?.FirstOrDefault(_ => _.Index == i);
+            var inventoryItem = inventoryItems?.FirstOrDefault(_ => _.indice == i);
 
             if (inventoryItem != null)
             {
@@ -172,7 +173,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
                     RawImage rawImage = inventoryItemInstance.GetComponent<RawImage>();
                     if (rawImage != null)
                     {
-                        Texture2D itemTexture = Resources.Load<Texture2D>($"ItemsIcons/{inventoryItem.ResourceNameItem}");
+                        Texture2D itemTexture = Resources.Load<Texture2D>($"ItemsIcons/{inventoryItem.itemDetalhes.recursoNomeItem}");
                         if (itemTexture != null)
                         {
                             rawImage.texture = itemTexture;

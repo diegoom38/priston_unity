@@ -1,5 +1,7 @@
 using Assets.Models;
+using Assets.Scripts.Core.Services.Inventory;
 using Assets.Scripts.Manager;
+using Assets.Utils.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +56,7 @@ public class CharacterSelection : MonoBehaviour
             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = characters[i].nome;
             g.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Nível {characters[i]?.configuracao?.level}";
 
-            g.GetComponent<Button>().onClick.AddListener(() => SetCharacterSelected(characters[index]));
+            g.GetComponent<Button>().onClick.AddListener(async() => await SetCharacterSelected(characters[index]));
         }
 
         Destroy(exampleCharButton);
@@ -80,7 +82,7 @@ public class CharacterSelection : MonoBehaviour
         return await AccountCharacters.Characters();
     }
 
-    public void SetCharacterSelected(Personagem character)
+    public async Task SetCharacterSelected(Personagem character)
     {
         // Encontra o GameObject "Respawn" na cena
         GameObject respawnPoint = GameObject.Find("Respawn");
@@ -126,6 +128,12 @@ public class CharacterSelection : MonoBehaviour
         CharacterAppearance.DropdownValueChangedDefault(character.configuracao.hair, "Hair", Scripts.Manager.SpecsManager.GetHairOptions(), meshes);
         CharacterAppearance.UpdateScale(character.configuracao.scale.x, character.configuracao.scale.y, character.configuracao.scale.z, meshes);
         PersonagemUtils.LoggedChar = character;
+
+
+        var inventory = await InventoryService.GetInventoryByCharacterId();
+        if (inventory != null)
+            InventoryUtils.Inventario = inventory;
+
         StatusComponentsHandle(true);
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.ViewModels;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +13,6 @@ namespace Assets.Models
         public string contaId;
         public string criadoEm;
         public PersonagemConfiguracao configuracao;
-        public List<InventoryItem> itensEquipados;
-        public List<InventoryItem> itensInventario;
     }
 
     [Serializable]
@@ -102,6 +101,5 @@ namespace Assets.Models
                 LoggedChar.configuracao.percentage = newExpPercentage;
             }
         }
-
     }
 }

@@ -1,9 +1,6 @@
 using Assets.Models;
 using Photon.Pun;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static Assets.Models.PersonagemConfiguracao;
 
 public class Game : MonoBehaviourPunCallbacks
 {

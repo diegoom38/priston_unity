@@ -1,5 +1,7 @@
 using Assets.Models;
+using Assets.Scripts.Core.Services.Inventory;
 using Assets.Scripts.Manager;
+using Assets.ViewModels.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +49,7 @@ public class CharacterCreation : MonoBehaviour
 
     private void StartInputFields()
     {
-        if (gameObject.transform.Find("Canvas/character_name").TryGetComponent<TMP_InputField>(out TMP_InputField field))
+        if (gameObject.transform.Find("Canvas/character_name/input").TryGetComponent<TMP_InputField>(out TMP_InputField field))
             characterName = field;
     }
 
@@ -164,6 +166,17 @@ public class CharacterCreation : MonoBehaviour
             };
 
             var createCharacter = await AccountCharacters.CreateCharacter(personagem);
+
+            if(!createCharacter.isFailed)
+            {
+                var inventory = await InventoryService.CreateInventory(new Inventario()
+                {
+                    id = Guid.NewGuid().ToString(),
+                    itensEquipados = new List<CommonItem>(),
+                    itensInventario = new List<InventarioItem>(),
+                    personagemId = createCharacter.result.id
+                });
+            }
 
             Back();
         });

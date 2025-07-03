@@ -1,4 +1,5 @@
 ﻿using Assets.Models;
+using Assets.ViewModels;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,10 +30,12 @@ namespace Assets.Scripts.Manager
         public float maxLife;
         public bool isMobOrNpc;
         public string publicName;
+        public int id;
 
         [HideInInspector] public Slider sliderRes;
         [HideInInspector] public Slider sliderMana;
         [HideInInspector] public Slider sliderHp;
+        [HideInInspector] public Enemy enemy;
 
         private static GameObject currentMobNpcSlider;
 
@@ -40,9 +43,12 @@ namespace Assets.Scripts.Manager
 
         #region Unity Methods
 
-        private void Start()
+        private async void Start()
         {
-            if (isMobOrNpc) return;
+            if (isMobOrNpc) {
+                enemy = await EnemyData.GetEnemyById(id);
+                return; 
+            }
 
             animator = GetComponent<Animator>();
             player = FindLocalPlayer();
@@ -178,20 +184,7 @@ namespace Assets.Scripts.Manager
                 // Agora sim, pega o componente da instância
                 if (chestInstance.TryGetComponent<Chest>(out Chest chest))
                 {
-                    if (publicName == "Esfera")
-                    {
-                        chest.dropItems = new List<ViewModels.DropItem>()
-                {
-                    new ViewModels.DropItem()
-                    {
-                        Index = 9,
-                        IsEquipable = true,
-                        ResourceNameItem = "Helmet_02",
-                        EquipmentItemType = InventorySlotType.Head,
-                        ResourceNamePrefab = "Helmet/Helmet_02"
-                    }
-                };
-                    }
+                    chest.dropItems = enemy?.Drops?.Select(_ => _.DropItem).ToList();
                 }
             }
         }
