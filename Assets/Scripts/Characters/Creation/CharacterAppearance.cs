@@ -63,12 +63,12 @@ public class CharacterAppearance : MonoBehaviourPun
     {
         string selectedOption = dropdown.options[dropdown.value].text;
 
-        if (!options.Any(pair => pair.Value == selectedOption)) return;
+        if (!options.Any(pair => pair.Value == selectedOption || pair.Key == selectedOption)) return;
 
-        string selectedKey = options.First(pair => pair.Value == selectedOption).Key;
+        string selectedKey = options.FirstOrDefault(pair => pair.Value == selectedOption || pair.Key == selectedOption).Key;
 
         if (actions.TryGetValue(folderName, out var action))
-            action(selectedKey); // Passa selectedKey como argumento
+            action(selectedKey);
 
         Transform folderTransform = characterInstance.Find(folderName);
 
@@ -88,9 +88,9 @@ public class CharacterAppearance : MonoBehaviourPun
         Dictionary<string, string> options, 
         Transform characterInstance)
     {
-        if (!options.Any(pair => pair.Key == specValue)) return;
+        if (!options.Any(pair => pair.Value == specValue || pair.Key == specValue)) return;
 
-        string selectedKey = options.First(pair => pair.Key == specValue).Key;
+        string selectedKey = options.FirstOrDefault(pair => pair.Value == specValue || pair.Key == specValue).Key;
 
         Transform folderTransform = characterInstance.Find(folderName);
 

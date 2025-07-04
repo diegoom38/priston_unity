@@ -1,17 +1,12 @@
 using Assets.Models;
-using Assets.Scripts.Core.Services.Inventory;
 using Assets.Scripts.Manager;
-using Assets.Utils.Inventory;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Analytics;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using static Assets.Models.PersonagemConfiguracao;
+using static CharacterAppearanceHandler;
 
 public class CharacterSelection : MonoBehaviour
 {
@@ -56,7 +51,7 @@ public class CharacterSelection : MonoBehaviour
             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = characters[i].nome;
             g.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Nível {characters[i]?.configuracao?.level}";
 
-            g.GetComponent<Button>().onClick.AddListener(async() => await SetCharacterSelected(characters[index]));
+            g.GetComponent<Button>().onClick.AddListener(() => SetCharacterSelected(characters[index]));
         }
 
         Destroy(exampleCharButton);
@@ -82,9 +77,8 @@ public class CharacterSelection : MonoBehaviour
         return await AccountCharacters.Characters();
     }
 
-    public async Task SetCharacterSelected(Personagem character)
+    public void SetCharacterSelected(Personagem character)
     {
-        // Encontra o GameObject "Respawn" na cena
         GameObject respawnPoint = GameObject.Find("Respawn");
         if (respawnPoint == null)
         {
@@ -92,19 +86,14 @@ public class CharacterSelection : MonoBehaviour
             return;
         }
 
-        // Destroi a instância do personagem atual, se existir
         if (currentCharacterInstance != null)
         {
             Destroy(currentCharacterInstance);
         }
 
-        // Carrega o prefab do personagem
         playerPrefab = Resources.Load<GameObject>(character?.configuracao?.prefab);
-
-        // Instancia o novo personagem na posição e rotação do "Respawn"
         currentCharacterInstance = Instantiate(playerPrefab, respawnPoint.transform.position, respawnPoint.transform.rotation);
 
-        // Desativa a câmera do jogador no prefab, se existir
         currentCharacterInstance.transform.Find("CameraPlayer").gameObject.SetActive(false);
 
         if (currentCharacterInstance.TryGetComponent<Movement>(out var movementScript))
@@ -116,40 +105,14 @@ public class CharacterSelection : MonoBehaviour
         if (currentCharacterInstance.TryGetComponent<OutlineManager>(out var outlineManager))
             outlineManager.enabled = false;
 
-        // Configurações de aparência
         Transform meshes = currentCharacterInstance.transform;
+        foreach (var apply in GetAppearanceHandlers())
+        {
+            apply(meshes, character);
+        }
 
-        ChangeSkinColor(CharacterAppearance.GetColor(character.configuracao.configuracaoCorPele), meshes, character.configuracao.gender);
-        ChangeHairColor(CharacterAppearance.GetColor(character.configuracao.configuracaoCorCabelo), meshes, character.configuracao.gender);
-        ChangeEyeColor(CharacterAppearance.GetColor(character.configuracao.configuracaoCorOlhos), meshes, character.configuracao.gender);
-        ChangeLipColor(CharacterAppearance.GetColor(character.configuracao.configuracaoCorLabios), meshes, character.configuracao.gender);
-
-        CharacterAppearance.DropdownValueChangedDefault(character.configuracao.head, "Head", Scripts.Manager.SpecsManager.GetHeadOptions(), meshes);
-        CharacterAppearance.DropdownValueChangedDefault(character.configuracao.hair, "Hair", Scripts.Manager.SpecsManager.GetHairOptions(), meshes);
-        CharacterAppearance.UpdateScale(character.configuracao.scale.x, character.configuracao.scale.y, character.configuracao.scale.z, meshes);
         PersonagemUtils.LoggedChar = character;
-
-
-        var inventory = await InventoryService.GetInventoryByCharacterId();
-        if (inventory != null)
-            InventoryUtils.Inventario = inventory;
 
         StatusComponentsHandle(true);
     }
-
-    private void ChangeSkinColor(Color color, Transform characterMeshes, string gender) =>
-        CharacterAppearance.ChangeSkinColor(color, characterMeshes, gender);
-
-    private void ChangeHairColor(Color color, Transform characterMeshes, string gender) =>
-        CharacterAppearance.ChangeHairColor(color, characterMeshes, gender);
-
-
-    private void ChangeEyeColor(Color color, Transform characterMeshes, string gender) =>
-        CharacterAppearance.ChangeEyeColor(color, characterMeshes, gender);
-
-
-    private void ChangeLipColor(Color color, Transform characterMeshes, string gender) =>
-        CharacterAppearance.ChangeLipColor(color, characterMeshes, gender);
-
 }
-

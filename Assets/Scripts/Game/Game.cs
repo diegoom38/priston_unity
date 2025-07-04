@@ -1,52 +1,41 @@
 using Assets.Models;
+using Assets.Scripts.Core.Services.Inventory;
+using Assets.Utils.Inventory;
 using Photon.Pun;
 using UnityEngine;
+using static CharacterAppearanceHandler;
 
 public class Game : MonoBehaviourPunCallbacks
 {
     private GameObject playerPrefab;
+    private readonly string[] objectsToActivate = { "CameraPlayer", "CameraFreeLook", "CameraDisplay", "HandleScene" };
 
-    // Start é chamado antes do primeiro frame
     void Start()
     {
-        // Carrega o prefab do personagem selecionado
         SetCharacterSelected(PersonagemUtils.LoggedChar);
     }
 
     public void SetCharacterSelected(Personagem character)
     {
-        // Carrega o prefab do personagem
         playerPrefab = Resources.Load<GameObject>(character?.configuracao?.prefab);
+        if (playerPrefab == null) return;
 
-        if (playerPrefab == null)
-            return;
-
-        // Apenas configura o prefab, sem instanciar ainda
         PersonagemUtils.LoggedChar = character;
 
-        // Define o nome do personagem no Photon
-        string characterName = character?.nome ?? "Personagem Desconhecido"; // Define um nome padrão se não houver nome
-        SetCharacterName(characterName);
-
-        // Armazenar os dados do personagem no Photon
+        SetCharacterName(character?.nome ?? "Personagem Desconhecido");
         SetCharacterData(character);
-
         Connect();
     }
 
     public void SetCharacterName(string name)
     {
-        // Define o nome do personagem no Photon
         PhotonNetwork.NickName = name;
-
-        // Aqui você pode adicionar lógica para exibir o nome no jogo, caso necessário
         Debug.Log($"Nome do personagem: {name}");
     }
 
     public void SetCharacterData(Personagem character)
     {
-        // Armazena os dados do personagem no PlayerCustomProperties do Photon
-        ExitGames.Client.Photon.Hashtable playerProperties = new()
+        var playerProperties = new ExitGames.Client.Photon.Hashtable
         {
             { "PersonagemId", character.id },
             { "PersonagemNome", character.nome },
@@ -75,54 +64,72 @@ public class Game : MonoBehaviourPunCallbacks
         base.OnJoinRoomFailed(returnCode, message);
     }
 
-    public override void OnJoinedRoom()
+    public override async void OnJoinedRoom()
     {
         base.OnJoinedRoom();
 
-        if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.LocalPlayer.IsLocal)
+        if (!PhotonNetwork.IsConnectedAndReady || !PhotonNetwork.LocalPlayer.IsLocal) return;
+
+        var inventory = await InventoryService.GetInventoryByCharacterId();
+        if (inventory != null)
+            InventoryUtils.Inventario = inventory;
+
+        GameObject respawnPoint = GameObject.Find("Respawn");
+        GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, respawnPoint.transform.position, respawnPoint.transform.rotation);
+        playerInstance.name = PersonagemUtils.LoggedChar.nome;
+        PhotonNetwork.LocalPlayer.TagObject = playerInstance;
+
+        EnablePlayerComponents(playerInstance);
+        ActivateObjects(playerInstance);
+
+        ApplyAppearanceToPlayer(playerInstance, PersonagemUtils.LoggedChar);
+    }
+
+    private void EnablePlayerComponents(GameObject player)
+    {
+        player.GetComponent<Movement>().enabled = true;
+        player.GetComponent<Combat>().enabled = true;
+        player.GetComponent<OutlineManager>().enabled = true;
+    }
+
+    private void ActivateObjects(GameObject player)
+    {
+        foreach (var objName in objectsToActivate)
         {
-            GameObject respawnPoint = GameObject.Find("Respawn");
-
-            GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, respawnPoint.transform.position, respawnPoint.transform.rotation);
-            playerInstance.name = PersonagemUtils.LoggedChar.nome;
-            PhotonNetwork.LocalPlayer.TagObject = playerInstance;
-            playerInstance.GetComponent<Movement>().enabled = true;
-            playerInstance.GetComponent<Combat>().enabled = true;
-            playerInstance.GetComponent<OutlineManager>().enabled = true;
-
-            string[] objectsToActive = new string[] { "CameraPlayer", "CameraFreeLook", "CameraDisplay", "HandleScene" };
-
-            foreach (var objects in objectsToActive)
-            {
-                GameObject _object = playerInstance.transform.Find(objects)?.gameObject;
-                _object?.SetActive(true);
-            }
-
-            PhotonView photonView = playerInstance.GetComponent<PhotonView>();
-            CharacterAppearance characterAppearance = playerInstance.GetComponent<CharacterAppearance>();
-
-            if (photonView.IsMine && characterAppearance != null)
-            {
-                Color skinColor = CharacterAppearance.GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorPele);
-                Color hairColor = CharacterAppearance.GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorCabelo);
-                Color eyeColor = CharacterAppearance.GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorOlhos);
-                Color lipColor = CharacterAppearance.GetColor(PersonagemUtils.LoggedChar.configuracao.configuracaoCorLabios);
-
-                CharacterAppearance.DropdownValueChangedDefault(PersonagemUtils.LoggedChar.configuracao.head, "Head", Scripts.Manager.SpecsManager.GetHeadOptions(), playerInstance.transform);
-                CharacterAppearance.DropdownValueChangedDefault(PersonagemUtils.LoggedChar.configuracao.hair, "Hair", Scripts.Manager.SpecsManager.GetHairOptions(), playerInstance.transform);
-
-                photonView.RPC("UpdateCharacterAppearance", RpcTarget.AllBuffered,
-                    skinColor.r, skinColor.g, skinColor.b,
-                    hairColor.r, hairColor.g, hairColor.b,
-                    eyeColor.r, eyeColor.g, eyeColor.b,
-                    lipColor.r, lipColor.g, lipColor.b,
-                    PersonagemUtils.LoggedChar.configuracao.gender, 
-                    PersonagemUtils.LoggedChar.configuracao.head, 
-                    PersonagemUtils.LoggedChar.configuracao.hair,
-                    PersonagemUtils.LoggedChar.configuracao.scale.x,
-                    PersonagemUtils.LoggedChar.configuracao.scale.y,
-                    PersonagemUtils.LoggedChar.configuracao.scale.z);
-            }
+            GameObject obj = player.transform.Find(objName)?.gameObject;
+            obj?.SetActive(true);
         }
+    }
+
+    private void ApplyAppearanceToPlayer(GameObject player, Personagem character)
+    {
+        var photonView = player.GetComponent<PhotonView>();
+        var appearanceComponent = player.GetComponent<CharacterAppearance>();
+
+        if (!photonView.IsMine || appearanceComponent == null) return;
+
+        // Aplicar aparência com delegates
+        Transform meshes = player.transform;
+        foreach (var apply in GetAppearanceHandlers())
+        {
+            apply(meshes, character);
+        }
+
+        Color skin = CharacterAppearance.GetColor(character.configuracao.configuracaoCorPele);
+        Color hair = CharacterAppearance.GetColor(character.configuracao.configuracaoCorCabelo);
+        Color eye = CharacterAppearance.GetColor(character.configuracao.configuracaoCorOlhos);
+        Color lip = CharacterAppearance.GetColor(character.configuracao.configuracaoCorLabios);
+
+        photonView.RPC("UpdateCharacterAppearance", RpcTarget.AllBuffered,
+            skin.r, skin.g, skin.b,
+            hair.r, hair.g, hair.b,
+            eye.r, eye.g, eye.b,
+            lip.r, lip.g, lip.b,
+            character.configuracao.gender,
+            character.configuracao.head,
+            character.configuracao.hair,
+            character.configuracao.scale.x,
+            character.configuracao.scale.y,
+            character.configuracao.scale.z);
     }
 }
