@@ -74,6 +74,7 @@ public class Game : MonoBehaviourPunCallbacks
         if (inventory != null)
         {
             InventoryUtils.Inventario = inventory;
+            InventoryUtils.NotifyInventoryChanged();
             Debug.Log($"Inventário setado com sucesso!");
         }
 

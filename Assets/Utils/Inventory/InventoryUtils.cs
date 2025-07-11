@@ -13,5 +13,11 @@ namespace Assets.Utils.Inventory
         {
             OnInventoryChanged?.Invoke();
         }
+
+        public static void Clear()
+        {
+            Inventario = null;
+            NotifyInventoryChanged();
+        }
     }
 }

@@ -127,6 +127,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
 
     private void GoToSelectionCharacterScene()
     {
+        InventoryUtils.Clear();
         PhotonNetwork.Disconnect();
         LoadingManager
             .GetSceneLoader()

@@ -751,8 +751,8 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 1
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: MeleeCombatLayer
-    m_StateMachine: {fileID: 5473099475294173669}
+    m_Name: MeleeWeaponCombatLayer
+    m_StateMachine: {fileID: -5794309778281936295}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -763,8 +763,8 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: MeleeWeaponCombatLayer
-    m_StateMachine: {fileID: -5794309778281936295}
+    m_Name: MeleeCombatLayer
+    m_StateMachine: {fileID: 5473099475294173669}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []

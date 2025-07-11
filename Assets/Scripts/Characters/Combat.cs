@@ -10,6 +10,10 @@ public class Combat : MonoBehaviourPun
     private Mob_NPC_CharacterInfoManager characterInfoManager;
     private GameObject currentTarget;
 
+
+    [SerializeField] private AudioSource combatAudioSource;
+    [SerializeField] private AudioClip[] combatAudioClips;
+
     private void Start()
     {
         InitializeComponents();
@@ -108,5 +112,10 @@ public class Combat : MonoBehaviourPun
             animator.SetInteger("typeCombat", 0);
             animator.SetBool("inCombat", false);
         }
+    }
+
+    private void SoundCombat()
+    {
+        combatAudioSource.PlayOneShot(combatAudioClips[UnityEngine.Random.Range(0, combatAudioClips.Length)]);
     }
 }
