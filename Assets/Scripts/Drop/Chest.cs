@@ -1,6 +1,8 @@
+using Assets.Scripts.Core.Services.Inventory;
 using Assets.Utils.Inventory;
 using Assets.ViewModels;
 using Assets.ViewModels.Inventory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -44,8 +46,6 @@ public class Chest : MonoBehaviour
             Texture2D texture = Resources.Load<Texture2D>($"ItemsIcons/{drop.recursoNomeItem}");
             if (texture != null)
                 rawImage.texture = texture;
-            else
-                Debug.LogWarning($"Ícone não encontrado: ItemsIcons/{drop.recursoNomeItem}");
 
             var text = newItem.transform.Find("name_item").GetComponent<TMPro.TextMeshProUGUI>();
             text.text = drop.nome;
@@ -55,23 +55,39 @@ public class Chest : MonoBehaviour
                 GameObject currentItem = newItem;
                 Item capturedDrop = drop;
 
-                button.onClick.AddListener(() =>
+                button.onClick.AddListener(async () =>
                 {
-                    // Adiciona ao inventário
-                    //InventoryUtils.items.Add(new Item
-                    //{
-                    //    indice = capturedDrop.indice,
-                    //    equipavel = capturedDrop.equipavel,
-                    //    recursoNomeItem = capturedDrop.ResourceNameItem,
-                    //    ResourceNamePrefab = capturedDrop.ResourceNamePrefab,
-                    //    EquipmentItemType = capturedDrop.EquipmentItemType
-                    //});
-
-                    // Remove da lista de drops
                     dropItems.Remove(capturedDrop);
 
-                    // Exclui da interface
                     Destroy(currentItem);
+
+                    if (InventoryUtils.Inventario.itensInventario == null)
+                        InventoryUtils.Inventario.itensInventario = new List<InventarioItemViewModel>();
+
+                    int nextIndex = InventoryUtils.Inventario.itensInventario.Count > 0
+                        ? InventoryUtils.Inventario.itensInventario.Max(i => i.indice) + 1
+                        : 0;
+
+                    var novoItem = new InventarioItemViewModel
+                    {
+                        itemId = capturedDrop.id,
+                        quantidade = 1,
+                        itemDetalhes = capturedDrop,
+                        indice = nextIndex
+                    };
+
+                    InventoryUtils.Inventario.itensInventario.Add(novoItem);
+                    InventoryUtils.NotifyInventoryChanged();
+
+                    try
+                    {
+                        await InventoryService.EditInventory(InventoryUtils.Inventario);
+                        Debug.Log($"Item {capturedDrop.nome} adicionado ao inventário com sucesso.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"Erro ao salvar o inventário: {ex.Message}");
+                    }
                 });
             }
         }

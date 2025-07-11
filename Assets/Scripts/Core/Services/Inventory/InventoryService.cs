@@ -28,7 +28,7 @@ namespace Assets.Scripts.Core.Services.Inventory
             return retornoAcesso?.result;
         }
 
-        public async static Task<InventarioViewModel> EditInventory(Inventario inventario)
+        public async static Task<InventarioViewModel> EditInventory(InventarioViewModel inventario)
         {
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<InventarioViewModel>>(
                 method: HttpMethod.Put,

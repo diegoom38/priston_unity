@@ -72,7 +72,10 @@ public class Game : MonoBehaviourPunCallbacks
 
         var inventory = await InventoryService.GetInventoryByCharacterId();
         if (inventory != null)
+        {
             InventoryUtils.Inventario = inventory;
+            Debug.Log($"Inventário setado com sucesso!");
+        }
 
         GameObject respawnPoint = GameObject.Find("Respawn");
         GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, respawnPoint.transform.position, respawnPoint.transform.rotation);

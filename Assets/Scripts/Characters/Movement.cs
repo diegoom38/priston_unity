@@ -1,4 +1,5 @@
 using Assets.Enums;
+using Assets.Scripts.Core.Managers;
 using Assets.Scripts.Manager;
 using Photon.Pun;
 using System;
@@ -17,12 +18,10 @@ public class Movement : MonoBehaviourPun
     private float rotation;
     private Vector3 moveDirection;
     private bool isJumping; // Adiciona uma variável para verificar se o personagem está pulando.
-    private bool swimming;
-
-    private readonly float swimThresholdY = -1.3f;
 
     [SerializeField] private AudioSource stepAudioSource;
     [SerializeField] private AudioClip[] stepAudioClips;
+    private bool swimming;
 
     void Start()
     {
@@ -157,18 +156,13 @@ public class Movement : MonoBehaviourPun
         controller.Move(globalMoveDirection * Time.deltaTime);
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        swimming = other.tag == "Water" && (transform.position.y < swimThresholdY);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        swimming = !(other.tag == "Water") && (transform.position.y > swimThresholdY);
-    }
-
     private void SoundSteps()
     {
         stepAudioSource.PlayOneShot(stepAudioClips[UnityEngine.Random.Range(0, stepAudioClips.Length)]);
+    }
+
+    internal void SetSwimming(bool _swimming)
+    {
+        swimming = _swimming;
     }
 }

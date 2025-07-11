@@ -27,6 +27,12 @@ public class GameUIManager : MonoBehaviourPunCallbacks
         SetSkills();
         SetPanels();
         SetInventoryItems();
+        InventoryUtils.OnInventoryChanged += SetInventoryItems;
+    }
+
+    private void OnDestroy()
+    {
+        InventoryUtils.OnInventoryChanged -= SetInventoryItems;
     }
 
     private void Update()
@@ -152,7 +158,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
         GameObject exampleInventoryPanel = gridTransform.Find("item_example")?.gameObject;
         if (exampleInventoryPanel == null) return;
 
-        var inventoryItems = InventoryUtils.Inventario.itensInventario;
+        var inventoryItems = InventoryUtils.Inventario?.itensInventario;
 
         for (int i = 0; i < 88; i++)
         {
