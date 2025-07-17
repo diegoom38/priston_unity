@@ -10,7 +10,7 @@ namespace Assets.Scripts.Manager
 
             if (loadingManager == null)
             {
-                GameObject loadingManagerObj = Object.Instantiate(Resources.Load<GameObject>("SceneLoader"));
+                GameObject loadingManagerObj = Object.Instantiate(Resources.Load<GameObject>("UI/SceneLoader"));
                 loadingManagerObj.SetActive(true);
                 loadingManager = loadingManagerObj.GetComponent<SceneLoaderManager>();
             }

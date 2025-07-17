@@ -70,16 +70,14 @@ public class CharacterAppearance : MonoBehaviourPun
         if (actions.TryGetValue(folderName, out var action))
             action(selectedKey);
 
-        Transform folderTransform = characterInstance.Find(folderName);
+        GameObject folderTransform = characterInstance.Find($@"{folderName}/{folderName}").gameObject;
 
         if (folderTransform == null) return;
 
-        foreach (var key in options.Keys)
-        {
-            Transform part = folderTransform.Find(key);
-            if (part != null)
-                part.gameObject.SetActive(key == selectedKey);
-        }
+        Mesh mesh = Resources.Load(@$"ItemMeshes/{(characterInstance.name.Contains("Male") ? "Male" : "Female")}/{folderName}/{selectedKey}") as Mesh;
+
+        SkinnedMeshRenderer smr = folderTransform.GetComponent<SkinnedMeshRenderer>();
+        smr.sharedMesh = mesh;
     }
 
     public static void DropdownValueChangedDefault(
@@ -92,16 +90,14 @@ public class CharacterAppearance : MonoBehaviourPun
 
         string selectedKey = options.FirstOrDefault(pair => pair.Value == specValue || pair.Key == specValue).Key;
 
-        Transform folderTransform = characterInstance.Find(folderName);
+        GameObject folderTransform = characterInstance.Find($@"{folderName}/{folderName}").gameObject;
 
         if (folderTransform == null) return;
 
-        foreach (var key in options.Keys)
-        {
-            Transform head = folderTransform.Find(key);
-            if (head != null)
-                head.gameObject.SetActive(key == selectedKey);
-        }
+        Mesh mesh = Resources.Load(@$"ItemMeshes/{(characterInstance.name.Contains("Male") ? "Male" : "Female")}/{folderName}/{selectedKey}") as Mesh;
+
+        SkinnedMeshRenderer smr = folderTransform.GetComponent<SkinnedMeshRenderer>();
+        smr.sharedMesh = mesh;
     }
 
     public static Color GetColor(PersonagemConfiguracaoCor configuracao)

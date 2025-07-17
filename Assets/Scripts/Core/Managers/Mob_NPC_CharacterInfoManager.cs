@@ -124,7 +124,7 @@ namespace Assets.Scripts.Manager
             if (currentMobNpcSlider != null)
                 Destroy(currentMobNpcSlider);
 
-            var sliderPrefab = Resources.Load<GameObject>("SlidersStatus");
+            var sliderPrefab = Resources.Load<GameObject>("UI/SlidersStatus");
 
             if (sliderPrefab.transform.Find("name").TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI name))
             {

@@ -171,7 +171,7 @@ public class GameUIManager : MonoBehaviourPunCallbacks
 
             if (inventoryItem != null)
             {
-                GameObject inventoryItemPrefab = Resources.Load<GameObject>("InventoryItem");
+                GameObject inventoryItemPrefab = Resources.Load<GameObject>("UI/InventoryItem");
                 if (inventoryItemPrefab != null)
                 {
                     GameObject inventoryItemInstance = Instantiate(inventoryItemPrefab, newPanel.transform);

@@ -15,8 +15,8 @@ namespace Assets.ViewModels
         {
             AllEnemies = new List<Enemy>
             {
-                await CreateEnemyAsync(1, "Esfera", new List<int>() { 0, 1, 4, 6}),
-                await CreateEnemyAsync(2, "Cubo", new List<int>() { 8, 9, 4, 15 })
+                await CreateEnemyAsync(1, "Esfera", new List<int>() { 0, 1, 4, 13}),
+                await CreateEnemyAsync(2, "Cubo", new List<int>() { 8, 9, 4, 13 })
             };
         }
 

@@ -27,22 +27,18 @@ namespace Assets.Scripts.Manager
 
             maleMeshes = new List<KeyValuePair<string, string>>
                 {
-                    new("Head/Head_01", attribute),
-                    new("Head/Head_02", attribute),
-                    new("Hair/Hair_01", attribute),
-                    new("Hair/Hair_02", attribute),
-                    new("Body/Body_01", attribute),
+                    new("Head/Head", attribute),
+                    new("Hair/Hair", attribute),
+                    new("Body/Body", attribute),
                     new("Hair/Beard_01", attribute),
                     new("Hair/Beard_02", attribute),
                 };
 
             femaleMeshes = new List<KeyValuePair<string, string>>
                 {
-                    new("Head/Head_01", attribute),
-                    new("Head/Head_02", attribute),
-                    new("Hair/Hair_01", attribute),
-                    new("Hair/Hair_02", attribute),
-                    new("Body/Body_01", attribute),
+                    new("Head/Head", attribute),
+                    new("Hair/Hair", attribute),
+                    new("Body/Body", attribute),
                 };
 
 

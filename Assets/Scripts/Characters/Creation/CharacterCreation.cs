@@ -276,7 +276,7 @@ public class CharacterCreation : MonoBehaviour
             currentCharacterInstance.transform,
             new Dictionary<string, Action<string>>
             {
-                { "Hair", key => hair = key }
+                { "Head", key => head = key }
             }
         );
     }

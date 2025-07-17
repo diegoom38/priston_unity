@@ -1,9 +1,10 @@
+using Assets.Enums;
+using Assets.Models;
+using Assets.ViewModels.Inventory;
 using Photon.Pun;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
-using Assets.Enums;
-using Assets.ViewModels.Inventory;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
@@ -74,45 +75,27 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
             case InventorySlotType.Head when item.itemDetalhes.slotTipo == InventorySlotType.Head:
                 // Armazena o estado dos objetos que serão desabilitados (cabelo)
-                StoreDisabledObjectsState(playerObject, "Hair");
+                //StoreDisabledObjectsState(playerObject, "Hair");
 
                 // Desativa os objetos com tag Hair
                 ToggleObjectsWithTag(playerObject, "Hair", false);
 
                 // Ativa o capacete
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, true);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "");
                 break;
 
             case InventorySlotType.Cape when item.itemDetalhes.slotTipo == InventorySlotType.Cape:
-                // Armazena o estado dos objetos que serão desabilitados (capa padrão)
-                StoreDisabledObjectsState(playerObject, "Cape");
-
-                // Desativa a capa padrão se existir
-                ToggleObjectsWithTag(playerObject, "Cape", false);
-
-                // Ativa a nova capa
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, true);
+                //Seta o Mesh do item
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "Cape/Cape");
                 break;
 
             case InventorySlotType.Body when item.itemDetalhes.slotTipo == InventorySlotType.Body:
-                // Armazena o estado dos objetos que serão desabilitados (corpo)
-                StoreDisabledObjectsState(playerObject, "Body");
-
-                // Desativa os objetos com tag Body
-                ToggleObjectsWithTag(playerObject, "Body", false);
-
-                // Ativa o corpo
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, true);
+                //Seta o Mesh do item
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "Body/Body");
                 break;
             case InventorySlotType.Boot when item.itemDetalhes.slotTipo == InventorySlotType.Boot:
-                // Armazena o estado dos objetos que serão desabilitados (bota)
-                StoreDisabledObjectsState(playerObject, "Boots");
-
-                // Desativa os objetos com tag bota
-                ToggleObjectsWithTag(playerObject, "Boots", false);
-
-                // Ativa o capacete
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, true);
+                //Seta o Mesh do item
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "Boot/Boot");
                 break;
         }
 
@@ -147,48 +130,24 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 RestoreDisabledObjectsState(playerObject);
 
                 // Desativa o capacete
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, false);
+                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "");
                 break;
 
             case InventorySlotType.Cape:
-                // Restaura os objetos desabilitados (capa padrão)
-                RestoreDisabledObjectsState(playerObject);
-
-                // Desativa a capa equipada
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, false);
+                //Seta o Mesh padrão
+                ToggleEquipmentObject(playerObject, "Cape/Cape", "Cape/Cape");
                 break;
             case InventorySlotType.Body:
-                // Restaura os objetos desabilitados (corpo padrão)
-                RestoreDisabledObjectsState(playerObject);
-
-                // Desativa o corpo equipado
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, false);
+                //Seta o Mesh padrão
+                ToggleEquipmentObject(playerObject, "Body/Body", "Body/Body");
                 break;
             case InventorySlotType.Boot:
-                // Restaura os objetos desabilitados (bota padrão)
-                RestoreDisabledObjectsState(playerObject);
-
-                // Desativa o bota equipada
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, false);
+                //Seta o Mesh padrão
+                ToggleEquipmentObject(playerObject, "Boot/Boot", "Boot/Boot");
                 break;
         }
 
         if (slot != null) ClearSlotChildren(slot);
-    }
-
-    // Armazena o estado dos objetos com uma tag específica
-    private void StoreDisabledObjectsState(GameObject playerObject, string tag)
-    {
-        foreach (Transform child in playerObject.GetComponentsInChildren<Transform>(false))
-        {
-            if (child.CompareTag(tag))
-            {
-                if (!disabledObjectsState.ContainsKey(child.name))
-                {
-                    disabledObjectsState[child.name] = child.gameObject.activeSelf;
-                }
-            }
-        }
     }
 
     // Restaura o estado dos objetos que foram desabilitados
@@ -218,13 +177,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     }
 
     // Ativa/desativa um equipamento pelo nome do prefab
-    private void ToggleEquipmentObject(GameObject playerObject, string prefabName, bool state)
+    private void ToggleEquipmentObject(GameObject playerObject, string resourceMesh, string child)
     {
-        var equipment = playerObject.transform.Find(prefabName)?.gameObject;
-        if (equipment != null)
-        {
-            equipment.SetActive(state);
-        }
+        Mesh mesh = Resources.Load(@$"ItemMeshes/{PersonagemUtils.LoggedChar.configuracao.gender}/{resourceMesh}") as Mesh;
+
+        GameObject equipment = playerObject.transform.Find(child)?.gameObject;
+
+        SkinnedMeshRenderer smr = equipment?.GetComponent<SkinnedMeshRenderer>();
+        smr.sharedMesh = mesh;
     }
 
     private void InstantiateEquipment(InventarioItemViewModel item, Transform parent)

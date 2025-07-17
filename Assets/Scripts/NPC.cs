@@ -33,7 +33,7 @@ public class NPC : MonoBehaviour
         if (warningInstance != null) return;
 
         string resourceName = missionToDelivery ? "MissionToDelivery" : "MissionToDo";
-        var warningPrefab = Resources.Load<GameObject>(resourceName);
+        var warningPrefab = Resources.Load<GameObject>("UI/" + resourceName);
 
         if (warningPrefab != null)
         {
