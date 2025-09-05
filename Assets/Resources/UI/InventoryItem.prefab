@@ -33,11 +33,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6091933826880160958
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -87,3 +87,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 7152445079431726858}
   parentAfterDrag: {fileID: 0}
+  item:
+    quantidade: 0
+    itemId: 0
+    itemDetalhes:
+      id: 0
+      equipavel: 0
+      recursoNomeItem: 
+      recursoNomePrefab: 
+      nome: 
+      slotTipo: 0
+    indice: 0
+  itemEquipado:
+    quantidade: 0
+    itemId: 0
+    itemDetalhes:
+      id: 0
+      equipavel: 0
+      recursoNomeItem: 
+      recursoNomePrefab: 
+      nome: 
+      slotTipo: 0

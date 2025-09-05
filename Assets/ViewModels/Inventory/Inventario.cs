@@ -16,6 +16,7 @@ namespace Assets.ViewModels.Inventory
     [Serializable]
     public class CommonItem
     {
+        public string id;
         public int quantidade;
         public int itemId;
     }

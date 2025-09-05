@@ -1,4 +1,5 @@
-﻿using Assets.Models;
+﻿using Assets.Constants;
+using Assets.Models;
 using Assets.ViewModels.Inventory;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -6,34 +7,22 @@ namespace Assets.Scripts.Core.Services.Inventory
 {
     public static class InventoryService
     {
-        public const string URL_API = "https://pristontalewebapi.onrender.com/api/v1";
         public async static Task<InventarioViewModel> CreateInventory(Inventario inventario)
         {
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<InventarioViewModel>>(
                 method: HttpMethod.Post,
-                url: $"{URL_API}/inventario",
+                url: $"{VariablesContants.BASE_URL}/inventario",
                 inventario
             );
 
             return retornoAcesso?.result;
         }
 
-        public async static Task<InventarioViewModel> GetInventoryByCharacterId()
+        public async static Task<InventarioViewModel> GetInventoryByCharacterId(string id)
         {
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<InventarioViewModel>>(
                 method: HttpMethod.Get,
-                url: $"{URL_API}/inventario/by-personagem/{PersonagemUtils.LoggedChar.id}"
-            );
-
-            return retornoAcesso?.result;
-        }
-
-        public async static Task<InventarioViewModel> EditInventory(InventarioViewModel inventario)
-        {
-            var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<InventarioViewModel>>(
-                method: HttpMethod.Put,
-                url: $"{URL_API}/inventario/{inventario.id}",
-                inventario
+                url: $"{VariablesContants.BASE_URL}/inventario/by-personagem/{id}"
             );
 
             return retornoAcesso?.result;

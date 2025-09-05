@@ -1,9 +1,9 @@
-﻿using Assets.Models;
+﻿using Assets.Constants;
+using Assets.Models;
 using Scripts.Manager;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace Assets.Scripts.Manager
 {
@@ -17,13 +17,11 @@ namespace Assets.Scripts.Manager
 
     public static class AccountCharacters
     {
-        //public const string URL_API = "https://pristontalewebapi.onrender.com/api/v1";
-        public const string URL_API = "https://pristontalewebapi.onrender.com/api/v1";
-        public async static Task<List<Personagem>> Characters()
+        public async static Task<List<Personagem>> GetCharacters()
         {
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<List<Personagem>>>(
                 method: HttpMethod.Get,
-                url: $"{URL_API}/personagens/account/{Acesso.LoggedUser.user.id}"
+                url: $"{VariablesContants.BASE_URL}/personagens/account/{Acesso.LoggedUser.user.id}"
             );
 
             if(!retornoAcesso.isFailed)
@@ -38,7 +36,7 @@ namespace Assets.Scripts.Manager
         {
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<Personagem>>(
                 method: HttpMethod.Put,
-                url: $"{URL_API}/personagens/{personagem.id}",
+                url: $"{VariablesContants.BASE_URL}/personagens/{personagem.id}",
                 personagem
             );
 
@@ -53,10 +51,9 @@ namespace Assets.Scripts.Manager
             personagem.contaId = Acesso.LoggedUser.user.id;
             var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<Personagem>>(
                 method: HttpMethod.Post,
-                url: $"{URL_API}/personagens",
+                url: $"{VariablesContants.BASE_URL}/personagens",
                 personagem
             );
-
 
             return retornoAcesso;
         }

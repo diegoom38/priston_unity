@@ -74,7 +74,7 @@ public class CharacterSelection : MonoBehaviour
 
     private async Task<List<Personagem>> GetCharacters()
     {
-        return await AccountCharacters.Characters();
+        return await AccountCharacters.GetCharacters();
     }
 
     public void SetCharacterSelected(Personagem character)
@@ -82,7 +82,7 @@ public class CharacterSelection : MonoBehaviour
         GameObject respawnPoint = GameObject.Find("Respawn");
         if (respawnPoint == null)
         {
-            Debug.LogError("Respawn point not found in the scene.");
+            Debug.LogWarning("Respawn point not found in the scene.");
             return;
         }
 

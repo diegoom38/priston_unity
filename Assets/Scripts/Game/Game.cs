@@ -70,7 +70,7 @@ public class Game : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsConnectedAndReady || !PhotonNetwork.LocalPlayer.IsLocal) return;
 
-        var inventory = await InventoryService.GetInventoryByCharacterId();
+        var inventory = await InventoryService.GetInventoryByCharacterId(PersonagemUtils.LoggedChar.id);
         if (inventory != null)
         {
             InventoryUtils.Inventario = inventory;

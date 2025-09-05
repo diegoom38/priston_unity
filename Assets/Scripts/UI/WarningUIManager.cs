@@ -13,7 +13,7 @@ namespace Assets.Scripts.Manager
 
             if (messagePrefab == null)
             {
-                Debug.LogError("Prefab 'Message' não encontrado em Resources.");
+                Debug.LogWarning("Prefab 'Message' não encontrado em Resources.");
                 return;
             }
 

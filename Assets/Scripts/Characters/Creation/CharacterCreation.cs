@@ -277,7 +277,8 @@ public class CharacterCreation : MonoBehaviour
             new Dictionary<string, Action<string>>
             {
                 { "Head", key => head = key }
-            }
+            },
+            gender
         );
     }
 
@@ -291,7 +292,8 @@ public class CharacterCreation : MonoBehaviour
             new Dictionary<string, Action<string>>
             {
                 { "Hair", key => hair = key }
-            }
+            },
+            gender
         );
     }
 

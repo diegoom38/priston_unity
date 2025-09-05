@@ -1,5 +1,7 @@
+using Assets.Constants;
 using Assets.Models;
 using Assets.Scripts.Manager;
+using Assets.Sockets;
 using System.Net.Http;
 using TMPro;
 using UnityEngine;
@@ -66,26 +68,29 @@ public class AuthService : MonoBehaviour
                 password = password.text
             };
 
-            var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<AcessoResposta>>(
-                method: HttpMethod.Post,
-                url: "https://pristontalewebapi.onrender.com/api/v1/conta/autenticar",
-                content: acesso
+            var response = await SharedWebSocketClient.ConnectAndSend(
+                JsonUtility.ToJson(acesso),
+                VariablesContants.WS_AUTH
             );
 
-            if (!retornoAcesso.isFailed)
+            if (response != null)
             {
-                Acesso.LoggedUser = retornoAcesso.result;
-                LoadingManager
-                    .GetSceneLoader()
-                    .LoadSceneWithLoadingScreen(
-                        "CharacterSelection"
-                    );
-            }
-            else
-            {
-                foreach (var item in retornoAcesso.errors)
+                var retornoAcesso = JsonUtility.FromJson<RetornoAcao<AcessoResposta>>(response);
+                if (!retornoAcesso.isFailed)
                 {
-                    WarningUIManager.ExibirAviso($"{item.message}", "Erro ao autenticar!");
+                    Acesso.LoggedUser = retornoAcesso.result;
+                    LoadingManager
+                        .GetSceneLoader()
+                        .LoadSceneWithLoadingScreen(
+                            "CharacterSelection"
+                        );
+                }
+                else
+                {
+                    foreach (var item in retornoAcesso.errors)
+                    {
+                        WarningUIManager.ExibirAviso($"{item.message}", "Erro ao autenticar!");
+                    }
                 }
             }
         }

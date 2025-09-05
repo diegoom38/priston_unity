@@ -83,7 +83,7 @@ namespace Assets.Scripts.Manager
         {
             if (!PhotonNetwork.IsConnectedAndReady || !photonView.IsMine) return;
 
-            var sliderPrefab = Resources.Load<GameObject>("SlidersStatus");
+            var sliderPrefab = Resources.Load<GameObject>("UI/SlidersStatus");
             var characterPanel = GameObject.Find("HandleScene/Canvas/panel_character");
 
             if (sliderPrefab == null || characterPanel == null) return;
@@ -174,7 +174,7 @@ namespace Assets.Scripts.Manager
 
         private void SpawnChest()
         {
-            GameObject chestPrefab = Resources.Load<GameObject>("ChestModel");
+            GameObject chestPrefab = Resources.Load<GameObject>("GameObjects/ChestModel");
 
             if (chestPrefab is not null)
             {

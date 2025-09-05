@@ -1,6 +1,8 @@
+using Assets.Enums;
 using Assets.Models;
 using Assets.Scripts.Manager;
 using Assets.Utils.Inventory;
+using Assets.ViewModels.Inventory;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,13 +28,20 @@ public class GameUIManager : MonoBehaviourPunCallbacks
         SetButtons();
         SetSkills();
         SetPanels();
-        SetInventoryItems();
-        InventoryUtils.OnInventoryChanged += SetInventoryItems;
+        InventoryUtils.OnInventoryChanged += HandleInventoryChanged;
+        InventoryUtils.OnItemUnequipped += HandleItemUnequipped;
     }
 
     private void OnDestroy()
     {
-        InventoryUtils.OnInventoryChanged -= SetInventoryItems;
+        InventoryUtils.OnInventoryChanged -= HandleInventoryChanged;
+        InventoryUtils.OnItemUnequipped -= HandleItemUnequipped;
+    }
+
+    private void HandleInventoryChanged()
+    {
+        SetEquippedItems();
+        SetInventoryItems();
     }
 
     private void Update()
@@ -83,7 +92,6 @@ public class GameUIManager : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.B))
         {
             panelBag.SetActive(!panelBag.activeSelf);
-            SetInventoryItems();
         }
     }
 
@@ -192,6 +200,92 @@ public class GameUIManager : MonoBehaviourPunCallbacks
 
         // Opcional: esconder o item exemplo para evitar ele ficar visível
         exampleInventoryPanel.SetActive(false);
+    }
+
+    private void SetEquippedItems()
+    {
+        if (panelItems == null) return;
+
+        var equippedItems = InventoryUtils.Inventario?.itensEquipados;
+        if (equippedItems == null) return;
+
+        foreach (CommonItemViewModel equippedItem in equippedItems)
+        {
+            string slotName = equippedItem.itemDetalhes.slotTipo switch
+            {
+                InventorySlotType.Head => "panel_armor/armor_slot/head",
+                InventorySlotType.Body => "panel_armor/armor_slot/body",
+                InventorySlotType.Boot => "panel_armor/armor_slot/boot",
+                InventorySlotType.Cape => "panel_armor/armor_slot/cape",
+                InventorySlotType.PrimaryWeapon => "panel_weapons/primary_weapon/image_weapon",
+                InventorySlotType.SecondaryWeapon => "panel_weapons/secondary_weapon/image_weapon",
+                _ => null
+            };
+
+            if (slotName == null) continue;
+
+            Transform slotTransform = panelItems.transform.Find(slotName);
+            if (slotTransform == null) continue;
+
+            DraggableItem existing = slotTransform.GetComponentInChildren<DraggableItem>();
+            if (existing != null && existing.itemEquipado?.itemId == equippedItem.itemId)
+            {
+                continue;
+            }
+
+            foreach (Transform child in slotTransform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            GameObject inventoryItemPrefab = Resources.Load<GameObject>("UI/InventoryItem");
+            if (inventoryItemPrefab != null)
+            {
+                GameObject inventoryItemInstance = Instantiate(inventoryItemPrefab, slotTransform);
+
+                if (inventoryItemInstance.TryGetComponent<DraggableItem>(out DraggableItem draggableItem))
+                {
+                    draggableItem.itemEquipado = equippedItem;
+                }
+
+                if (inventoryItemInstance.TryGetComponent<RawImage>(out RawImage rawImage))
+                {
+                    Texture2D itemTexture = Resources.Load<Texture2D>($"ItemsIcons/{equippedItem.itemDetalhes.recursoNomeItem}");
+                    if (itemTexture != null)
+                    {
+                        rawImage.texture = itemTexture;
+                    }
+                }
+            }
+        }
+    }
+
+
+    private void HandleItemUnequipped(CommonItemViewModel item)
+    {
+        if (panelItems == null) return;
+
+        string slotName = item.itemDetalhes.slotTipo switch
+        {
+            InventorySlotType.Head => "panel_armor/armor_slot/head",
+            InventorySlotType.Body => "panel_armor/armor_slot/body",
+            InventorySlotType.Boot => "panel_armor/armor_slot/boot",
+            InventorySlotType.Cape => "panel_armor/armor_slot/cape",
+            InventorySlotType.PrimaryWeapon => "panel_weapons/armor_slot/weapon_primary",
+            InventorySlotType.SecondaryWeapon => "panel_weapons/armor_slot/weapon_secondary",
+            _ => null
+        };
+
+        if (slotName == null) return;
+
+        Transform slotTransform = panelItems.transform.Find(slotName);
+        if (slotTransform == null) return;
+
+        foreach (Transform child in slotTransform)
+        {
+            Debug.Log("destruindo child: " + child.name);
+            Destroy(child.gameObject);
+        }
     }
 
     private void RespawnCharacter()

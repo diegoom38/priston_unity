@@ -15,9 +15,11 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector]
     public Transform parentAfterDrag;
 
-    [Tooltip("Item armazenado")]
-    [HideInInspector]
+    [Tooltip("Item armazenado no inventario")]
     public InventarioItemViewModel item;
+
+    [Tooltip("Item equipado")]
+    public CommonItemViewModel itemEquipado;
 
     /// <summary>
     /// Método chamado quando o arrasto é iniciado

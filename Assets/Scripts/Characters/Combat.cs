@@ -28,6 +28,11 @@ public class Combat : MonoBehaviourPun
     void Update()
     {
         InputManager.UpdateInputAttack();
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            RotateTowardsTarget();
+        }
     }
 
     private void InitializeComponents()
@@ -118,4 +123,18 @@ public class Combat : MonoBehaviourPun
     {
         combatAudioSource.PlayOneShot(combatAudioClips[UnityEngine.Random.Range(0, combatAudioClips.Length)]);
     }
+
+    private void RotateTowardsTarget()
+    {
+        if (currentTarget == null) return;
+
+        Vector3 directionToTarget = currentTarget.transform.position - transform.position;
+        directionToTarget.y = 0f; // evita inclinação vertical
+
+        if (directionToTarget.sqrMagnitude < 0.01f) return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+    }
+
 }

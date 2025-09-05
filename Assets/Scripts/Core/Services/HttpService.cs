@@ -52,7 +52,7 @@ public static class HttpService
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Error: {ex.Message}");
+            Debug.LogWarning($"Error: {ex.Message}");
             return default;
         }
     }

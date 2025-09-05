@@ -1,8 +1,13 @@
+using Assets.Constants;
 using Assets.Enums;
 using Assets.Models;
+using Assets.Scripts.Core.Services.Inventory;
+using Assets.Sockets;
+using Assets.Utils.Inventory;
 using Assets.ViewModels.Inventory;
 using Photon.Pun;
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,9 +18,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     private const string LEFT_HAND_SHIELD_PATH = "PT_Hips/PT_Spine/PT_Spine2/PT_Spine3/PT_LeftShoulder/PT_LeftArm/PT_LeftForeArm/PT_LeftHand/PT_Left_Hand_Shield_slot";
     private const string RIGHT_HAND_WEAPON_PATH = "PT_Hips/PT_Spine/PT_Spine2/PT_Spine3/PT_RightShoulder/PT_RightArm/PT_RightForeArm/PT_RightHand/PT_Right_Hand_Weapon_slot";
 
-    // Armazena os objetos desabilitados e seus estados originais
-    private Dictionary<string, bool> disabledObjectsState = new();
-
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData.pointerDrag == null) return;
@@ -25,17 +27,20 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         GameObject dropped = eventData.pointerDrag;
         DraggableItem draggableItem = dropped.GetComponent<DraggableItem>();
 
-        if (draggableItem == null || draggableItem.item == null) return;
+        if (draggableItem == null || (draggableItem.item == null && draggableItem.itemEquipado == null)) return;
 
-        if (!CanPlaceItem(draggableItem.item)) return;
+        if (!CanPlaceItem(
+            draggableItem?.item?.itemDetalhes?.slotTipo ??
+            draggableItem?.itemEquipado?.itemDetalhes?.slotTipo)
+        ) return;
 
         HandleItemTransfer(draggableItem);
     }
 
-    private bool CanPlaceItem(InventarioItemViewModel item)
+    private bool CanPlaceItem(InventorySlotType? type)
     {
         return inventorySlot == InventorySlotType.Bag ||
-               item.itemDetalhes.slotTipo == inventorySlot;
+               type == inventorySlot;
     }
 
     private void HandleItemTransfer(DraggableItem draggableItem)
@@ -43,21 +48,19 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         InventorySlot previousSlot = draggableItem.parentAfterDrag?.GetComponent<InventorySlot>();
         if (inventorySlot == InventorySlotType.Bag && (previousSlot != null && previousSlot.inventorySlot != InventorySlotType.Bag))
         {
-            previousSlot.UnequipItem(draggableItem.item);
+            previousSlot.UnequipItem(draggableItem);
         }
 
         draggableItem.parentAfterDrag = transform;
 
         if (inventorySlot != InventorySlotType.Bag)
         {
-            EquipItem(draggableItem.item);
+            EquipItem(draggableItem);
         }
     }
 
-    public void EquipItem(InventarioItemViewModel item)
+    public void EquipItem(DraggableItem item)
     {
-        if (item == null) return;
-
         GameObject playerObject = PhotonNetwork.LocalPlayer?.TagObject as GameObject;
         if (playerObject == null) return;
 
@@ -65,115 +68,175 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         switch (inventorySlot)
         {
-            case InventorySlotType.SecondaryWeapon when item.itemDetalhes.slotTipo == InventorySlotType.SecondaryWeapon:
-                targetSlot = playerObject.transform.Find(LEFT_HAND_SHIELD_PATH);
+            case InventorySlotType.SecondaryWeapon:
+            case InventorySlotType.PrimaryWeapon:
+                targetSlot = playerObject.transform.Find(inventorySlot == InventorySlotType.PrimaryWeapon ? RIGHT_HAND_WEAPON_PATH : LEFT_HAND_SHIELD_PATH);
                 break;
-
-            case InventorySlotType.PrimaryWeapon when item.itemDetalhes.slotTipo == InventorySlotType.PrimaryWeapon:
-                targetSlot = playerObject.transform.Find(RIGHT_HAND_WEAPON_PATH);
+            case InventorySlotType.Head:
+                ToggleHairMesh(playerObject, false);
+                ToggleEquipmentObject(playerObject, item.item.itemDetalhes.recursoNomePrefab, "Helmet/Helmet");
                 break;
-
-            case InventorySlotType.Head when item.itemDetalhes.slotTipo == InventorySlotType.Head:
-                // Armazena o estado dos objetos que serão desabilitados (cabelo)
-                //StoreDisabledObjectsState(playerObject, "Hair");
-
-                // Desativa os objetos com tag Hair
-                ToggleObjectsWithTag(playerObject, "Hair", false);
-
-                // Ativa o capacete
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "");
+            case InventorySlotType.Cape:
+                ToggleEquipmentObject(playerObject, item.item.itemDetalhes.recursoNomePrefab, "Cape/Cape");
                 break;
-
-            case InventorySlotType.Cape when item.itemDetalhes.slotTipo == InventorySlotType.Cape:
-                //Seta o Mesh do item
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "Cape/Cape");
+            case InventorySlotType.Body:
+                ToggleEquipmentObject(playerObject, item.item.itemDetalhes.recursoNomePrefab, "Body/Body");
                 break;
-
-            case InventorySlotType.Body when item.itemDetalhes.slotTipo == InventorySlotType.Body:
-                //Seta o Mesh do item
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "Body/Body");
-                break;
-            case InventorySlotType.Boot when item.itemDetalhes.slotTipo == InventorySlotType.Boot:
-                //Seta o Mesh do item
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "Boot/Boot");
+            case InventorySlotType.Boot:
+                ToggleEquipmentObject(playerObject, item.item.itemDetalhes.recursoNomePrefab, "Boot/Boot");
                 break;
         }
 
         if (targetSlot != null)
         {
             ClearSlotChildren(targetSlot);
-            InstantiateEquipment(item, targetSlot);
+            InstantiateEquipment(item.item, targetSlot);
         }
+
+        InventoryUtils.Inventario.itensInventario = InventoryUtils.Inventario.itensInventario.Where(_item => _item.id != item.item.id).ToList();
+
+        InventoryUtils.Inventario.itensEquipados.Add(new CommonItemViewModel()
+        {
+            itemDetalhes = item.item.itemDetalhes,
+            itemId = item.item.itemId,
+            quantidade = item.item.quantidade,
+            id = item.item.id
+        });
+
+
+        //InventoryService.EditInventory(InventoryUtils.Inventario)
+        Task.Run(() => SharedWebSocketClient.ConnectAndSend(
+            InventoryUtils.Inventario.ToJson(),
+            VariablesContants.WS_INVENTORY)
+        )
+        .ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogWarning($"Erro ao equipar item: {task.Exception?.GetBaseException().Message}");
+            }
+            else
+            {
+                item.itemEquipado = new CommonItemViewModel()
+                {
+                    itemId = item.item.itemId,
+                    itemDetalhes = item.item.itemDetalhes,
+                    quantidade = item.item.quantidade,
+                    id = item.item.id
+                };
+
+                item.item = null;
+
+                InventoryUtils.NotifyInventoryChanged();
+            }
+        });
     }
 
-    public void UnequipItem(InventarioItemViewModel item)
+    public void UnequipItem(DraggableItem item)
     {
-        if (item == null) return;
+        if (item.itemEquipado.itemId == 0) return;
 
         GameObject playerObject = PhotonNetwork.LocalPlayer?.TagObject as GameObject;
         if (playerObject == null) return;
 
         Transform slot = null;
 
-        switch (item.itemDetalhes.slotTipo)
+        switch (item.itemEquipado.itemDetalhes.slotTipo)
         {
             case InventorySlotType.SecondaryWeapon:
                 slot = playerObject.transform.Find(LEFT_HAND_SHIELD_PATH);
                 break;
-
             case InventorySlotType.PrimaryWeapon:
                 slot = playerObject.transform.Find(RIGHT_HAND_WEAPON_PATH);
                 break;
-
             case InventorySlotType.Head:
-                // Restaura os objetos desabilitados (cabelo)
-                RestoreDisabledObjectsState(playerObject);
-
-                // Desativa o capacete
-                ToggleEquipmentObject(playerObject, item.itemDetalhes.recursoNomePrefab, "");
+                ToggleHairMesh(playerObject, true);
+                ToggleEquipmentObject(playerObject, "Helmet/Helmet", "Helmet/Helmet");
                 break;
-
             case InventorySlotType.Cape:
-                //Seta o Mesh padrão
                 ToggleEquipmentObject(playerObject, "Cape/Cape", "Cape/Cape");
                 break;
             case InventorySlotType.Body:
-                //Seta o Mesh padrão
                 ToggleEquipmentObject(playerObject, "Body/Body", "Body/Body");
                 break;
             case InventorySlotType.Boot:
-                //Seta o Mesh padrão
                 ToggleEquipmentObject(playerObject, "Boot/Boot", "Boot/Boot");
                 break;
         }
 
-        if (slot != null) ClearSlotChildren(slot);
-    }
+        if (slot != null)
+            ClearSlotChildren(slot);
 
-    // Restaura o estado dos objetos que foram desabilitados
-    private void RestoreDisabledObjectsState(GameObject playerObject)
-    {
-        foreach (Transform child in playerObject.GetComponentsInChildren<Transform>(true)) // Include inactive
+        InventoryUtils.Inventario.itensEquipados = InventoryUtils.Inventario.itensEquipados.Where(_item => _item.id != item.itemEquipado.id).ToList();
+
+        int nextIndex;
+
+        if (InventoryUtils.Inventario.itensInventario.Count > 0)
         {
-            if (disabledObjectsState.TryGetValue(child.name, out bool originalState))
-            {
-                child.gameObject.SetActive(originalState);
-            }
+            var indices = InventoryUtils.Inventario.itensInventario
+                .Select(i => i.indice)
+                .OrderBy(i => i)
+                .ToList();
+
+            int min = indices.First();
+            int max = indices.Last();
+
+            var faltando = Enumerable.Range(min, max - min + 1)
+                .Except(indices)
+                .FirstOrDefault();
+
+            nextIndex = faltando != 0
+                ? faltando
+                : max + 1;
+        }
+        else
+        {
+            nextIndex = 0;
         }
 
-        disabledObjectsState.Clear();
+        InventoryUtils.Inventario.itensInventario.Add(new InventarioItemViewModel()
+        {
+            indice = nextIndex,
+            itemId = item.itemEquipado.itemId,
+            itemDetalhes = item.itemEquipado.itemDetalhes,
+            quantidade = item.itemEquipado.quantidade,
+            id = item.itemEquipado.id
+        });
+
+        Task.Run(() => SharedWebSocketClient.ConnectAndSend(
+            InventoryUtils.Inventario.ToJson(),
+            VariablesContants.WS_INVENTORY)
+        )
+        .ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogWarning($"Erro ao desequipar item: {task.Exception?.GetBaseException().Message}");
+            }
+            else
+            {
+                item.item = new InventarioItemViewModel()
+                {
+                    itemId = item.itemEquipado.itemId,
+                    itemDetalhes = item.itemEquipado.itemDetalhes,
+                    quantidade = item.itemEquipado.quantidade,
+                    indice = nextIndex,
+                    id = item.itemEquipado.id,
+                };
+
+                item.itemEquipado = null;
+
+                InventoryUtils.NotifyItemUnequipped(item.itemEquipado);
+                InventoryUtils.NotifyInventoryChanged();
+            }
+        });
     }
 
     // Ativa/desativa objetos com uma tag específica
-    private void ToggleObjectsWithTag(GameObject playerObject, string tag, bool state)
+    private void ToggleHairMesh(GameObject playerObject, bool state)
     {
-        foreach (Transform child in playerObject.GetComponentsInChildren<Transform>(false))
-        {
-            if (child.CompareTag(tag))
-            {
-                child.gameObject.SetActive(state);
-            }
-        }
+        GameObject hairObj = playerObject.transform.Find("Hair/Hair")?.gameObject;
+        hairObj?.SetActive(state);
     }
 
     // Ativa/desativa um equipamento pelo nome do prefab
@@ -191,7 +254,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (string.IsNullOrEmpty(item.itemDetalhes.recursoNomePrefab)) return;
 
-        var prefabPath = $"ItemsPrefabs/{item.itemDetalhes.recursoNomePrefab}";
+        var prefabPath = $"WeaponsPrefabs/{item.itemDetalhes.recursoNomePrefab}";
         var prefab = Resources.Load(prefabPath);
 
         if (prefab != null)

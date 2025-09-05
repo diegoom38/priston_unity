@@ -1,10 +1,13 @@
+using Assets.Constants;
 using Assets.Scripts.Core.Services.Inventory;
+using Assets.Sockets;
 using Assets.Utils.Inventory;
 using Assets.ViewModels;
 using Assets.ViewModels.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +27,7 @@ public class Chest : MonoBehaviour
         if (!dropItems.Any())
         {
             panelDrops.gameObject.SetActive(false);
-            Destroy(gameObject);            
+            Destroy(gameObject);
         }
     }
 
@@ -55,38 +58,72 @@ public class Chest : MonoBehaviour
                 GameObject currentItem = newItem;
                 Item capturedDrop = drop;
 
-                button.onClick.AddListener(async () =>
+                button.onClick.RemoveAllListeners(); // ?? limpa listeners antigos
+
+                button.onClick.AddListener(() =>
                 {
                     dropItems.Remove(capturedDrop);
-
                     Destroy(currentItem);
 
                     if (InventoryUtils.Inventario.itensInventario == null)
                         InventoryUtils.Inventario.itensInventario = new List<InventarioItemViewModel>();
 
-                    int nextIndex = InventoryUtils.Inventario.itensInventario.Count > 0
-                        ? InventoryUtils.Inventario.itensInventario.Max(i => i.indice) + 1
-                        : 0;
+                    int nextIndex;
+
+                    if (InventoryUtils.Inventario.itensInventario.Count > 0)
+                    {
+                        var indices = InventoryUtils.Inventario.itensInventario
+                            .Select(i => i.indice)
+                            .OrderBy(i => i)
+                            .ToList();
+
+                        int min = indices.First();
+                        int max = indices.Last();
+
+                        var faltando = Enumerable.Range(min, max - min + 1)
+                            .Except(indices)
+                            .FirstOrDefault();
+
+                        nextIndex = faltando != 0
+                            ? faltando
+                            : max + 1;
+                    }
+                    else
+                    {
+                        nextIndex = 0;
+                    }
 
                     var novoItem = new InventarioItemViewModel
                     {
                         itemId = capturedDrop.id,
                         quantidade = 1,
                         itemDetalhes = capturedDrop,
-                        indice = nextIndex
+                        indice = nextIndex,
+                        id = Guid.NewGuid().ToString()
                     };
-
-                    InventoryUtils.Inventario.itensInventario.Add(novoItem);
-                    InventoryUtils.NotifyInventoryChanged();
 
                     try
                     {
-                        await InventoryService.EditInventory(InventoryUtils.Inventario);
-                        Debug.Log($"Item {capturedDrop.nome} adicionado ao inventário com sucesso.");
+                        Task.Run(() => SharedWebSocketClient.ConnectAndSend(
+                            InventoryUtils.Inventario.ToJson(),
+                            VariablesContants.WS_INVENTORY)
+                        )
+                        .ContinueWith(task =>
+                        {
+                            if (task.IsFaulted)
+                            {
+                                Debug.LogWarning($"Erro ao salvar o inventário: {task.Exception?.GetBaseException().Message}");
+                            }
+                            else
+                            {
+                                InventoryUtils.Inventario.itensInventario.Add(novoItem);
+                                InventoryUtils.NotifyInventoryChanged();
+                            }
+                        });
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogError($"Erro ao salvar o inventário: {ex.Message}");
+                        Debug.LogWarning($"Erro ao salvar o inventário: {ex.Message}");
                     }
                 });
             }

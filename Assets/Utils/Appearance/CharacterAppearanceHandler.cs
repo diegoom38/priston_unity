@@ -39,14 +39,16 @@ public static class CharacterAppearanceHandler
                     character.configuracao.head,
                     "Head",
                     Scripts.Manager.SpecsManager.GetHeadOptions(),
-                    meshes),
+                    meshes,
+                    character.configuracao.gender),
 
             (meshes, character) =>
                 CharacterAppearance.DropdownValueChangedDefault(
                     character.configuracao.hair,
                     "Hair",
                     Scripts.Manager.SpecsManager.GetHairOptions(),
-                    meshes),
+                    meshes,
+                    character.configuracao.gender),
 
             (meshes, character) =>
                 CharacterAppearance.UpdateScale(

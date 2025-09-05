@@ -4174,6 +4174,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4568010168183834944, guid: 389c1da689535154484e9557e8db9d40, type: 3}
+      propertyPath: durationDay
+      value: 86400
+      objectReference: {fileID: 0}
     - target: {fileID: 5218909651967175534, guid: 389c1da689535154484e9557e8db9d40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.47471
