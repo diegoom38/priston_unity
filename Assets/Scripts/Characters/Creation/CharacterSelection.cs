@@ -60,7 +60,7 @@ public class CharacterSelection : MonoBehaviour
 
     public void AddCharacter()
     {
-        LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterCreation");
+        LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterSelection");
     }
 
     public void StartGame()
