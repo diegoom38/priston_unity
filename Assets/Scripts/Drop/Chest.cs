@@ -104,6 +104,7 @@ public class Chest : MonoBehaviour
 
                     try
                     {
+                        InventoryUtils.Inventario.itensInventario.Add(novoItem);
                         Task.Run(() => SharedWebSocketClient.ConnectAndSend(
                             InventoryUtils.Inventario.ToJson(),
                             VariablesContants.WS_INVENTORY)
@@ -116,7 +117,6 @@ public class Chest : MonoBehaviour
                             }
                             else
                             {
-                                InventoryUtils.Inventario.itensInventario.Add(novoItem);
                                 InventoryUtils.NotifyInventoryChanged();
                             }
                         });

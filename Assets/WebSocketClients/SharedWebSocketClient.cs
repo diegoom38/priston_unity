@@ -1,7 +1,9 @@
-﻿using Assets.ViewModels.Inventory;
+﻿using Assets.Models;
+using Assets.ViewModels.Inventory;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -9,52 +11,64 @@ namespace Assets.Sockets
 {
     public static class SharedWebSocketClient
     {
+        private static WebSocket websocket;
+
+        // Reusable and public property for other scripts to use
+        public static WebSocket Instance => websocket;
+
+        /// <summary>
+        /// Connects to a WebSocket, sends a message, and handles authorization with a token.
+        /// </summary>
         public static Task<string> ConnectAndSend(string json, string url)
         {
             var tcs = new TaskCompletionSource<string>();
+
+            // Remove o if (websocket == null || !websocket.IsAlive)
+            // para garantir uma nova conexão a cada chamada.
             var websocket = new WebSocket(url);
+
+            if (!string.IsNullOrEmpty(Acesso.LoggedUser?.token))
+            {
+                websocket.SetCookie(new WebSocketSharp.Net.Cookie("Authorization", "Bearer " + Acesso.LoggedUser.token));
+            }
+
             var messageBuilder = new StringBuilder();
 
-            // Conexão aberta
-            websocket.OnOpen += (sender, e) =>
-            {
-                Debug.Log("Conectado ao WebSocket");
-                websocket.Send(json);
-                Debug.Log("Mensagem enviada: " + json);
-            };
-
-            // Mensagem recebida
             websocket.OnMessage += (sender, e) =>
             {
                 messageBuilder.Append(e.Data);
-
-                if (e.IsText) // só finaliza quando o frame for de texto
-                {
-                    string fullMessage = messageBuilder.ToString();
-                    Debug.Log("Mensagem completa recebida: " + fullMessage);
-
-                    // Fecha de forma segura
-                    websocket.CloseAsync();
-                    tcs.TrySetResult(fullMessage);
-                }
+                string fullMessage = messageBuilder.ToString();
+                tcs.TrySetResult(fullMessage);
+                // Fecha a conexão após a resposta para evitar bugs de reuso
+                ((WebSocket)sender).CloseAsync();
             };
 
-            // Erro
             websocket.OnError += (sender, e) =>
             {
-                Debug.LogWarning($"Erro no WebSocket: {e.Message}\nException: {e.Exception}");
                 tcs.TrySetException(e.Exception ?? new Exception(e.Message));
+                ((WebSocket)sender).CloseAsync();
             };
 
-            // Fechamento
-            websocket.OnClose += (sender, e) =>
+            websocket.OnOpen += (sender, e) =>
             {
-                Debug.Log($"WebSocket fechado. Código: {e.Code}, Motivo: {e.Reason}");
+                websocket.Send(json);
             };
 
-            // Conecta de forma assíncrona
             websocket.ConnectAsync();
+
             return tcs.Task;
+        }
+
+        /// <summary>
+        /// Closes the WebSocket connection manually.
+        /// </summary>
+        public static void Close()
+        {
+            if (websocket != null && websocket.IsAlive)
+            {
+                websocket.CloseAsync();
+                Debug.Log("WebSocket fechado manualmente");
+            }
         }
     }
 }

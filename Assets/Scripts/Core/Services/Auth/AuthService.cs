@@ -2,7 +2,7 @@ using Assets.Constants;
 using Assets.Models;
 using Assets.Scripts.Manager;
 using Assets.Sockets;
-using System.Net.Http;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +12,9 @@ public class AuthService : MonoBehaviour
     [SerializeField, Tooltip("Username to auth")] TMP_InputField username;
     [SerializeField, Tooltip("Password to auth")] TMP_InputField password;
     private Button ButtonSubmit;
+
+    private GameObject loadingIcon;
+    private bool isLoading = false;
 
     private void Start()
     {
@@ -30,6 +33,14 @@ public class AuthService : MonoBehaviour
         {
             ButtonSubmit = buttonSubmit;
             ButtonSubmit.onClick.AddListener(AuthAsync);
+
+            // Pega o Loading dentro do botão
+            var loadingTransform = ButtonSubmit.transform.Find("Loading");
+            if (loadingTransform != null)
+            {
+                loadingIcon = loadingTransform.gameObject;
+                loadingIcon.SetActive(false);
+            }
         }
     }
 
@@ -62,6 +73,11 @@ public class AuthService : MonoBehaviour
 
         if (formValid)
         {
+            // desabilita botão e ativa loading
+            ButtonSubmit.interactable = false;
+            if (loadingIcon != null) loadingIcon.SetActive(true);
+            isLoading = true;
+
             AcessoRequisicao acesso = new()
             {
                 email = username.text,
@@ -73,12 +89,20 @@ public class AuthService : MonoBehaviour
                 VariablesContants.WS_AUTH
             );
 
+            // encerra loading e reabilita botão
+            isLoading = false;
+            if (loadingIcon != null) loadingIcon.SetActive(false);
+            ButtonSubmit.interactable = true;
+
             if (response != null)
             {
                 var retornoAcesso = JsonUtility.FromJson<RetornoAcao<AcessoResposta>>(response);
                 if (!retornoAcesso.isFailed)
                 {
                     Acesso.LoggedUser = retornoAcesso.result;
+
+                    Thread.Sleep(1000);
+
                     LoadingManager
                         .GetSceneLoader()
                         .LoadSceneWithLoadingScreen(

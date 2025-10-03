@@ -1,9 +1,12 @@
 ﻿using Assets.Constants;
 using Assets.Models;
+using Assets.Sockets;
+using Assets.ViewModels.Personagem;
 using Scripts.Manager;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Manager
 {
@@ -17,16 +20,21 @@ namespace Assets.Scripts.Manager
 
     public static class AccountCharacters
     {
-        public async static Task<List<Personagem>> GetCharacters()
+        public async static Task<List<PersonagemInventarioViewModel>> GetCharacters()
         {
-            var retornoAcesso = await HttpService.SendRequestAsync<RetornoAcao<List<Personagem>>>(
-                method: HttpMethod.Get,
-                url: $"{VariablesContants.BASE_URL}/personagens/account/{Acesso.LoggedUser.user.id}"
+            var response = await SharedWebSocketClient.ConnectAndSend(
+                JsonUtility.ToJson(new PersonagemViewModel()
+                {
+                    accountId = Acesso.LoggedUser.user.id
+                }),
+                VariablesContants.WS_PERSONAGENS
             );
 
-            if(!retornoAcesso.isFailed)
+            var responsePersonagens = JsonUtility.FromJson<RetornoAcao<List<PersonagemInventarioViewModel>>>(response);
+
+            if(!responsePersonagens.isFailed)
             {
-                return retornoAcesso.result;
+                return responsePersonagens.result;
             }
 
             return null;

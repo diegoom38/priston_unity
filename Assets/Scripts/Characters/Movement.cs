@@ -21,6 +21,8 @@ public class Movement : MonoBehaviourPun
 
     [SerializeField] private AudioSource stepAudioSource;
     [SerializeField] private AudioClip[] stepAudioClips;
+    private Mob_NPC_CharacterInfoManager characterInfoManager;
+
     private bool swimming;
 
     void Start()
@@ -55,6 +57,7 @@ public class Movement : MonoBehaviourPun
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        characterInfoManager = GetComponent<Mob_NPC_CharacterInfoManager>();
     }
 
     private void HandleMovement()
@@ -107,10 +110,18 @@ public class Movement : MonoBehaviourPun
                 animator.SetInteger("transitionMovement", (int)MovementList.Running);
             }
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W) && characterInfoManager.sliderRes.value > 1f)
             {
                 moveDirection = Vector3.forward * (speed * 1.25f);
-                animator.SetInteger("transitionMovement", (int)MovementList.Running);
+                animator.SetInteger("transitionMovement", (int)MovementList.RunningFaster);
+
+                // consumo suavizado de stamina (por segundo, não por frame)
+                float consumo = 3f * Time.deltaTime; // 3 pontos por segundo
+                characterInfoManager.sliderRes.value = Mathf.Clamp(
+                    characterInfoManager.sliderRes.value - consumo,
+                    0,
+                    characterInfoManager.sliderRes.maxValue
+                );
             }
 
             if (Input.GetKey(KeyCode.S))

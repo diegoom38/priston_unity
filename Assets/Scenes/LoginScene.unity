@@ -1616,6 +1616,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 7933511412552007898, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 52.953335
+      objectReference: {fileID: 0}
     - target: {fileID: 8219917863970463009, guid: 6f396e4af9e20dd4e84956ed725cb604, type: 3}
       propertyPath: m_Layer
       value: 5

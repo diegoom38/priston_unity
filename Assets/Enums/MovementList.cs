@@ -8,5 +8,6 @@
         Jumping = 3,
         Swimming = 4,
         SwimmingIdle = 5,
+        RunningFaster = 6,
     }
 }

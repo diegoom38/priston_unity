@@ -1,5 +1,6 @@
 using Assets.Models;
 using Assets.Scripts.Manager;
+using Assets.ViewModels.Personagem;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -38,7 +39,7 @@ public class CharacterSelection : MonoBehaviour
         SetupButton("panel_actions_selected/btn_start", StartGame);
     }
 
-    private void InstantiateCharactersAndDestroyDefault(List<Personagem> characters)
+    private void InstantiateCharactersAndDestroyDefault(List<PersonagemInventarioViewModel> characters)
     {
         GameObject exampleCharButton = transform.Find("panel_scroll_character/panel_character_list/btn_example_char").gameObject;
         GameObject g;
@@ -69,10 +70,10 @@ public class CharacterSelection : MonoBehaviour
 
     public void Exit()
     {
-        LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("LoginScene");
+        LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterCreation");
     }
 
-    private async Task<List<Personagem>> GetCharacters()
+    private async Task<List<PersonagemInventarioViewModel>> GetCharacters()
     {
         return await AccountCharacters.GetCharacters();
     }

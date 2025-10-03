@@ -2,8 +2,14 @@
 {
     public static class VariablesContants
     {
-        public const string BASE_URL = "https://pristontalewebapi.onrender.com/api/v1";
-        public const string WS_INVENTORY = "wss://pristontalewebapi.onrender.com/ws/inventario";
-        public const string WS_AUTH = "wss://pristontalewebapi.onrender.com/ws/autenticar";
+        private const string HTTP = "https://";
+        private const string WS = "wss://";
+        private const string DOMAIN = "pristontalewebapi.onrender.com";
+
+        public const string BASE = HTTP + DOMAIN;
+        public const string BASE_URL = HTTP + DOMAIN + "/api/v1";
+        public const string WS_INVENTORY = WS + DOMAIN + "/ws/inventario";
+        public const string WS_AUTH = WS + DOMAIN + "/ws/autenticar";
+        public const string WS_PERSONAGENS = WS + DOMAIN + "/ws/personagens";
     }
 }

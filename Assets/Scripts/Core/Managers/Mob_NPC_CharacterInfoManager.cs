@@ -100,6 +100,9 @@ namespace Assets.Scripts.Manager
                 sliderHp.value = currentLife;
             }
 
+            sliderRes.maxValue = 100;
+            sliderRes.value = 100;
+
             // Definir o nome do personagem antes de enviar
             publicName = PersonagemUtils.LoggedChar.nome;
 
