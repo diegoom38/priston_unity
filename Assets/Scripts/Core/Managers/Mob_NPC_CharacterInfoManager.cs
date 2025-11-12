@@ -1,4 +1,5 @@
 ﻿using Assets.Models;
+using Assets.Scripts.Core.Managers;
 using Assets.ViewModels;
 using Photon.Pun;
 using System.Collections;
@@ -74,7 +75,7 @@ namespace Assets.Scripts.Manager
 
         #region Slider Setup
 
-        void HideSliders()
+        public void HideSliders()
         {
             GameObject.Find("HandleScene/Canvas/panel_selected_mob_npc").SetActive(false);
         }
@@ -110,6 +111,14 @@ namespace Assets.Scripts.Manager
             {
                 photonView.RPC("RPC_SetPublicName", RpcTarget.OthersBuffered, publicName);
             }
+        }
+
+        private float GetHalfHeight()
+        {
+            var renderer = GetComponentInChildren<Renderer>();
+            if (renderer != null)
+                return renderer.bounds.extents.y; // metade da altura do mob
+            return 1f;
         }
 
         public void ToggleMobNpcSliders()

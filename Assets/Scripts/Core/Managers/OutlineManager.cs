@@ -1,14 +1,17 @@
+ï»¿using Assets.Enums;
+using Assets.Scripts.Manager;
 using Photon.Pun;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class OutlineManager : MonoBehaviourPun
 {
-    private Transform highlight;
     private Transform selection;
-    private RaycastHit raycastHit;
+    private Camera playerCamera;
+    private int currentEnemyIndex = -1;
+    private Transform[] nearbyEnemies;
 
-    private Camera playerCamera; // Referência para a câmera do jogador local
+    [SerializeField] private float searchRadius = 40f; // raio de detecÃ§Ã£o
 
     private void Start()
     {
@@ -26,63 +29,138 @@ public class OutlineManager : MonoBehaviourPun
         }
     }
 
-    void Update()
+    private void Update()
     {
-        if (playerCamera == null) SetPlayerCamera();
+        if (playerCamera == null)
+            SetPlayerCamera();
 
-        if (playerCamera == null) return;
+        if (playerCamera == null)
+            return;
 
-        // Raycast da posição do mouse
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        HandleMouseSelection();
+        HandleKeyboardInput();
+    }
 
-        if (Physics.Raycast(ray, out raycastHit))
+    private void HandleMouseSelection()
+    {
+        if (Input.GetMouseButtonDown(0))
         {
-            Transform target = raycastHit.transform;
-
-            // Verifica se o objeto tem as tags desejadas
-            if (target.CompareTag("Enemy") || target.CompareTag("Selectable"))
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (highlight != target)
+                Transform target = hit.transform;
+
+                if (target.CompareTag("Enemy") || target.CompareTag("Selectable"))
                 {
-                    ClearHighlight();
-
-                    highlight = target;
-
-                    var outline = highlight.GetComponent<Outline>();
-                    if (outline == null)
-                    {
-                        outline = highlight.gameObject.AddComponent<Outline>();
-                        outline.OutlineMode = Outline.Mode.OutlineVisible;
-                        outline.OutlineColor = Color.cyan;
-                        outline.OutlineWidth = 2f;
-                    }
-                    else
-                    {
-                        outline.enabled = true;
-                    }
+                    SelectTarget(target);
                 }
             }
-            else
-            {
-                ClearHighlight();
-            }
-        }
-        else
-        {
-            ClearHighlight();
         }
     }
 
-    private void ClearHighlight()
+    private void HandleKeyboardInput()
     {
-        if (highlight != null)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            Outline outline = highlight.GetComponent<Outline>();
-            if (outline != null)
-            {
-                outline.enabled = false;
-            }
-            highlight = null;
+            CycleEnemiesInRange();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ClearSelection();
         }
     }
+
+    private void CycleEnemiesInRange()
+    {
+        // Busca todos os inimigos dentro do raio definido
+        nearbyEnemies = Physics.OverlapSphere(transform.position, searchRadius)
+            .Where(c => c.CompareTag("Enemy"))
+            .Select(c => c.transform)
+            .OrderBy(c => Vector3.Distance(transform.position, c.position))
+            .ToArray();
+
+        if (nearbyEnemies.Length == 0)
+        {
+            ClearSelection();
+            return;
+        }
+
+        // AvanÃ§a o Ã­ndice (loop circular)
+        currentEnemyIndex++;
+        if (currentEnemyIndex >= nearbyEnemies.Length)
+            currentEnemyIndex = 0;
+
+        SelectTarget(nearbyEnemies[currentEnemyIndex]);
+    }
+
+    private void SelectTarget(Transform target)
+    {
+        // SÃ³ considera inimigos dentro do raio
+        float distance = Vector3.Distance(transform.position, target.position);
+        if (distance > searchRadius)
+        {
+            ClearSelection();
+            return;
+        }
+
+        // Remove destaque anterior
+        if (selection != null && selection != target)
+        {
+            Outline oldOutline = selection.GetComponent<Outline>();
+            if (oldOutline != null)
+                oldOutline.enabled = false;
+
+            // Esconde o painel anterior, se o anterior tambÃ©m era um mob
+            if (selection.TryGetComponent<Mob_NPC_CharacterInfoManager>(out var oldMob))
+            {
+                oldMob.HideSliders();
+            }
+        }
+
+        selection = target;
+
+        // Aplica outline
+        Outline outline = selection.GetComponent<Outline>();
+        if (outline == null)
+            outline = selection.gameObject.AddComponent<Outline>();
+
+        outline.OutlineMode = Outline.Mode.OutlineVisible;
+        outline.OutlineColor = Color.cyan;
+        outline.OutlineWidth = 2f;
+        outline.enabled = true;
+
+        // Mostra o painel do mob selecionado
+        if (selection.TryGetComponent<Mob_NPC_CharacterInfoManager>(out var mobInfo))
+        {
+            mobInfo.ToggleMobNpcSliders();
+        }
+    }
+
+    private void ClearSelection()
+    {
+        if (selection != null)
+        {
+            // Remove o destaque
+            if (selection.TryGetComponent<Outline>(out var outline))
+                outline.enabled = false;
+
+            // Esconde o painel do mob selecionado, se existir
+            if (selection.TryGetComponent<Mob_NPC_CharacterInfoManager>(out var mobInfo))
+                mobInfo.HideSliders();
+        }
+
+        selection = null;
+        currentEnemyIndex = -1;
+        nearbyEnemies = null;
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        // Visualiza o raio de busca no editor
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, searchRadius);
+    }
+#endif
 }
