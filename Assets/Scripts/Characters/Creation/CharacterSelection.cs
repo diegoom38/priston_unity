@@ -60,7 +60,7 @@ public class CharacterSelection : MonoBehaviour
 
     public void AddCharacter()
     {
-        LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterSelection");
+        LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterCreation");
     }
 
     public void StartGame()
@@ -70,7 +70,7 @@ public class CharacterSelection : MonoBehaviour
 
     public void Exit()
     {
-        LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("CharacterCreation");
+        LoadingManager.GetSceneLoader().LoadSceneWithLoadingScreen("LoginScene");
     }
 
     private async Task<List<PersonagemInventarioViewModel>> GetCharacters()
