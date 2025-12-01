@@ -22,11 +22,11 @@ namespace Assets.Scripts.Manager
     {
         public async static Task<List<PersonagemInventarioViewModel>> GetCharacters()
         {
-            var response = await SharedWebSocketClient.ConnectAndSend(
-                JsonUtility.ToJson(new PersonagemViewModel()
+            var response = await SharedWebSocketClient.SendRequest(
+                new PersonagemViewModel()
                 {
                     accountId = Acesso.LoggedUser.user.id
-                }),
+                },
                 VariablesContants.WS_PERSONAGENS
             );
 

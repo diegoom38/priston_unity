@@ -1,9 +1,9 @@
-﻿using Assets.Models;
-using Assets.ViewModels.Inventory;
+﻿using Assets.Constants;
+using Assets.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Tasks;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -12,63 +12,123 @@ namespace Assets.Sockets
     public static class SharedWebSocketClient
     {
         private static WebSocket websocket;
+        private static bool isConnecting = false;
 
-        // Reusable and public property for other scripts to use
-        public static WebSocket Instance => websocket;
+        // Mapa: requestId -> Task awaiter
+        private static ConcurrentDictionary<string, TaskCompletionSource<string>> pendingRequests
+            = new ConcurrentDictionary<string, TaskCompletionSource<string>>();
 
-        /// <summary>
-        /// Connects to a WebSocket, sends a message, and handles authorization with a token.
-        /// </summary>
-        public static Task<string> ConnectAndSend(string json, string url)
+        private static readonly object locker = new object();
+
+        public static async Task<string> SendRequest(object payload, string url)
         {
-            var tcs = new TaskCompletionSource<string>();
 
-            // Remove o if (websocket == null || !websocket.IsAlive)
-            // para garantir uma nova conexão a cada chamada.
-            var websocket = new WebSocket(url);
+            await EnsureConnected(VariablesContants.WS_SHARED);
+
+            string json = JsonUtility.ToJson(payload);
+            Debug.LogWarning("[WS] DATA: " + json);
+            Debug.LogWarning("[WS] URL: " + url);
+
+            // cria id único para resposta
+            string requestId = Guid.NewGuid().ToString();
+
+            // cria objeto com id + payload
+            var wrapper = new WebSocketEnvelope()
+            {
+                path = url,
+                requestId = requestId,
+                data = json
+            };
+
+            string message = JsonUtility.ToJson(wrapper);
+
+            var tcs = new TaskCompletionSource<string>();
+            pendingRequests[requestId] = tcs;
+
+            Debug.Log($"[WS] SEND {url} / {requestId}");
+
+            websocket.Send(message);
+
+            return await tcs.Task;
+        }
+
+
+        private static async Task EnsureConnected(string url)
+        {
+            if (websocket != null && websocket.IsAlive)
+                return;
+
+            lock (locker)
+            {
+                if (isConnecting)
+                    return;
+
+                isConnecting = true;
+            }
+
+            websocket = new WebSocket(url);
 
             if (!string.IsNullOrEmpty(Acesso.LoggedUser?.token))
             {
                 websocket.SetCookie(new WebSocketSharp.Net.Cookie("Authorization", "Bearer " + Acesso.LoggedUser.token));
             }
 
-            var messageBuilder = new StringBuilder();
-
-            websocket.OnMessage += (sender, e) =>
+            websocket.OnOpen += (s, e) =>
             {
-                messageBuilder.Append(e.Data);
-                string fullMessage = messageBuilder.ToString();
-                tcs.TrySetResult(fullMessage);
-                // Fecha a conexão após a resposta para evitar bugs de reuso
-                ((WebSocket)sender).CloseAsync();
+                Debug.LogWarning("WebSocket CONNECTED → " + url);
             };
 
-            websocket.OnError += (sender, e) =>
+            websocket.OnMessage += (s, e) =>
             {
-                tcs.TrySetException(e.Exception ?? new Exception(e.Message));
-                ((WebSocket)sender).CloseAsync();
+                Debug.LogWarning("[WS] MESSAGE RECEIVED: " + e.Data);
+
+                try
+                {
+                    var envelope = JsonUtility.FromJson<WebSocketEnvelope>(e.Data);
+
+                    if (pendingRequests.TryRemove(envelope.requestId, out var tcs))
+                    {
+                        tcs.TrySetResult(envelope.data);
+                    }
+                    else
+                    {
+                        Debug.LogError("[WS] RequestId não encontrado: " + envelope.requestId);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("Erro parseando resposta WS: " + ex);
+                }
             };
 
-            websocket.OnOpen += (sender, e) =>
+            websocket.OnError += (s, e) =>
             {
-                websocket.Send(json);
+                Debug.LogError("[WS] ERROR: " + e.Message);
+            };
+
+            websocket.OnClose += (s, e) =>
+            {
+                Debug.LogWarning("[WS] CLOSED");
             };
 
             websocket.ConnectAsync();
 
-            return tcs.Task;
-        }
+            // espera até conectar
+            while (!websocket.IsAlive)
+                await Task.Delay(10);
 
-        /// <summary>
-        /// Closes the WebSocket connection manually.
-        /// </summary>
-        public static void Close()
-        {
-            if (websocket != null && websocket.IsAlive)
+            lock (locker)
             {
-                websocket.CloseAsync();
-                Debug.Log("WebSocket fechado manualmente");
+                isConnecting = false;
             }
         }
+    }
+
+    [Serializable]
+    public class WebSocketEnvelope
+    {
+        public string requestId;
+        public string data;
+        public string path;
     }
 }

@@ -84,8 +84,8 @@ public class AuthService : MonoBehaviour
                 password = password.text
             };
 
-            var response = await SharedWebSocketClient.ConnectAndSend(
-                JsonUtility.ToJson(acesso),
+            var response = await SharedWebSocketClient.SendRequest(
+                acesso,
                 VariablesContants.WS_AUTH
             );
 

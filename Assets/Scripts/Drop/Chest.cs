@@ -1,8 +1,6 @@
 using Assets.Constants;
-using Assets.Scripts.Core.Services.Inventory;
 using Assets.Sockets;
 using Assets.Utils.Inventory;
-using Assets.ViewModels;
 using Assets.ViewModels.Inventory;
 using System;
 using System.Collections.Generic;
@@ -105,8 +103,8 @@ public class Chest : MonoBehaviour
                     try
                     {
                         InventoryUtils.Inventario.itensInventario.Add(novoItem);
-                        Task.Run(() => SharedWebSocketClient.ConnectAndSend(
-                            InventoryUtils.Inventario.ToJson(),
+                        Task.Run(() => SharedWebSocketClient.SendRequest(
+                            InventoryUtils.Inventario,
                             VariablesContants.WS_INVENTORY)
                         )
                         .ContinueWith(task =>
