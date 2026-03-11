@@ -66,17 +66,26 @@ public class CharacterAppearance : MonoBehaviourPun
                 {
                     InventorySlotType.PrimaryWeapon => characterInstance.Find("PrimaryWeapon/PrimaryWeapon").gameObject,
                     InventorySlotType.SecondaryWeapon => characterInstance.Find("SecondaryWeapon/SecondaryWeapon").gameObject,
-                    InventorySlotType.Head => characterInstance.Find("Head/Head").gameObject,
+                    InventorySlotType.Head => characterInstance.Find("Helmet/Helmet").gameObject,
                     InventorySlotType.Cape => characterInstance.Find("Cape/Cape").gameObject,
                     InventorySlotType.Body => characterInstance.Find("Body/Body").gameObject,
                     InventorySlotType.Boot => characterInstance.Find("Boot/Boot").gameObject,
                     _ => null
                 };
 
+                if(itemEquipado.slotTipo == InventorySlotType.Head)                
+                    ToggleHairMesh(characterInstance.gameObject, false);                
+
                 SkinnedMeshRenderer smr = equipment?.GetComponent<SkinnedMeshRenderer>();
                 smr.sharedMesh = mesh;
             }
         }
+    }
+
+    private void ToggleHairMesh(GameObject playerObject, bool state)
+    {
+        GameObject hairObj = playerObject.transform.Find("Hair/Hair")?.gameObject;
+        hairObj?.SetActive(state);
     }
 
     public static void ChangeSkinColor(Color color, Transform characterMeshes, string gender)

@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Core.Services.Inventory;
-using Assets.Utils.Inventory;
 using Assets.ViewModels.Inventory;
 using System.Collections.Generic;
 using System.Linq;

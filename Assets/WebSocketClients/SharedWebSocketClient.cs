@@ -2,7 +2,6 @@
 using Assets.Models;
 using System;
 using System.Collections.Concurrent;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using WebSocketSharp;
@@ -22,7 +21,6 @@ namespace Assets.Sockets
 
         public static async Task<string> SendRequest(object payload, string url)
         {
-
             await EnsureConnected(VariablesContants.WS_SHARED);
 
             string json = JsonUtility.ToJson(payload);
